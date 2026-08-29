@@ -1,0 +1,33 @@
+# ==============================================================================
+# Autonomous Data Analyst — Docker Compose
+# ==============================================================================
+# Brings up the Streamlit application + local Ollama together.
+# ==============================================================================
+
+services:
+  app:
+    build: .
+    container_name: autonomous-data-analyst
+    ports:
+      - "8501:8501"
+    environment:
+      - OLLAMA_HOST=http://ollama:11434
+      - OLLAMA_MODEL=llama3.1:8b
+    volumes:
+      - ./runs:/app/runs
+      - ./data:/app/data
+    depends_on:
+      - ollama
+    restart: unless-stopped
+
+  ollama:
+    image: ollama/ollama:latest
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama_data:/root/.ollama
+    restart: unless-stopped
+
+volumes:
+  ollama_data:

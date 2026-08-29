@@ -1,0 +1,36 @@
+# ==============================================================================
+# Autonomous Data Analyst — Core Dependencies
+# ==============================================================================
+
+# Data processing
+pandas
+numpy
+openpyxl
+python-dateutil
+
+# Machine Learning
+scikit-learn
+xgboost
+joblib
+
+# Visualization
+plotly
+kaleido
+
+# Report generation
+reportlab
+python-pptx
+
+# UI
+streamlit
+
+# Configuration
+pyyaml
+python-dotenv
+
+# HTTP (for Ollama client)
+requests
+
+# Testing
+pytest
+pytest-cov
