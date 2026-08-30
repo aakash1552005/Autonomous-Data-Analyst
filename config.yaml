@@ -1,0 +1,26 @@
+# Autonomous Data Analyst — Global Configuration
+# All important thresholds and parameters must be defined here.
+
+max_upload_size_mb: 200
+
+llm:
+  provider: ollama
+  model: llama3.1:8b
+  host: http://localhost:11434
+  max_tokens_per_call: 500
+  temperature: 0.2
+  timeout_seconds: 60
+
+security:
+  max_llm_tokens_per_run: 20000
+
+eda:
+  max_charts: 6
+
+ml:
+  train_test_split: 0.8
+  random_state: 42
+  min_rows_xgboost: 500
+  class_imbalance_threshold: 0.90
+  metric_leakage_f1_threshold: 0.98
+  metric_leakage_r2_threshold: 0.98
