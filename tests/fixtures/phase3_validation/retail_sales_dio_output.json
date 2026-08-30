@@ -1,0 +1,259 @@
+{
+  "dataset_name": "retail_sales",
+  "dataset_hash": "7d0eabf379646c7d6135fd71c6c507efb298595ab535e90e9e5b0430fb0ecef9",
+  "ingestion": {
+    "n_rows": 6,
+    "n_columns": 9,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "columns": [
+    {
+      "name": "order_id",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "sku",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "order_date",
+      "dtype_raw": "str",
+      "dtype_inferred": "date",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": false
+    },
+    {
+      "name": "customer_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "price",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "quantity",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "quantity",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "discount_pct",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "quantity",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "revenue",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "status",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "target_label",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 3,
+      "is_target_candidate": true
+    }
+  ],
+  "date_columns": [
+    {
+      "column": "order_date",
+      "detected_format": "DD/MM/YYYY",
+      "confidence": 1.0,
+      "evidence": [
+        "day value > 12 found in first position"
+      ],
+      "needs_user_confirmation": false
+    }
+  ],
+  "domain_guess": {
+    "domain": "retail",
+    "confidence": 0.95
+  },
+  "quality": {
+    "score": 98,
+    "issues": [
+      "Low-confidence semantic label in column 'order_date' (confidence: 0.4)"
+    ]
+  },
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.022,
+      "warnings": 1,
+      "errors": 0
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "date_resolved",
+      "column": "order_date",
+      "detected_format": "DD/MM/YYYY",
+      "confidence": 1.0,
+      "evidence": [
+        "day value > 12 found in first position"
+      ],
+      "timestamp": "2026-08-30T14:31:08.699888+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "order_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.700716+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "sku",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.701420+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "order_date",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.702386+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "customer_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.703208+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "price",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.703947+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "quantity",
+      "label": "quantity",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.704427+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "discount_pct",
+      "label": "quantity",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.704976+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "revenue",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.705578+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "status",
+      "label": "target_label",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.706237+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "retail",
+      "confidence": 0.95,
+      "timestamp": "2026-08-30T14:31:08.706323+00:00"
+    }
+  ]
+}

@@ -1,0 +1,172 @@
+{
+  "dataset_name": "financial_loans",
+  "dataset_hash": "9e623c2caaca91f0becce3988af1e9c437dc0273dd6e02d1435f43453ee5d6ad",
+  "ingestion": {
+    "n_rows": 6,
+    "n_columns": 6,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "columns": [
+    {
+      "name": "transaction_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "account_balance",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "loan_amount",
+      "dtype_raw": "float64",
+      "dtype_inferred": "int",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "interest_rate",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "percentage",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "credit_score",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "financial_metric",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "default_status",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 2,
+      "is_target_candidate": true
+    }
+  ],
+  "date_columns": [],
+  "domain_guess": {
+    "domain": "finance",
+    "confidence": 0.95
+  },
+  "quality": {
+    "score": 98,
+    "issues": [
+      "Low-confidence semantic label in column 'default_status' (confidence: 0.4)"
+    ]
+  },
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.011,
+      "warnings": 1,
+      "errors": 0
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "transaction_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.786052+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "account_balance",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.786635+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "loan_amount",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.787085+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "interest_rate",
+      "label": "percentage",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.787457+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "credit_score",
+      "label": "financial_metric",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.787758+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "default_status",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.788581+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "finance",
+      "confidence": 0.95,
+      "timestamp": "2026-08-30T14:31:08.788638+00:00"
+    }
+  ]
+}

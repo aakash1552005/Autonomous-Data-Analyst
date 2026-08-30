@@ -1,0 +1,156 @@
+{
+  "dataset_name": "mixed_messy_data",
+  "dataset_hash": "da4eaaf65dd1476882f81f233118dcdf1e4bf5f6aa20b372bac01bf64087031e",
+  "ingestion": {
+    "n_rows": 7,
+    "n_columns": 5,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "columns": [
+    {
+      "name": "record_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": " user_category ",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1429,
+      "unique_count": 3,
+      "is_target_candidate": true
+    },
+    {
+      "name": "metric_score",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "score",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1429,
+      "unique_count": 5,
+      "is_target_candidate": true
+    },
+    {
+      "name": "flag_active",
+      "dtype_raw": "bool",
+      "dtype_inferred": "bool",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 2,
+      "is_target_candidate": false
+    },
+    {
+      "name": "notes",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1429,
+      "unique_count": 5,
+      "is_target_candidate": true
+    }
+  ],
+  "date_columns": [],
+  "domain_guess": {
+    "domain": "generic",
+    "confidence": 0.5
+  },
+  "quality": {
+    "score": 86,
+    "issues": [
+      "14.3% null values in column ' user_category '",
+      "14.3% null values in column 'metric_score'",
+      "14.3% null values in column 'notes'",
+      "Duplicate rows detected (14.3% of dataset)",
+      "Low-confidence semantic label in column ' user_category ' (confidence: 0.4)",
+      "Low-confidence semantic label in column 'flag_active' (confidence: 0.4)",
+      "Low-confidence semantic label in column 'notes' (confidence: 0.4)"
+    ]
+  },
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.015,
+      "warnings": 3,
+      "errors": 0
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "record_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.815332+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": " user_category ",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.816686+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "metric_score",
+      "label": "score",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.817634+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "flag_active",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.819077+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "notes",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.820222+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "generic",
+      "confidence": 0.5,
+      "timestamp": "2026-08-30T14:31:08.820276+00:00"
+    }
+  ]
+}

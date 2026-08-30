@@ -3,8 +3,11 @@ agents/intelligence/semantic_labeler.py
 =======================================
 Tiered semantic column labeler.
 Tier 1: Deterministic dictionary rules on column names (confidence 0.90)
-Tier 2: Value-pattern detection on sample data (confidence 0.75-0.85)
-Tier 3: LLM fallback with strict PII masking (confidence 0.60, bounded to 1 call per column)
+Tier 2: Value-pattern detection on safe sample data (confidence 0.75-0.85)
+Tier 3: LLM fallback (confidence 0.60, bounded to 1 call per column)
+
+HARD SECURITY REQUIREMENT:
+Columns flagged `is_pii=True` are structurally blocked from Tier 3 LLM fallback.
 """
 
 from __future__ import annotations
@@ -112,9 +115,13 @@ class SemanticLabeler:
                     if num_vals.mean() > 10 and num_vals.mean() < 70:
                         return "age", 0.75, "pattern"
 
-        # --- Tier 3: LLM Fallback (Strictly Bounded) ---
+        # --- HARD SECURITY GATE: PII Columns MUST NOT reach Tier 3 LLM fallback ---
+        if is_pii:
+            return "unknown", 0.40, "pii_blocked"
+
+        # --- Tier 3: LLM Fallback (Strictly for non-PII, unresolved columns) ---
         if self.llm_provider is not None:
-            return self._llm_fallback_label(clean_name, non_null, is_pii=is_pii, pii_type=pii_type)
+            return self._llm_fallback_label(clean_name, non_null)
 
         return "unknown", 0.40, "rule"
 
@@ -122,19 +129,18 @@ class SemanticLabeler:
         self,
         col_name: str,
         series: pd.Series,
-        is_pii: bool = False,
-        pii_type: str = "none",
     ) -> tuple[str, float, str]:
         """
-        Execute bounded Tier 3 LLM labeling with masked sample values.
+        Execute bounded Tier 3 LLM labeling with safe sample values.
         """
-        masked_samples = mask_sample_values(series.head(10), is_pii=is_pii, pii_type=pii_type, max_samples=8)
+        masked_samples = mask_sample_values(series.head(10), is_pii=False, pii_type="none", max_samples=8)
         samples_str = ", ".join(f"'{s}'" for s in masked_samples) if masked_samples else "none"
 
         prompt = (
-            f"Column name: {col_name}. Sample values: {samples_str}. "
-            "In one or two lowercase words, what does this column represent in a business dataset? "
-            "Respond with ONLY the short label."
+            f"Column name: {col_name}.\n"
+            f"Sample values: {samples_str}.\n"
+            "In one phrase, what does this column most likely represent?\n"
+            "Respond with only the label."
         )
 
         try:
@@ -144,10 +150,8 @@ class SemanticLabeler:
             if clean_label:
                 return clean_label, 0.60, "llm"
         except LLMTokenBudgetExceededError:
-            # Respect token governor cleanly without failing
             return "unknown", 0.40, "fallback_budget_exhausted"
         except Exception:
-            # Fall back gracefully on network or provider error
             return "unknown", 0.40, "fallback_llm_error"
 
         return "unknown", 0.40, "llm"

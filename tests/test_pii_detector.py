@@ -2,11 +2,31 @@
 tests/test_pii_detector.py
 ==========================
 Tests for deterministic PII detection, masking utilities, and leak prevention.
+Includes structural PII-to-LLM gate verification asserting call_count == 0.
 """
 
 import pandas as pd
 from agents.intelligence.pii_detector import detect_column_pii
+from agents.intelligence.semantic_labeler import SemanticLabeler
+from llm.base import LLMProvider, LLMResponse, TokenGovernor
 from utils.mask_for_llm import mask_sample_values, mask_dataframe_for_llm, verify_no_pii_in_prompt
+
+
+class MockTrackingLLM(LLMProvider):
+    def __init__(self):
+        super().__init__()
+        self.call_count = 0
+
+    def _call_provider(self, prompt: str, max_tokens: int, temperature: float) -> LLMResponse:
+        self.call_count += 1
+        return LLMResponse(
+            text="mock_label",
+            prompt_tokens=10,
+            completion_tokens=2,
+            total_tokens=12,
+            model="mock",
+            provider="mock",
+        )
 
 
 def test_pii_email_detection():
@@ -76,3 +96,26 @@ def test_mask_dataframe_for_llm():
     assert (masked_df["customer_name"] == "[REDACTED_NAME]").all()
     assert (masked_df["email"] == "[REDACTED_EMAIL]").all()
     assert (masked_df["revenue"] == [500.0, 750.0]).all()
+
+
+def test_structural_pii_gate_blocks_llm_fallback():
+    """
+    MANDATORY SECURITY TEST:
+    Explicitly assert that a column flagged is_pii=True NEVER invokes Tier 3 LLM fallback,
+    and mock_llm.call_count remains exactly 0.
+    """
+    mock_llm = MockTrackingLLM()
+    labeler = SemanticLabeler(llm_provider=mock_llm)
+
+    # Obscure header name that won't match Tier 1 rules or Tier 2 patterns, but marked is_pii=True
+    pii_series = pd.Series(["secret_value_1", "secret_value_2", "secret_value_3"])
+    label, conf, method = labeler.label_column(
+        col_name="obscure_pii_field",
+        series=pii_series,
+        is_pii=True,
+        pii_type="custom_pii",
+    )
+
+    # Must be blocked and must NOT make any LLM call
+    assert method == "pii_blocked"
+    assert mock_llm.call_count == 0

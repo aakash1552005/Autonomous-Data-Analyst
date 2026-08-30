@@ -1,0 +1,245 @@
+{
+  "dataset_name": "ambiguous_dates_pii",
+  "dataset_hash": "8ebaeab30cdcd7bc5f4cfc138d24548575178cf5f6fce113dfb8e22501df39b3",
+  "ingestion": {
+    "n_rows": 4,
+    "n_columns": 7,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "columns": [
+    {
+      "name": "user_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "full_name",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "person_name",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": true,
+      "pii_type": "name",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "email",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "email",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": true,
+      "pii_type": "email",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "phone_number",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "phone",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": true,
+      "pii_type": "phone",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "credit_card",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "pii_blocked",
+      "is_pii": true,
+      "pii_type": "credit_card",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "subscription_date",
+      "dtype_raw": "str",
+      "dtype_inferred": "date",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "amount",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    }
+  ],
+  "date_columns": [
+    {
+      "column": "subscription_date",
+      "detected_format": "ambiguous",
+      "confidence": 0.5,
+      "evidence": [
+        "all day and month components <= 12; no disambiguating signal"
+      ],
+      "needs_user_confirmation": true
+    }
+  ],
+  "domain_guess": {
+    "domain": "generic",
+    "confidence": 0.5
+  },
+  "quality": {
+    "score": 81,
+    "issues": [
+      "Ambiguous date format in column 'subscription_date' (requires confirmation)",
+      "Low-confidence semantic label in column 'credit_card' (confidence: 0.4)",
+      "Low-confidence semantic label in column 'subscription_date' (confidence: 0.4)"
+    ]
+  },
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.014,
+      "warnings": 3,
+      "errors": 0
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "date_resolved",
+      "column": "subscription_date",
+      "detected_format": "ambiguous",
+      "confidence": 0.5,
+      "evidence": [
+        "all day and month components <= 12; no disambiguating signal"
+      ],
+      "timestamp": "2026-08-30T14:31:08.843873+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "user_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.844319+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "full_name",
+      "pii_type": "name",
+      "timestamp": "2026-08-30T14:31:08.844609+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "full_name",
+      "label": "person_name",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.844717+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "email",
+      "pii_type": "email",
+      "timestamp": "2026-08-30T14:31:08.844991+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "email",
+      "label": "email",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.845076+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "phone_number",
+      "pii_type": "phone",
+      "timestamp": "2026-08-30T14:31:08.845297+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "phone_number",
+      "label": "phone",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.845393+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "credit_card",
+      "pii_type": "credit_card",
+      "timestamp": "2026-08-30T14:31:08.846306+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "credit_card",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "pii_blocked",
+      "timestamp": "2026-08-30T14:31:08.846989+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "subscription_date",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.848063+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "amount",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-08-30T14:31:08.848560+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "generic",
+      "confidence": 0.5,
+      "timestamp": "2026-08-30T14:31:08.848623+00:00"
+    }
+  ]
+}
