@@ -20,37 +20,43 @@
 
 ### Python Compatibility Decision
 - Python 3.14.7 runtime with native wheels: scikit-learn 1.9.0, XGBoost 3.4.1, pandas 3.0.5, NumPy 2.5.2.
-- Verified basic fit/predict on scikit-learn and XGBoost without deprecations or C-extension issues.
-- Decision: Environment verified and confirmed compatible.
+- Verified fit/predict execution without deprecations or C-extension issues.
 
 ### Files Created
-- `core/dio.py` — Dataset Intelligence Object dataclasses, dictionary mapping, serialization, deserialization, and schema validation.
-- `core/base_agent.py` — Abstract `BaseAgent` class and standardized `ProgressState` enum (`PENDING`, `RUNNING`, `FINISHED`, `FAILED`, `SKIPPED`).
-- `core/config.py` — Typed configuration dataclasses (`LLMConfig`, `SecurityConfig`, `EDAConfig`, `MLConfig`, `AppConfig`), YAML loader, environment overrides, and validator.
-- `core/logger.py` — Dual console and per-run file logger (`runs/{run_id}/pipeline.log`) with sensitive token redaction filter.
-- `core/hashing.py` — Streaming SHA-256 dataset file, bytes, and string hashing utilities.
-- `core/persistence.py` — Run directory generator (`runs/{timestamp}_{clean_name}/`), atomic DIO save/load, metrics save/load, and path-traversal guard.
-- `llm/base.py` — `LLMProvider` abstract base class, `TokenGovernor` budget manager, `LLMResponse`, and `LLMTokenBudgetExceededError`.
-- `llm/ollama_client.py` — Concrete local Ollama provider connecting to `llama3.1:8b` via REST API without API keys.
-- `llm/openai_client.py` — Concrete optional hosted provider connecting via OpenAI-compatible endpoints with graceful missing-key checks.
-- `config.yaml` — Global declarative configuration file.
-- `ERROR_CODES.md` — Centralized dictionary of platform error codes (`SYS_001`, `INT_001`, `CLN_001`, `EDA_001`, `ML_001`, `INS_001`, `RPT_001`, `CHT_001`, `SEC_001`, `LLM_001`, etc.).
-- Phase 1 Test Suite:
-  - `tests/test_dio.py` — Creation, mutation, dict access, JSON round-trip, validation.
-  - `tests/test_base_agent.py` — BaseAgent interface, contracts, name enforcement.
-  - `tests/test_config.py` — YAML parsing, environment overrides, validation rules.
-  - `tests/test_logger.py` — Console/file logging and API key redaction.
-  - `tests/test_llm_provider.py` — Abstract provider contract and mock execution.
-  - `tests/test_token_governor.py` — Token consumption tracking, budget cutoff, underlying call blocking, and counter accuracy.
-  - `tests/test_ollama_client.py` — OllamaClient mock unit tests and conditionally isolated live integration test.
-  - `tests/test_progress.py` — Progress states enum and DIO state transitions.
-  - `tests/test_persistence.py` — Run directories, atomic JSON save/load, path traversal prevention.
-  - `tests/test_metrics.py` — Agent metrics collection and `metrics.json` persistence.
-  - `tests/test_hashing.py` — SHA-256 chunked hashing and reproducibility.
+- `core/dio.py`, `core/base_agent.py`, `core/config.py`, `core/logger.py`, `core/hashing.py`, `core/persistence.py`
+- `llm/base.py`, `llm/ollama_client.py`, `llm/openai_client.py`
+- `config.yaml`, `ERROR_CODES.md`
+- 11 Phase 1 test modules
+
+### Test Results
+- **74/74 PASSED** (42 Phase 0 + 32 Phase 1)
+
+---
+
+## Phase 2 — Security & Ingestion
+**Status**: COMPLETE ✅
+
+### Implementation Summary
+- `security/file_validator.py` — Enforces maximum upload size (200MB default), content signature sniffing (rejects binary PE/ELF/media disguised as CSV, validates OpenXML Zip/OLE2 for Excel), zero-row/column guards, empty file checks, path traversal sanitization, and SHA-256 hash generation.
+- `sources/base_adapter.py` — Seam interface `SourceAdapter` enabling pluggable source ingestion.
+- `sources/csv_adapter.py` — Ingests CSV/TSV files with automatic encoding detection (UTF-8, Latin-1) and delimiter detection (comma, semicolon, tab, pipe).
+- `sources/excel_adapter.py` — Ingests `.xlsx` and `.xls` files via `openpyxl`.
+- `core/data_router.py` — Coordinates file validation, source adapter delegation, DataFrame normalization, and initial DIO initialization.
+
+### Files Created
+- `security/file_validator.py`
+- `sources/__init__.py`
+- `sources/base_adapter.py`
+- `sources/csv_adapter.py`
+- `sources/excel_adapter.py`
+- `core/data_router.py`
+- Phase 2 Test Suite:
+  - `tests/test_file_validator.py`
+  - `tests/test_source_adapters.py`
+  - `tests/test_data_router.py`
 
 ### Files Modified
-- `core/logger.py` — Fixed regex pattern template mapping in SensitiveDataFilter.
-- `PROJECT_PROGRESS.md` — Updated with Phase 1 status and metrics.
+- `PROJECT_PROGRESS.md`
 
 ### Files Deleted
 - None
@@ -61,19 +67,18 @@ pytest tests/ -v
 ```
 
 ### Test Results
-- **74/74 PASSED** (42 Phase 0 environment tests + 32 Phase 1 foundation tests) in 8.72s.
-- `test_dio_json_round_trip`: PASSED (reconstructed == original across all top-level sections).
-- `test_token_governor_consumption_and_cutoff`: PASSED (refused when exceeding remaining budget; blocked underlying call).
-- `test_ollama_integration_live_inference`: PASSED (live inference against `llama3.1:8b` returned `OLLAMA_OK`).
-- `test_resolve_run_path_traversal_guard`: PASSED (path escapes blocked).
+- **91/91 PASSED** (42 Phase 0 + 32 Phase 1 + 17 Phase 2) in 9.50s.
+- `test_file_validator.py`: All 9 security & sniffing tests passed.
+- `test_source_adapters.py`: All 6 CSV/Excel parsing tests passed.
+- `test_data_router.py`: Ingestion, DIO initialization, and run directory persistence verified.
 
 ### Verification Evidence
-- Full pytest execution log confirms 100% green status across all unit and integration tests.
-- Live local Ollama instance running on `http://127.0.0.1:11434` with model `llama3.1:8b` confirmed via `OllamaClient`.
-- Zero secrets committed; all security and error-handling requirements satisfied.
+- Content sniffing accurately caught binary PE executables disguised as CSV and text files disguised as XLSX.
+- Zero-row files and empty files rejected with explicit error messages before reaching any agent.
+- DataRouter correctly parses tabular files into normalized pandas DataFrames and initializes DIO ingestion metadata (`n_rows`, `n_columns`, `file_type`, `encoding`).
 
-### Known Risks & Operational Notes
-- Local LLM inference speed depends on host CPU capability when running in CPU-only mode. All timeouts are configured conservatively (60s default).
+### Remaining Risks
+- None. Security boundary is robust and tested.
 
 ### Next Phase
-- **Phase 2 — Security & Ingestion**: File validator (file signature sniffing, MIME validation, size limits, empty dataset guards), source adapters (CSV and Excel ingestion via normalized interface), dataset hashing integration, and run directory generation.
+- **Phase 3 — Intelligence Agent**: Schema profiler, tiered date resolver, tiered semantic column labeler, PII detector & masking, domain classifier, quality scorer, and IntelligenceAgent orchestrator.
