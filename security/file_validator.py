@@ -4,6 +4,7 @@ security/file_validator.py
 Security and input validation for uploaded datasets.
 Enforces size limits, content signature sniffing, zero-row/column guards,
 path traversal sanitization, and SHA-256 dataset hashing.
+V1 supports .csv and .xlsx. Legacy .xls is rejected with a clear migration error.
 """
 
 from __future__ import annotations
@@ -29,7 +30,7 @@ BINARY_SIGNATURES = {
     b"GIF89a": "GIF Image",
 }
 
-# Excel signatures
+# OpenXML Excel Zip signature
 XLSX_ZIP_MAGIC = b"PK\x03\x04"
 XLS_LEGACY_MAGIC = b"\xd0\xcf\x11\xe0\xa1\xb1\x1a\xe1"
 
@@ -42,7 +43,7 @@ class FileValidationError(Exception):
 class ValidationResult:
     """Detailed summary of dataset security and structural validation."""
     is_valid: bool
-    file_type: str = ""  # csv | xlsx | xls
+    file_type: str = ""  # csv | xlsx
     file_size_bytes: int = 0
     file_size_mb: float = 0.0
     dataset_hash: str = ""
@@ -97,10 +98,17 @@ class FileValidator:
 
         # 3. Extension check
         extension = path.suffix.lower()
-        if extension not in (".csv", ".xlsx", ".xls"):
+        if extension == ".xls":
             result.is_valid = False
             result.errors.append(
-                f"Unsupported file extension '{extension}'. Only .csv, .xlsx, and .xls are supported in V1."
+                "Legacy .xls format is unsupported in V1. Please convert or save your spreadsheet as .xlsx or .csv."
+            )
+            return result
+
+        if extension not in (".csv", ".xlsx"):
+            result.is_valid = False
+            result.errors.append(
+                f"Unsupported file extension '{extension}'. Only .csv and .xlsx are supported in V1."
             )
             return result
 
@@ -116,51 +124,41 @@ class FileValidator:
         with open(path, "rb") as f:
             header_bytes = f.read(4096)
 
-        if extension in (".xlsx", ".xls"):
-            self._validate_excel(path, extension, header_bytes, result)
+        if extension == ".xlsx":
+            self._validate_xlsx(path, header_bytes, result)
         else:
             self._validate_csv(path, header_bytes, result)
 
         return result
 
-    def _validate_excel(
+    def _validate_xlsx(
         self,
         path: Path,
-        extension: str,
         header_bytes: bytes,
         result: ValidationResult,
     ) -> None:
-        result.file_type = extension.lstrip(".")
+        result.file_type = "xlsx"
 
-        if extension == ".xlsx":
-            if not header_bytes.startswith(XLSX_ZIP_MAGIC):
-                result.is_valid = False
-                result.errors.append(
-                    "Content sniffing failed: .xlsx file is not a valid OpenXML Zip archive."
-                )
-                return
+        if not header_bytes.startswith(XLSX_ZIP_MAGIC):
+            result.is_valid = False
+            result.errors.append(
+                "Content sniffing failed: .xlsx file is not a valid OpenXML Zip archive."
+            )
+            return
 
-            try:
-                with zipfile.ZipFile(path, "r") as zf:
-                    namelist = zf.namelist()
-                    if "[Content_Types].xml" not in namelist and not any(n.startswith("xl/") for n in namelist):
-                        result.is_valid = False
-                        result.errors.append(
-                            "Invalid Excel structure: missing '[Content_Types].xml' or 'xl/' folder in .xlsx."
-                        )
-                        return
-            except zipfile.BadZipFile:
-                result.is_valid = False
-                result.errors.append("Corrupted .xlsx file: unable to read zip structure.")
-                return
-
-        elif extension == ".xls":
-            if not header_bytes.startswith(XLS_LEGACY_MAGIC):
-                result.is_valid = False
-                result.errors.append(
-                    "Content sniffing failed: .xls file is not a valid legacy OLE2 compound document."
-                )
-                return
+        try:
+            with zipfile.ZipFile(path, "r") as zf:
+                namelist = zf.namelist()
+                if "[Content_Types].xml" not in namelist and not any(n.startswith("xl/") for n in namelist):
+                    result.is_valid = False
+                    result.errors.append(
+                        "Invalid Excel structure: missing '[Content_Types].xml' or 'xl/' folder in .xlsx."
+                    )
+                    return
+        except zipfile.BadZipFile:
+            result.is_valid = False
+            result.errors.append("Corrupted .xlsx file: unable to read zip structure.")
+            return
 
     def _validate_csv(
         self,
@@ -202,7 +200,6 @@ class FileValidator:
             dialect = sniffer.sniff(sample_text, delimiters=",\t;|")
             result.delimiter = dialect.delimiter
         except Exception:
-            # Fallback to comma if sniffer is inconclusive
             result.delimiter = ","
 
         # Inspect rows & columns

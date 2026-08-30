@@ -1,0 +1,7 @@
+order_id,sku,order_date,customer_id,price,quantity,discount_pct,revenue,status
+1001,SKU-A101,25/01/2024,CUST-901,49.99,2,0.10,89.98,delivered
+1002,SKU-B202,14/02/2024,CUST-902,15.50,1,0.00,15.50,delivered
+1003,SKU-C303,03/03/2024,CUST-903,120.00,4,0.15,408.00,shipped
+1004,SKU-A101,18/04/2024,CUST-904,49.99,1,0.00,49.99,delivered
+1005,SKU-D404,22/05/2024,CUST-905,8.75,5,0.05,41.56,returned
+1006,SKU-B202,30/06/2024,CUST-906,15.50,2,0.00,31.00,delivered

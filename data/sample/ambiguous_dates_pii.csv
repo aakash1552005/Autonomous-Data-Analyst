@@ -1,0 +1,5 @@
+user_id,full_name,email,phone_number,credit_card,subscription_date,amount
+U-101,Johnathan Doe,johndoe@email.com,(555) 234-5678,4532-1122-3344-5566,05/06/2024,29.99
+U-102,Jane Roe,jane.roe@corp.org,555-876-5432,5412-9988-7766-5544,07/08/2024,49.99
+U-103,Alex Smith,alex.smith@web.net,+1-555-345-6789,3782-8224-6310-0051,01/02/2024,19.99
+U-104,Maria Garcia,maria.g@domain.com,555-123-9999,4024-0071-8899-2233,10/11/2024,99.99

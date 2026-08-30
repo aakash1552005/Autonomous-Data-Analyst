@@ -1,0 +1,8 @@
+record_id, user_category ,metric_score,flag_active,notes
+REC-01,Enterprise,88.5,TRUE,First record
+REC-02,Standard,,FALSE,Missing score
+REC-03,Enterprise,92.0,TRUE,Active account
+REC-04,Trial,45.0,FALSE,
+REC-05,Standard,74.2,TRUE,Renewed
+REC-05,Standard,74.2,TRUE,Renewed
+REC-06,,61.0,FALSE,No category

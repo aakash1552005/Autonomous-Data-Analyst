@@ -1,0 +1,7 @@
+patient_id,age,blood_pressure,glucose,diagnosis,treatment,admission_date,discharge_date
+PAT-001,45,120,95,Hypertension,ACE-Inhibitor,2024-01-10,2024-01-15
+PAT-002,62,145,160,Diabetes,Insulin,2024-02-12,2024-02-18
+PAT-003,28,110,88,Normal,None,2024-03-01,2024-03-02
+PAT-004,54,135,,Hypertension,Beta-Blocker,2024-03-15,2024-03-20
+PAT-005,71,150,180,Diabetes,Insulin,2024-04-05,
+PAT-006,39,118,92,Normal,None,2024-04-20,2024-04-21

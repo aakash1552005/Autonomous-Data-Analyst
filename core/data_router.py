@@ -31,7 +31,6 @@ class DataRouter:
         self.adapters: dict[str, SourceAdapter] = {
             "csv": CSVAdapter(),
             "xlsx": ExcelAdapter(),
-            "xls": ExcelAdapter(),
         }
 
     def ingest(
