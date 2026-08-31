@@ -21,6 +21,7 @@
       "method": "mode",
       "reason": "missing percentage = 16.7% (<= 30%), mode 'Enterprise' used",
       "replacement_value": "Enterprise",
+      "generated_synthetic": true,
       "reversible": true,
       "original_null_indices": [
         6
@@ -33,6 +34,7 @@
       "method": "mean",
       "reason": "distribution skew = -0.51 (|skew| <= 1), mean chosen",
       "replacement_value": 72.14,
+      "generated_synthetic": true,
       "reversible": true,
       "original_null_indices": [
         1
@@ -45,6 +47,7 @@
       "method": "mode",
       "reason": "missing percentage = 16.7% (<= 30%), mode 'Active account' used",
       "replacement_value": "Active account",
+      "generated_synthetic": true,
       "reversible": true,
       "original_null_indices": [
         3
@@ -55,8 +58,8 @@
   "outliers_modified": 0,
   "ambiguous_dates_preserved": 0,
   "artifacts": {
-    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_4_mixed_me0\\20260831_182424_mixed_messy_data.csv\\artifacts\\cleaned_data.csv",
-    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_4_mixed_me0\\20260831_182424_mixed_messy_data.csv\\artifacts\\removed_rows.csv",
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-8\\test_phase4_dataset_4_mixed_me0\\20260831_190022_mixed_messy_data.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-8\\test_phase4_dataset_4_mixed_me0\\20260831_190022_mixed_messy_data.csv\\artifacts\\removed_rows.csv",
     "model_pkl": null,
     "pdf_report": null,
     "pptx_report": null,
@@ -123,6 +126,7 @@
       "method": "mode",
       "reason": "missing percentage = 16.7% (<= 30%), mode 'Enterprise' used",
       "replacement_value": "Enterprise",
+      "generated_synthetic": true,
       "reversible": true,
       "original_null_indices": [
         6
@@ -135,6 +139,7 @@
       "method": "mean",
       "reason": "distribution skew = -0.51 (|skew| <= 1), mean chosen",
       "replacement_value": 72.14,
+      "generated_synthetic": true,
       "reversible": true,
       "original_null_indices": [
         1
@@ -147,6 +152,7 @@
       "method": "mode",
       "reason": "missing percentage = 16.7% (<= 30%), mode 'Active account' used",
       "replacement_value": "Active account",
+      "generated_synthetic": true,
       "reversible": true,
       "original_null_indices": [
         3

@@ -3,8 +3,8 @@ tests/test_cleaning_agent.py
 ============================
 Comprehensive test suite for Agent 2 (Cleaning Agent).
 Verifies numeric imputation (mean/median), categorical imputation (mode/Unknown),
-duplicate handling, sidecar creation, type coercion, date handling, outlier flagging,
-DIO contract compliance, and lossless round-trip reconstruction.
+date preservation (missing dates remain missing), duplicate handling, sidecar creation,
+type coercion, date handling, outlier flagging, DIO contract compliance, and lossless round-trip reconstruction.
 """
 
 from pathlib import Path
@@ -13,7 +13,7 @@ import pandas as pd
 import pytest
 
 from agents.cleaning.cleaning_agent import CleaningAgent
-from agents.cleaning.imputer import impute_numeric_column, impute_categorical_column
+from agents.cleaning.imputer import impute_numeric_column, impute_categorical_column, impute_dataframe
 from agents.cleaning.duplicate_handler import handle_duplicate_rows
 from agents.cleaning.type_coercer import coerce_column_type
 from agents.cleaning.date_handler import normalize_date_column
@@ -31,6 +31,7 @@ def test_numeric_mean_imputation():
     assert log_entry["method"] == "mean"
     assert log_entry["replacement_value"] == 30.0
     assert log_entry["reversible"] is True
+    assert log_entry["generated_synthetic"] is True
     assert imputed.iloc[5] == 30.0
 
 
@@ -43,6 +44,7 @@ def test_numeric_median_imputation():
     assert log_entry["method"] == "median"
     assert log_entry["replacement_value"] == 2.0
     assert log_entry["reversible"] is True
+    assert log_entry["generated_synthetic"] is True
     assert imputed.iloc[6] == 2.0
 
 
@@ -55,6 +57,7 @@ def test_categorical_mode_imputation():
     assert log_entry["method"] == "mode"
     assert log_entry["replacement_value"] == "Alpha"
     assert log_entry["reversible"] is True
+    assert log_entry["generated_synthetic"] is True
     assert imputed.iloc[4] == "Alpha"
 
 
@@ -67,7 +70,26 @@ def test_categorical_unknown_imputation():
     assert log_entry["method"] == "constant_unknown"
     assert log_entry["replacement_value"] == "Unknown"
     assert log_entry["reversible"] is True
+    assert log_entry["generated_synthetic"] is True
     assert (imputed.iloc[2:5] == "Unknown").all()
+
+
+def test_missing_dates_remain_missing():
+    """
+    CRITICAL SAFETY REQUIREMENT:
+    Proves that missing values in date columns are NEVER mode-imputed or synthetically invented.
+    """
+    df = pd.DataFrame({
+        "admission_date": ["2024-01-10", "2024-02-12", "2024-03-01", None],
+    })
+    columns_info = [{"name": "admission_date", "dtype_inferred": "date", "semantic_label": "date"}]
+    date_columns_info = [{"column": "admission_date", "detected_format": "YYYY-MM-DD", "needs_user_confirmation": False}]
+
+    cleaned_df, logs = impute_dataframe(df, columns_info=columns_info, date_columns_info=date_columns_info)
+
+    # Missing date MUST remain missing (NaN)
+    assert pd.isna(cleaned_df["admission_date"].iloc[3])
+    assert len(logs) == 0
 
 
 def test_duplicate_detection_and_sidecar():
@@ -87,13 +109,11 @@ def test_duplicate_detection_and_sidecar():
 
 
 def test_type_coercion_numeric_and_bool():
-    # Integer coercion
     s_int = pd.Series(["10", "20", "invalid", "40"])
     coerced_int, log_int = coerce_column_type(s_int, "int", "count_col")
     assert log_int is not None
-    assert pd.isna(coerced_int.iloc[2])  # "invalid" became NaN
+    assert pd.isna(coerced_int.iloc[2])
 
-    # Boolean coercion
     s_bool = pd.Series(["yes", "no", "TRUE", "0", None])
     coerced_bool, log_bool = coerce_column_type(s_bool, "bool", "flag_col")
     assert coerced_bool.tolist() == [True, False, True, False, None]
@@ -101,17 +121,19 @@ def test_type_coercion_numeric_and_bool():
 
 def test_date_handling_resolved_vs_ambiguous():
     # Resolved date
-    s_res = pd.Series(["25/01/2024", "14/02/2024"])
+    s_res = pd.Series(["25/01/2024", "14/02/2024", None])
     date_meta_res = {"column": "order_date", "detected_format": "DD/MM/YYYY", "needs_user_confirmation": False}
     norm_res, log_res = normalize_date_column(s_res, date_meta_res)
-    assert norm_res.tolist() == ["2024-01-25", "2024-02-14"]
+    assert norm_res.iloc[0] == "2024-01-25"
+    assert norm_res.iloc[1] == "2024-02-14"
+    assert pd.isna(norm_res.iloc[2])  # Missing date remains missing
     assert log_res["method"] == "normalize_date"
 
     # Ambiguous date
     s_amb = pd.Series(["05/06/2024", "07/08/2024"])
     date_meta_amb = {"column": "sub_date", "detected_format": "ambiguous", "needs_user_confirmation": True}
     norm_amb, log_amb = normalize_date_column(s_amb, date_meta_amb)
-    assert norm_amb.tolist() == ["05/06/2024", "07/08/2024"]  # Unchanged
+    assert norm_amb.tolist() == ["05/06/2024", "07/08/2024"]
     assert log_amb["method"] == "preserve_ambiguous_date"
     assert log_amb.get("warning") is True
 
@@ -123,7 +145,6 @@ def test_iqr_outlier_flagging_without_modification():
     assert outlier_log is not None
     assert outlier_log["method"] == "flag_outliers_iqr"
     assert outlier_log["details"]["outlier_count"] == 1
-    # Verify values were not mutated in series
     assert series.iloc[6] == 500.0
 
 
@@ -199,11 +220,9 @@ def test_round_trip_reconstruction(tmp_path: Path):
     agent = CleaningAgent()
     cleaned_df, updated_dio = agent.run(original_df, dio, run_dir=tmp_path)
 
-    # Load artifacts from disk
     saved_cleaned = pd.read_csv(updated_dio["artifacts"]["cleaned_csv"])
     saved_removed = pd.read_csv(updated_dio["artifacts"]["removed_rows_csv"])
 
-    # Retrieve kept row indices
     dup_log = next((l for l in updated_dio["cleaning_log"] if l.get("method") == "drop_duplicates"), None)
     removed_indices = set(dup_log["details"]["removed_indices"]) if dup_log else set()
     kept_indices = [i for i in original_df.index if i not in removed_indices]
@@ -240,8 +259,6 @@ def test_round_trip_reconstruction(tmp_path: Path):
     for col in original_df.columns:
         orig_series = original_df[col]
         recon_series = reconstructed_df[col]
-        # Null masks must match exactly
         assert (orig_series.isna().to_numpy() == recon_series.isna().to_numpy()).all()
-        # Non-null values must match exactly
         non_null_mask = orig_series.notna()
         assert (orig_series[non_null_mask].astype(str).to_numpy() == recon_series[non_null_mask].astype(str).to_numpy()).all()

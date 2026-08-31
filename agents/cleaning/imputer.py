@@ -5,11 +5,13 @@ Deterministic missing value imputer for numeric and categorical columns.
 Numeric:
   - If abs(skewness) > 1.0 -> median
   - If abs(skewness) <= 1.0 -> mean
-Categorical / Date / String:
+Categorical:
   - If missing_pct <= 30.0% -> mode
-  - If missing_pct > 30.0% -> "Unknown"
+  - If missing_pct > 30.0% -> 'Unknown'
 
-Every transformation records full provenance with `reversible=True`.
+CRITICAL SAFETY POLICY:
+  - Date columns are NEVER imputed. Missing dates remain missing (NaN) to prevent temporal data corruption.
+  - All imputations record `original_null_indices` and `generated_synthetic` metadata.
 """
 
 from __future__ import annotations
@@ -37,7 +39,6 @@ def impute_numeric_column(
     non_null_vals = series.dropna().astype(float)
 
     if len(non_null_vals) == 0:
-        # Edge case: Entire column is null
         replacement_val = 0.0
         imputed_series = series.fillna(replacement_val)
         log_entry = {
@@ -47,11 +48,12 @@ def impute_numeric_column(
             "method": "constant",
             "reason": "all values missing, filled with 0.0",
             "replacement_value": replacement_val,
+            "generated_synthetic": True,
             "reversible": True,
+            "original_null_indices": series[missing_mask].index.tolist(),
         }
         return imputed_series, log_entry
 
-    # Calculate skewness
     skewness = float(non_null_vals.skew()) if len(non_null_vals) > 2 else 0.0
     if np.isnan(skewness):
         skewness = 0.0
@@ -77,6 +79,7 @@ def impute_numeric_column(
         "method": method,
         "reason": reason,
         "replacement_value": replacement_val,
+        "generated_synthetic": True,
         "reversible": True,
         "original_null_indices": series[missing_mask].index.tolist(),
     }
@@ -88,12 +91,17 @@ def impute_categorical_column(
     col_name: str,
 ) -> tuple[pd.Series, dict[str, Any] | None]:
     """
-    Impute missing values in a categorical/string/date series.
+    Impute missing values in a categorical/string series.
     - missing_pct <= 30.0% -> mode
     - missing_pct > 30.0% -> 'Unknown'
     Returns: (imputed_series, cleaning_log_entry)
     """
-    missing_mask = series.isna() | (series.astype(str).str.strip() == "") | (series.astype(str).str.lower() == "nan") | (series.astype(str).str.lower() == "none")
+    missing_mask = (
+        series.isna()
+        | (series.astype(str).str.strip() == "")
+        | (series.astype(str).str.lower() == "nan")
+        | (series.astype(str).str.lower() == "none")
+    )
     missing_count = int(missing_mask.sum())
     if missing_count == 0:
         return series, None
@@ -122,6 +130,7 @@ def impute_categorical_column(
         "method": method,
         "reason": reason,
         "replacement_value": replacement_val,
+        "generated_synthetic": True,
         "reversible": True,
         "original_null_indices": series[missing_mask].index.tolist(),
     }
@@ -131,16 +140,24 @@ def impute_categorical_column(
 def impute_dataframe(
     df: pd.DataFrame,
     columns_info: list[dict[str, Any]] | None = None,
+    date_columns_info: list[dict[str, Any]] | None = None,
 ) -> tuple[pd.DataFrame, list[dict[str, Any]]]:
     """
-    Impute all missing values across a DataFrame based on inferred column types.
+    Impute missing values across a DataFrame based on inferred column types.
+    CRITICAL: Date columns are NEVER imputed. Missing dates remain missing (NaN).
     """
     cleaned_df = df.copy()
     cleaning_logs: list[dict[str, Any]] = []
     col_type_map = {c["name"]: c.get("dtype_inferred", "string") for c in (columns_info or [])}
+    date_cols_set = {d["column"] for d in (date_columns_info or [])}
 
     for col in cleaned_df.columns:
         col_type = col_type_map.get(col, "string")
+
+        # SAFETY GATE: Date columns are NEVER imputed
+        if col in date_cols_set or col_type == "date":
+            continue
+
         series = cleaned_df[col]
 
         if (col_type in ("int", "float") or pd.api.types.is_numeric_dtype(series)) and not pd.api.types.is_bool_dtype(series):

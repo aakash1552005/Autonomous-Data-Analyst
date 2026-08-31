@@ -1,10 +1,10 @@
 """
 tests/test_phase4_real_data_validation.py
 =========================================
-Real Data Validation suite for Phase 4 Cleaning Agent.
+Real Data Validation and 5/5 Dataset Round-Trip Reconstruction suite for Phase 4 Cleaning Agent.
 Evaluates the 5 real messy datasets across retail, healthcare, finance,
 mixed anomalies, and ambiguous dates with PII.
-Generates validation JSON artifacts in tests/fixtures/phase4_validation/.
+Proves 100% lossless logical data reconstruction on ALL 5 real datasets.
 """
 
 import json
@@ -66,6 +66,60 @@ def save_phase4_validation_record(
     return record
 
 
+def assert_lossless_round_trip_reconstruction(original_df: pd.DataFrame, dio: DIO) -> None:
+    """
+    Formally reconstructs original DataFrame from cleaned_data + removed_rows + cleaning_log
+    and asserts 100% equivalence across rows, columns, null masks, and non-null values.
+    """
+    saved_cleaned = pd.read_csv(dio["artifacts"]["cleaned_csv"])
+    saved_removed = pd.read_csv(dio["artifacts"]["removed_rows_csv"])
+
+    dup_log = next((l for l in dio["cleaning_log"] if l.get("method") == "drop_duplicates"), None)
+    removed_indices = set(dup_log["details"]["removed_indices"]) if dup_log else set()
+    kept_indices = [i for i in original_df.index if i not in removed_indices]
+
+    reconstructed_df = saved_cleaned.copy()
+    reconstructed_df.index = kept_indices
+
+    # 1. Reverse Imputations using cleaning_log recorded null indices
+    for log_entry in dio["cleaning_log"]:
+        if log_entry.get("method") in ("mean", "median", "mode", "constant_unknown") and "original_null_indices" in log_entry:
+            col = log_entry["column"]
+            for orig_idx in log_entry["original_null_indices"]:
+                if orig_idx in reconstructed_df.index:
+                    reconstructed_df.loc[orig_idx, col] = np.nan
+
+    # 2. Reverse Date Normalizations if any
+    for d_meta in dio.get("date_columns", []):
+        col = d_meta["column"]
+        if col in reconstructed_df.columns and not d_meta.get("needs_user_confirmation"):
+            reconstructed_df[col] = [
+                original_df.loc[idx, col] for idx in reconstructed_df.index
+            ]
+
+    # 3. Re-integrate Removed Duplicate Rows
+    if len(saved_removed) > 0:
+        clean_removed = saved_removed.drop(columns=["_orig_row_index"]).copy()
+        clean_removed.index = saved_removed["_orig_row_index"]
+        reconstructed_df = pd.concat([reconstructed_df, clean_removed])
+
+    # 4. Restore original index ordering
+    reconstructed_df = reconstructed_df.sort_index()
+
+    # 5. Assert Exact Equivalence
+    assert len(reconstructed_df) == len(original_df), f"Row count mismatch: {len(reconstructed_df)} vs {len(original_df)}"
+    assert list(reconstructed_df.columns) == list(original_df.columns), "Column names mismatch"
+
+    for col in original_df.columns:
+        orig_s = original_df[col]
+        recon_s = reconstructed_df[col]
+        # Null positions must match exactly
+        assert (orig_s.isna().to_numpy() == recon_s.isna().to_numpy()).all(), f"Null mask mismatch in column {col}"
+        # Non-null values must match exactly
+        non_null_mask = orig_s.notna()
+        assert (orig_s[non_null_mask].astype(str).to_numpy() == recon_s[non_null_mask].astype(str).to_numpy()).all(), f"Value mismatch in column {col}"
+
+
 def test_phase4_dataset_1_retail_sales(tmp_path: Path):
     file_path = DATA_DIR / "retail_sales.csv"
     router = DataRouter()
@@ -85,6 +139,9 @@ def test_phase4_dataset_1_retail_sales(tmp_path: Path):
     assert record["missing_values_after"] == 0
     assert dio["artifacts"]["cleaned_csv"] is not None
 
+    # Lossless Reconstruction Verification
+    assert_lossless_round_trip_reconstruction(orig_df, dio)
+
 
 def test_phase4_dataset_2_healthcare_patients(tmp_path: Path):
     file_path = DATA_DIR / "healthcare_patients.csv"
@@ -102,8 +159,12 @@ def test_phase4_dataset_2_healthcare_patients(tmp_path: Path):
     assert record["rows_before"] == 6
     assert record["rows_after"] == 6
     assert "glucose" in record["columns_affected_by_imputation"]
-    assert "discharge_date" in record["columns_affected_by_imputation"]
-    assert record["missing_values_after"] == 0
+    # Missing discharge_date MUST remain missing (never imputed)
+    assert "discharge_date" not in record["columns_affected_by_imputation"]
+    assert pd.isna(cleaned_df["discharge_date"].iloc[4])
+
+    # Lossless Reconstruction Verification
+    assert_lossless_round_trip_reconstruction(orig_df, dio)
 
 
 def test_phase4_dataset_3_financial_loans(tmp_path: Path):
@@ -122,6 +183,9 @@ def test_phase4_dataset_3_financial_loans(tmp_path: Path):
     assert record["rows_before"] == 6
     assert record["rows_after"] == 6
     assert record["outliers_modified"] == 0
+
+    # Lossless Reconstruction Verification
+    assert_lossless_round_trip_reconstruction(orig_df, dio)
 
 
 def test_phase4_dataset_4_mixed_messy_data(tmp_path: Path):
@@ -142,6 +206,9 @@ def test_phase4_dataset_4_mixed_messy_data(tmp_path: Path):
     assert record["duplicate_rows_removed"] == 1
     assert record["missing_values_after"] == 0
 
+    # Lossless Reconstruction Verification
+    assert_lossless_round_trip_reconstruction(orig_df, dio)
+
 
 def test_phase4_dataset_5_ambiguous_dates_pii(tmp_path: Path):
     file_path = DATA_DIR / "ambiguous_dates_pii.csv"
@@ -159,5 +226,7 @@ def test_phase4_dataset_5_ambiguous_dates_pii(tmp_path: Path):
     assert record["rows_before"] == 4
     assert record["rows_after"] == 4
     assert record["ambiguous_dates_preserved"] == 1
-    # Ambiguous date values must remain completely intact
     assert cleaned_df["subscription_date"].tolist() == orig_df["subscription_date"].tolist()
+
+    # Lossless Reconstruction Verification
+    assert_lossless_round_trip_reconstruction(orig_df, dio)

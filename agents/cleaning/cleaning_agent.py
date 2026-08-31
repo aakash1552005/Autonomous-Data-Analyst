@@ -70,10 +70,11 @@ class CleaningAgent(BaseAgent):
                 if d_log.get("warning"):
                     warnings_count += 1
 
-            # 4. Missing Value Imputation (Numeric Skewness & Categorical Thresholds)
+            # 4. Missing Value Imputation (Numeric Skewness & Categorical Thresholds; Dates Skipped)
             cleaned_df, impute_logs = impute_dataframe(
                 df=dated_df,
                 columns_info=dio.get("columns", []),
+                date_columns_info=dio.get("date_columns", []),
             )
 
             # 5. Outlier Detection (Flag-only, zero deletions/modifications)
