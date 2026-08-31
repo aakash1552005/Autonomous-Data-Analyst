@@ -1,0 +1,156 @@
+{
+  "dataset_name": "mixed_messy_data",
+  "original_dataset_hash": "da4eaaf65dd1476882f81f233118dcdf1e4bf5f6aa20b372bac01bf64087031e",
+  "cleaned_dataset_hash": "f698b09d621fa52194ea77e3280436fcbfa7d372c7b86dd534117ca26d9e8528",
+  "rows_before": 7,
+  "rows_after": 6,
+  "rows_removed": 1,
+  "duplicate_rows_removed": 1,
+  "missing_values_before": 3,
+  "missing_values_after": 0,
+  "columns_affected_by_imputation": [
+    " user_category ",
+    "metric_score",
+    "notes"
+  ],
+  "imputation_records": [
+    {
+      "column": " user_category ",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode 'Enterprise' used",
+      "replacement_value": "Enterprise",
+      "reversible": true,
+      "original_null_indices": [
+        6
+      ]
+    },
+    {
+      "column": "metric_score",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mean",
+      "reason": "distribution skew = -0.51 (|skew| <= 1), mean chosen",
+      "replacement_value": 72.14,
+      "reversible": true,
+      "original_null_indices": [
+        1
+      ]
+    },
+    {
+      "column": "notes",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode 'Active account' used",
+      "replacement_value": "Active account",
+      "reversible": true,
+      "original_null_indices": [
+        3
+      ]
+    }
+  ],
+  "outliers_detected": 0,
+  "outliers_modified": 0,
+  "ambiguous_dates_preserved": 0,
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_4_mixed_me0\\20260831_182424_mixed_messy_data.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_4_mixed_me0\\20260831_182424_mixed_messy_data.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": []
+  },
+  "reversible": true,
+  "cleaning_log": [
+    {
+      "column": "ALL_COLUMNS",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "drop_duplicates",
+      "reason": "Exact duplicate rows detected (1 rows removed, preserved in sidecar)",
+      "replacement_value": null,
+      "reversible": true,
+      "details": {
+        "duplicate_count": 1,
+        "duplicate_pct": 14.29,
+        "removed_indices": [
+          5
+        ]
+      }
+    },
+    {
+      "column": " user_category ",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "metric_score",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "flag_active",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'bool' to inferred type 'bool'",
+      "replacement_value": "bool",
+      "reversible": true
+    },
+    {
+      "column": "notes",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": " user_category ",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode 'Enterprise' used",
+      "replacement_value": "Enterprise",
+      "reversible": true,
+      "original_null_indices": [
+        6
+      ]
+    },
+    {
+      "column": "metric_score",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mean",
+      "reason": "distribution skew = -0.51 (|skew| <= 1), mean chosen",
+      "replacement_value": 72.14,
+      "reversible": true,
+      "original_null_indices": [
+        1
+      ]
+    },
+    {
+      "column": "notes",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode 'Active account' used",
+      "replacement_value": "Active account",
+      "reversible": true,
+      "original_null_indices": [
+        3
+      ]
+    }
+  ]
+}

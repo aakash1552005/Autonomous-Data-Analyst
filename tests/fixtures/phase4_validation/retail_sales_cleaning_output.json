@@ -1,0 +1,123 @@
+{
+  "dataset_name": "retail_sales",
+  "original_dataset_hash": "7d0eabf379646c7d6135fd71c6c507efb298595ab535e90e9e5b0430fb0ecef9",
+  "cleaned_dataset_hash": "a21f0ff568b471586840d62df309d0044968703dc113c52a6bdbf285548c479b",
+  "rows_before": 6,
+  "rows_after": 6,
+  "rows_removed": 0,
+  "duplicate_rows_removed": 0,
+  "missing_values_before": 0,
+  "missing_values_after": 0,
+  "columns_affected_by_imputation": [],
+  "imputation_records": [],
+  "outliers_detected": 2,
+  "outliers_modified": 0,
+  "ambiguous_dates_preserved": 0,
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_1_retail_s0\\20260831_182423_retail_sales.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_1_retail_s0\\20260831_182423_retail_sales.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": []
+  },
+  "reversible": true,
+  "cleaning_log": [
+    {
+      "column": "price",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "quantity",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "discount_pct",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "revenue",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "status",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "order_date",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "normalize_date",
+      "reason": "Normalized date format from 'DD/MM/YYYY' to ISO 'YYYY-MM-DD'",
+      "replacement_value": "YYYY-MM-DD",
+      "reversible": true
+    },
+    {
+      "column": "price",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "flag_outliers_iqr",
+      "reason": "IQR outlier detection: [-36.23, 101.72] (retained and flagged)",
+      "replacement_value": null,
+      "reversible": true,
+      "details": {
+        "q1": 15.5,
+        "q3": 49.99,
+        "iqr": 34.49,
+        "lower_bound": -36.235,
+        "upper_bound": 101.725,
+        "outlier_count": 1,
+        "outlier_pct": 16.67,
+        "outlier_indices": [
+          2
+        ]
+      }
+    },
+    {
+      "column": "revenue",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "flag_outliers_iqr",
+      "reason": "IQR outlier detection: [-35.87, 149.50] (retained and flagged)",
+      "replacement_value": null,
+      "reversible": true,
+      "details": {
+        "q1": 33.64,
+        "q3": 79.9825,
+        "iqr": 46.3425,
+        "lower_bound": -35.8738,
+        "upper_bound": 149.4963,
+        "outlier_count": 1,
+        "outlier_pct": 16.67,
+        "outlier_indices": [
+          2
+        ]
+      }
+    }
+  ]
+}

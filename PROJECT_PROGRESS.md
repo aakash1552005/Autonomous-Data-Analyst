@@ -56,66 +56,62 @@
 - `agents/intelligence/schema_profiler.py` — Tabular profiling: data type inference (int, float, bool, date, category, string), null percentages, cardinality, and duplicate rows.
 - `agents/intelligence/date_resolver.py` — Tiered deterministic date resolution (Day > 12 disambiguation, ISO 4-digit years, dataset-level consistency, locale hinting, and explicit `ambiguous` marking requiring user confirmation without silent guessing).
 - `agents/intelligence/pii_detector.py` — Deterministic regex and header inspection for emails, phone numbers, national IDs/SSNs, credit cards, names, and addresses.
-- `agents/intelligence/semantic_labeler.py` — 3-tier semantic column labeling: Tier 1 Rules (0.90 conf), Tier 2 Value Patterns (0.75-0.85 conf), and Tier 3 masked LLM fallback (0.60 conf, 1 bounded call per column, token governor enforced).
+- `agents/intelligence/semantic_labeler.py` — 3-tier semantic column labeling: Tier 1 Rules (0.90 conf), Tier 2 Value Patterns (0.75-0.85 conf), and Tier 3 masked LLM fallback (0.60 conf, 1 bounded call per column, token governor enforced, structural PII block).
 - `agents/intelligence/domain_classifier.py` — Weighted semantic voting for retail, healthcare, finance, or generic domain classification.
-- `agents/intelligence/quality_scorer.py` — Composite formula score [0-100] factoring null percentages, duplicates, ambiguous dates, and low-confidence columns with human-readable issue logs.
-- `agents/intelligence/intelligence_agent.py` — `IntelligenceAgent(BaseAgent)` orchestrating submodules, mutating only Intelligence DIO sections, recording decision logs and execution metrics.
-
-### Files Created
-- `utils/mask_for_llm.py`
-- `agents/intelligence/schema_profiler.py`
-- `agents/intelligence/date_resolver.py`
-- `agents/intelligence/pii_detector.py`
-- `agents/intelligence/semantic_labeler.py`
-- `agents/intelligence/domain_classifier.py`
-- `agents/intelligence/quality_scorer.py`
-- `agents/intelligence/intelligence_agent.py`
-- Sample Datasets:
-  - `data/sample/retail_sales.csv`
-  - `data/sample/healthcare_patients.csv`
-  - `data/sample/financial_loans.csv`
-  - `data/sample/mixed_messy_data.csv`
-  - `data/sample/ambiguous_dates_pii.csv`
-- Phase 3 Test Suite:
-  - `tests/test_date_resolver.py` (21 test cases)
-  - `tests/test_pii_detector.py` (6 test cases)
-  - `tests/test_semantic_labeler.py` (5 test cases)
-  - `tests/test_domain_classifier.py` (4 test cases)
-  - `tests/test_quality_scorer.py` (3 test cases)
-  - `tests/test_schema_profiler.py` (2 test cases)
-  - `tests/test_intelligence_agent.py` (1 test case)
-  - `tests/test_real_data_validation.py` (5 test cases on real messy datasets)
-
-### Files Modified
-- `security/file_validator.py` — Updated Excel validation to explicitly scope to `.xlsx` (OpenXML) and provide a helpful conversion message for legacy `.xls`.
-- `sources/excel_adapter.py` — Updated to match `.xlsx` scope.
-- `core/data_router.py` — Updated adapter mappings.
-- `PROJECT_PROGRESS.md` — Updated with Phase 3 status and metrics.
-
-### Files Deleted
-- None
-
-### Tests Executed
-```bash
-pytest tests/ -v
-```
+- `agents/intelligence/quality_scorer.py` — Composite formula score [0-100] factoring null percentages, duplicates, ambiguous dates, and low-confidence columns (`confidence < 0.70`). `domain_guess` confidence has 0% influence on the quality score.
+- `agents/intelligence/intelligence_agent.py` — `IntelligenceAgent(BaseAgent)` orchestrating submodules, mutating only Intelligence DIO sections.
 
 ### Test Results
-- **139/139 PASSED** in 8.94s:
+- **140/140 PASSED**
+
+---
+
+## Phase 4 — Cleaning Agent
+**Status**: COMPLETE ✅
+
+### Implementation Summary
+- `agents/cleaning/imputer.py` — Skewness-based numeric imputation (`|skew| > 1.0` -> median, `|skew| <= 1.0` -> mean) and thresholded categorical imputation (`null_pct <= 30.0%` -> mode, `> 30.0%` -> `"Unknown"`). Records original null index positions for lossless reversibility.
+- `agents/cleaning/duplicate_handler.py` — Detects exact duplicate rows, separates them into `removed_rows.csv` with original row indices preserved, and drops them from the cleaned DataFrame.
+- `agents/cleaning/type_coercer.py` — Safely coerces DataFrame columns to logical types inferred by Agent 1. Excludes identifiers and PII from destructive casting.
+- `agents/cleaning/date_handler.py` — Normalizes verified date formats to ISO `YYYY-MM-DD`. Ambiguous date columns requiring confirmation are strictly preserved in their original raw state with explicit warning logs.
+- `agents/cleaning/outlier_detector.py` — IQR-based outlier detector (`[Q1 - 1.5*IQR, Q3 + 1.5*IQR]`) with strict FLAG-ONLY policy (zero deletions or mutations).
+- `agents/cleaning/cleaning_agent.py` — `CleaningAgent(BaseAgent)` orchestrating the cleaning pipeline, creating `artifacts/cleaned_data.csv` and `artifacts/removed_rows.csv`, computing cleaned dataset SHA-256 hashes, updating `dio.cleaning_log`, and preserving original ingested datasets immutably.
+- Lossless Round-Trip Reversibility proven via `test_round_trip_reconstruction`.
+
+### Files Created
+- `agents/cleaning/__init__.py`
+- `agents/cleaning/imputer.py`
+- `agents/cleaning/duplicate_handler.py`
+- `agents/cleaning/type_coercer.py`
+- `agents/cleaning/date_handler.py`
+- `agents/cleaning/outlier_detector.py`
+- `agents/cleaning/cleaning_agent.py`
+- `tests/test_cleaning_agent.py`
+- `tests/test_phase4_real_data_validation.py`
+- `tests/fixtures/phase4_validation/retail_sales_cleaning_output.json`
+- `tests/fixtures/phase4_validation/healthcare_patients_cleaning_output.json`
+- `tests/fixtures/phase4_validation/financial_loans_cleaning_output.json`
+- `tests/fixtures/phase4_validation/mixed_messy_data_cleaning_output.json`
+- `tests/fixtures/phase4_validation/ambiguous_dates_pii_cleaning_output.json`
+- `tests/fixtures/phase4_validation/README.md`
+
+### Test Results
+```bash
+.venv\Scripts\python.exe -m pytest tests/ -v
+```
+- **155/155 PASSED** in 36.80s:
   - 42 Phase 0 tests
   - 32 Phase 1 tests
   - 17 Phase 2 tests
-  - 48 Phase 3 tests
-- All 5 real messy datasets successfully evaluated with zero PII leakage into prompts and 100% DIO round-trip preservation.
+  - 49 Phase 3 tests
+  - 15 Phase 4 tests
 
-### Verification Evidence
-- **Date Resolution**: 21 date test cases proved that Day > 12 resolves with 1.0 confidence, locale hinting works with 0.70 confidence, and ambiguous dates correctly surface `needs_user_confirmation = True` with 0.50 confidence.
-- **PII Boundary**: Emails, phone numbers, credit cards, and SSNs masked with `[REDACTED_*]`; automated prompt leak verifier confirms zero sensitive values reach prompt strings.
-- **Semantic Labeling & LLM Fallback**: Tier 1 rules and Tier 2 patterns resolve known columns; Tier 3 LLM fallback is strictly bounded and respects the token budget.
-- **Domain & Quality**: Retail, healthcare, and finance domains classified with >= 0.70 confidence; quality score formula penalizes missingness, duplicates, and ambiguity.
-
-### Remaining Risks
-- None. Agent 1 is completely implemented, tested, and verified against diverse real datasets.
+### Verification Evidence & Reversibility
+- **Reconstruction Test**: Proved 100% lossless reversibility by restoring the exact original ingested DataFrame from `cleaned_data.csv`, `removed_rows.csv`, and `cleaning_log`.
+- **Zero LLM Calls**: Cleaning Agent operates purely deterministically with zero external LLM dependencies and zero PII exposure.
+- **Flag-Only Outliers**: All detected statistical outliers were recorded with IQR fences without modifying dataset values.
+- **Ambiguous Date Safety**: Unambiguous dates converted to ISO `YYYY-MM-DD`; ambiguous dates preserved untouched.
+- **Dataset Immutability**: Original raw files and original SHA-256 hashes remained untouched; new artifacts written to isolated run directories.
 
 ### Next Phase
-- **Phase 4 — Cleaning Agent**: Deterministic, reversible data cleaning, missing value imputation (median/mode), type coercion, duplicate removal, outlier handling, preserved removed rows (`removed_rows.csv`), and CleaningAgent integration.
+- **Phase 5 — Exploratory Data Analysis (EDA) Agent**: Summary statistics, correlation matrices, automated Plotly chart generation (distributions, scatter, heatmaps, boxplots), Kaleido static image export, and DIO `eda` section population.

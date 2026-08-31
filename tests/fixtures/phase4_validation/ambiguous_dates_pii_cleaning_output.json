@@ -1,0 +1,46 @@
+{
+  "dataset_name": "ambiguous_dates_pii",
+  "original_dataset_hash": "8ebaeab30cdcd7bc5f4cfc138d24548575178cf5f6fce113dfb8e22501df39b3",
+  "cleaned_dataset_hash": "264096b5e46a1d18bb06b5a54fd5f58cda2b339b180daa8dc82e77d22ca7397d",
+  "rows_before": 4,
+  "rows_after": 4,
+  "rows_removed": 0,
+  "duplicate_rows_removed": 0,
+  "missing_values_before": 0,
+  "missing_values_after": 0,
+  "columns_affected_by_imputation": [],
+  "imputation_records": [],
+  "outliers_detected": 0,
+  "outliers_modified": 0,
+  "ambiguous_dates_preserved": 1,
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_5_ambiguou0\\20260831_182424_ambiguous_dates_pii.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_5_ambiguou0\\20260831_182424_ambiguous_dates_pii.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": []
+  },
+  "reversible": true,
+  "cleaning_log": [
+    {
+      "column": "amount",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "subscription_date",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "preserve_ambiguous_date",
+      "reason": "Date format is ambiguous and requires user confirmation; preserved raw values unchanged.",
+      "replacement_value": null,
+      "reversible": true,
+      "warning": true
+    }
+  ]
+}

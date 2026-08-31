@@ -1,0 +1,169 @@
+{
+  "dataset_name": "healthcare_patients",
+  "original_dataset_hash": "b6c174993a9db870e1ebd3db9dfc41d1952bda1d85836be8a8e185d2e8107527",
+  "cleaned_dataset_hash": "9a3dd8d2e5c876f902ab289f33e3f3e7a7748056906690ef360ca9b5cda20d54",
+  "rows_before": 6,
+  "rows_after": 6,
+  "rows_removed": 0,
+  "duplicate_rows_removed": 0,
+  "missing_values_before": 4,
+  "missing_values_after": 0,
+  "columns_affected_by_imputation": [
+    "glucose",
+    "treatment",
+    "discharge_date"
+  ],
+  "imputation_records": [
+    {
+      "column": "glucose",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mean",
+      "reason": "distribution skew = 0.71 (|skew| <= 1), mean chosen",
+      "replacement_value": 123,
+      "reversible": true,
+      "original_null_indices": [
+        3
+      ]
+    },
+    {
+      "column": "treatment",
+      "missing_count": 2,
+      "missing_pct": 33.33,
+      "method": "constant_unknown",
+      "reason": "missing percentage = 33.3% (> 30% or no valid mode), 'Unknown' assigned",
+      "replacement_value": "Unknown",
+      "reversible": true,
+      "original_null_indices": [
+        2,
+        5
+      ]
+    },
+    {
+      "column": "discharge_date",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode '2024-01-15' used",
+      "replacement_value": "2024-01-15",
+      "reversible": true,
+      "original_null_indices": [
+        4
+      ]
+    }
+  ],
+  "outliers_detected": 0,
+  "outliers_modified": 0,
+  "ambiguous_dates_preserved": 0,
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_2_healthca0\\20260831_182424_healthcare_patients.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_2_healthca0\\20260831_182424_healthcare_patients.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": []
+  },
+  "reversible": true,
+  "cleaning_log": [
+    {
+      "column": "age",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "blood_pressure",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "glucose",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "diagnosis",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "treatment",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "admission_date",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "normalize_date",
+      "reason": "Normalized date format from 'YYYY-MM-DD' to ISO 'YYYY-MM-DD'",
+      "replacement_value": "YYYY-MM-DD",
+      "reversible": true
+    },
+    {
+      "column": "discharge_date",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "normalize_date",
+      "reason": "Normalized date format from 'YYYY-MM-DD' to ISO 'YYYY-MM-DD'",
+      "replacement_value": "YYYY-MM-DD",
+      "reversible": true
+    },
+    {
+      "column": "glucose",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mean",
+      "reason": "distribution skew = 0.71 (|skew| <= 1), mean chosen",
+      "replacement_value": 123,
+      "reversible": true,
+      "original_null_indices": [
+        3
+      ]
+    },
+    {
+      "column": "treatment",
+      "missing_count": 2,
+      "missing_pct": 33.33,
+      "method": "constant_unknown",
+      "reason": "missing percentage = 33.3% (> 30% or no valid mode), 'Unknown' assigned",
+      "replacement_value": "Unknown",
+      "reversible": true,
+      "original_null_indices": [
+        2,
+        5
+      ]
+    },
+    {
+      "column": "discharge_date",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode '2024-01-15' used",
+      "replacement_value": "2024-01-15",
+      "reversible": true,
+      "original_null_indices": [
+        4
+      ]
+    }
+  ]
+}

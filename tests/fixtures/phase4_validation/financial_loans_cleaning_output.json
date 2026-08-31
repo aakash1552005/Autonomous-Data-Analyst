@@ -1,0 +1,93 @@
+{
+  "dataset_name": "financial_loans",
+  "original_dataset_hash": "9e623c2caaca91f0becce3988af1e9c437dc0273dd6e02d1435f43453ee5d6ad",
+  "cleaned_dataset_hash": "0366e607547b94b28b99332a30550191689d977fc80579a70eaeb6fb228b38c8",
+  "rows_before": 6,
+  "rows_after": 6,
+  "rows_removed": 0,
+  "duplicate_rows_removed": 0,
+  "missing_values_before": 0,
+  "missing_values_after": 0,
+  "columns_affected_by_imputation": [],
+  "imputation_records": [],
+  "outliers_detected": 1,
+  "outliers_modified": 0,
+  "ambiguous_dates_preserved": 0,
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_3_financia0\\20260831_182424_financial_loans.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-7\\test_phase4_dataset_3_financia0\\20260831_182424_financial_loans.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": []
+  },
+  "reversible": true,
+  "cleaning_log": [
+    {
+      "column": "account_balance",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "loan_amount",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "interest_rate",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "credit_score",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "default_status",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "account_balance",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "flag_outliers_iqr",
+      "reason": "IQR outlier detection: [-4475.12, 11925.28] (retained and flagged)",
+      "replacement_value": null,
+      "reversible": true,
+      "details": {
+        "q1": 1675.025,
+        "q3": 5775.125,
+        "iqr": 4100.1,
+        "lower_bound": -4475.125,
+        "upper_bound": 11925.275,
+        "outlier_count": 1,
+        "outlier_pct": 16.67,
+        "outlier_indices": [
+          2
+        ]
+      }
+    }
+  ]
+}
