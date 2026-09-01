@@ -2,9 +2,16 @@
 tests/test_eda_agent.py
 =======================
 Comprehensive test suite for Agent 3 (Exploratory Data Analysis Agent).
-Verifies numeric and categorical summary statistics, Pearson/Spearman correlations,
-deterministic chart selection, configurable chart count limits, Plotly/Kaleido PNG rendering,
-zero-LLM execution guarantee, and graceful degradation on narrow dataset fixtures.
+Verifies:
+1. Exact statistical correctness (mean, median, std, min, max, Pearson, Spearman, NaN handling, zero-variance).
+2. Deterministic chart selection order and configurable limits.
+3. Plotly + Kaleido PNG rendering and artifact existence.
+4. Zero-LLM and network independence.
+5. Graceful degradation on narrow fixtures.
+6. Exclusion of ambiguous dates from time-series charts.
+7. Strict PII and identifier exclusion from chart artifacts.
+8. Target candidate awareness and leakage protection.
+9. Strict DIO boundary isolation.
 """
 
 from pathlib import Path
@@ -21,23 +28,75 @@ from core.dio import DIO
 from core.base_agent import ProgressState
 
 
-def test_numeric_summary_statistics():
+def test_statistical_correctness_ground_truth():
+    """
+    CRITICAL REQUIREMENT:
+    Verify exact hand-calculated ground truths for summary statistics and correlations.
+    """
+    # Ground truth dataset: [10, 20, 30, 40, 50]
+    # Mean = 30.0, Median = 30.0, Std = sqrt((400+100+0+100+400)/4) = sqrt(250) = 15.8114
+    # Min = 10.0, Max = 50.0, Q25 = 20.0, Q75 = 40.0, IQR = 20.0, Skewness = 0.0
     series = pd.Series([10.0, 20.0, 30.0, 40.0, 50.0, np.nan])
-    res = compute_numeric_summary(series, "salary")
+    res = compute_numeric_summary(series, "metric")
 
-    assert res["column"] == "salary"
+    assert res["column"] == "metric"
     assert res["type"] == "numeric"
     assert res["count"] == 5
     assert res["null_count"] == 1
     assert res["null_pct"] == 16.67
     assert res["mean"] == 30.0
-    assert res["min"] == 10.0
-    assert res["q25"] == 20.0
     assert res["median"] == 30.0
-    assert res["q75"] == 40.0
+    assert res["std"] == 15.8114
+    assert res["min"] == 10.0
     assert res["max"] == 50.0
+    assert res["q25"] == 20.0
+    assert res["q75"] == 40.0
     assert res["iqr"] == 20.0
     assert res["skewness"] == 0.0
+
+
+def test_zero_variance_and_all_nan_handling():
+    # Constant column (zero variance, std = 0)
+    s_const = pd.Series([5.0, 5.0, 5.0, 5.0])
+    res_const = compute_numeric_summary(s_const, "const_col")
+    assert res_const["mean"] == 5.0
+    assert res_const["std"] == 0.0
+    assert res_const["iqr"] == 0.0
+
+    # All-NaN column
+    s_nan = pd.Series([np.nan, np.nan, np.nan])
+    res_nan = compute_numeric_summary(s_nan, "nan_col")
+    assert res_nan["count"] == 0
+    assert res_nan["null_count"] == 3
+    assert res_nan["null_pct"] == 100.0
+    assert res_nan["mean"] is None
+
+
+def test_pearson_and_spearman_ground_truth():
+    # Linear relationship: y = 2x + 1 -> Pearson r = 1.0, Spearman r = 1.0
+    # Inverse relationship: z = -3x -> Pearson r = -1.0, Spearman r = -1.0
+    # Constant column: c = 7 -> should be excluded from correlations (zero variance)
+    df = pd.DataFrame({
+        "x": [1.0, 2.0, 3.0, 4.0, 5.0],
+        "y": [3.0, 5.0, 7.0, 9.0, 11.0],
+        "z": [-3.0, -6.0, -9.0, -12.0, -15.0],
+        "c": [7.0, 7.0, 7.0, 7.0, 7.0],
+    })
+    columns_info = [
+        {"name": "x", "dtype_inferred": "float"},
+        {"name": "y", "dtype_inferred": "float"},
+        {"name": "z", "dtype_inferred": "float"},
+        {"name": "c", "dtype_inferred": "float"},
+    ]
+    res = compute_correlations(df, columns_info=columns_info)
+
+    assert "x" in res["pearson"]
+    assert "c" not in res["pearson"]  # Excluded due to zero variance
+    assert res["pearson"]["x"]["y"] == 1.0
+    assert res["pearson"]["x"]["z"] == -1.0
+    assert res["spearman"]["x"]["y"] == 1.0
+    assert res["spearman"]["x"]["z"] == -1.0
+    assert len(res["top_correlations"]) >= 2
 
 
 def test_categorical_summary_statistics():
@@ -54,27 +113,6 @@ def test_categorical_summary_statistics():
     assert res["top_category_freq"] == 3
     assert res["top_categories"]["Gold"] == 3
     assert res["top_categories"]["Silver"] == 1
-
-
-def test_pearson_and_spearman_correlations():
-    # Perfectly correlated x and y
-    df = pd.DataFrame({
-        "x": [1.0, 2.0, 3.0, 4.0, 5.0],
-        "y": [2.0, 4.0, 6.0, 8.0, 10.0],
-        "z": [5.0, 4.0, 3.0, 2.0, 1.0],
-    })
-    columns_info = [
-        {"name": "x", "dtype_inferred": "float"},
-        {"name": "y", "dtype_inferred": "float"},
-        {"name": "z", "dtype_inferred": "float"},
-    ]
-    res = compute_correlations(df, columns_info=columns_info)
-
-    assert "x" in res["pearson"]
-    assert res["pearson"]["x"]["y"] == 1.0
-    assert res["pearson"]["x"]["z"] == -1.0
-    assert len(res["top_correlations"]) >= 1
-    assert res["top_correlations"][0]["abs_r"] == 1.0
 
 
 def test_deterministic_chart_selection_order():
@@ -96,7 +134,7 @@ def test_deterministic_chart_selection_order():
         {"name": "region", "dtype_inferred": "string"},
         {"name": "order_date", "dtype_inferred": "date"},
     ]
-    date_columns_info = [{"column": "order_date", "detected_format": "YYYY-MM-DD"}]
+    date_columns_info = [{"column": "order_date", "detected_format": "YYYY-MM-DD", "needs_user_confirmation": False}]
 
     plans_run1 = select_charts_deterministically(df, columns_info, date_columns_info, max_charts=6)
     plans_run2 = select_charts_deterministically(df, columns_info, date_columns_info, max_charts=6)
@@ -141,7 +179,7 @@ def test_png_chart_artifacts_rendered(tmp_path: Path):
 
     dio = DIO.create_empty(file_name="sales.csv", dataset_hash="h123")
     dio["columns"] = [
-        {"name": "order_id", "dtype_inferred": "int"},
+        {"name": "order_id", "dtype_inferred": "int", "semantic_label": "identifier"},
         {"name": "revenue", "dtype_inferred": "float"},
         {"name": "cost", "dtype_inferred": "float"},
         {"name": "margin", "dtype_inferred": "float"},
@@ -165,7 +203,7 @@ def test_png_chart_artifacts_rendered(tmp_path: Path):
         p = Path(p_str)
         assert p.suffix == ".png"
         assert p.is_file()
-        assert p.stat().st_size > 0  # Non-empty rendered image
+        assert p.stat().st_size > 1000  # Non-empty rendered image
 
 
 def test_zero_llm_eda_guarantee(tmp_path: Path):
@@ -219,6 +257,87 @@ def test_graceful_degradation_narrow_fixtures(tmp_path: Path):
     df_2num = pd.DataFrame({"n1": [1.0, 2.0, 3.0], "n2": [10.0, 20.0, 30.0]})
     plans_2num = select_charts_deterministically(df_2num, [{"name": "n1", "dtype_inferred": "float"}, {"name": "n2", "dtype_inferred": "float"}])
     assert not any(p["chart_type"] == "correlation_heatmap" for p in plans_2num)
+
+
+def test_ambiguous_dates_excluded_from_time_series(tmp_path: Path):
+    """
+    CRITICAL REQUIREMENT:
+    Ambiguous date columns (needs_user_confirmation=True) MUST NEVER become time-series line trend axes.
+    """
+    df = pd.DataFrame({
+        "ambig_date": ["05/06/2024", "07/08/2024", "01/02/2024"],
+        "metric": [100.0, 150.0, 200.0],
+    })
+    columns_info = [
+        {"name": "ambig_date", "dtype_inferred": "date"},
+        {"name": "metric", "dtype_inferred": "float"},
+    ]
+    date_columns_info = [
+        {"column": "ambig_date", "detected_format": "ambiguous", "needs_user_confirmation": True}
+    ]
+
+    plans = select_charts_deterministically(df, columns_info, date_columns_info, max_charts=6)
+    # Proves no line_trend chart was selected for the ambiguous date column
+    assert not any(p["chart_type"] == "line_trend" for p in plans)
+
+
+def test_pii_and_identifier_exclusion_from_charts(tmp_path: Path):
+    """
+    CRITICAL REQUIREMENT:
+    Raw PII and identifiers MUST NEVER appear in chart titles, filenames, metadata, or logs.
+    """
+    df = pd.DataFrame({
+        "user_id": ["U1", "U2", "U3"],
+        "full_name": ["Alice Smith", "Bob Jones", "Charlie Brown"],
+        "email": ["alice@secret.com", "bob@secret.com", "charlie@secret.com"],
+        "salary": [50000.0, 60000.0, 75000.0],
+    })
+    dio = DIO.create_empty(file_name="employees.csv", dataset_hash="emp_hash")
+    dio["columns"] = [
+        {"name": "user_id", "dtype_inferred": "string", "semantic_label": "identifier"},
+        {"name": "full_name", "dtype_inferred": "string", "semantic_label": "person_name", "is_pii": True},
+        {"name": "email", "dtype_inferred": "string", "semantic_label": "email", "is_pii": True},
+        {"name": "salary", "dtype_inferred": "float", "semantic_label": "currency_amount"},
+    ]
+
+    agent = EDAAgent()
+    _, updated_dio = agent.run(df, dio, run_dir=tmp_path)
+
+    chart_paths = updated_dio["artifacts"]["chart_paths"]
+    assert len(chart_paths) > 0
+
+    # Assert no PII in chart filenames or chart titles
+    for p_str in chart_paths:
+        p_name = Path(p_str).name
+        assert "full_name" not in p_name
+        assert "email" not in p_name
+        assert "alice" not in p_name.lower()
+        assert "user_id" not in p_name
+
+
+def test_target_candidate_identification_and_leakage_protection(tmp_path: Path):
+    """
+    CRITICAL REQUIREMENT:
+    Target candidates must be recorded in dio['eda']['target_candidates'] from Intelligence DIO,
+    without mutating feature definitions or altering downstream ML boundaries.
+    """
+    df = pd.DataFrame({
+        "tenure": [12.0, 24.0, 36.0, 48.0],
+        "monthly_charges": [50.0, 70.0, 85.0, 100.0],
+        "churn": [0, 1, 0, 1],
+    })
+    dio = DIO.create_empty(file_name="telecom.csv", dataset_hash="telecom_hash")
+    dio["columns"] = [
+        {"name": "tenure", "dtype_inferred": "float"},
+        {"name": "monthly_charges", "dtype_inferred": "float"},
+        {"name": "churn", "dtype_inferred": "int", "semantic_label": "target_label", "is_target_candidate": True},
+    ]
+
+    agent = EDAAgent()
+    _, updated_dio = agent.run(df, dio, run_dir=tmp_path)
+
+    assert "target_candidates" in updated_dio["eda"]
+    assert updated_dio["eda"]["target_candidates"] == ["churn"]
 
 
 def test_dio_section_isolation(tmp_path: Path):

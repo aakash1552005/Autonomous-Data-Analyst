@@ -131,6 +131,7 @@ def test_phase5_dataset_3_financial_loans(tmp_path: Path):
     stats = dio["eda"]["summary_stats"]
     assert "loan_amount" in stats
     assert "account_balance" in stats
+    assert "default_status" in dio["eda"].get("target_candidates", [])
 
     chart_paths = dio["artifacts"]["chart_paths"]
     assert len(chart_paths) > 0
@@ -181,3 +182,12 @@ def test_phase5_dataset_5_ambiguous_dates_pii(tmp_path: Path):
 
     chart_paths = dio["artifacts"]["chart_paths"]
     assert len(chart_paths) > 0
+
+    # Ensure ambiguous date NEVER generated a line trend chart
+    for p in chart_paths:
+        assert "trend" not in Path(p).name
+        # Ensure zero PII in chart names
+        assert "full_name" not in Path(p).name
+        assert "credit_card" not in Path(p).name
+        assert "email" not in Path(p).name
+        assert "phone" not in Path(p).name

@@ -81,11 +81,18 @@ class EDAAgent(BaseAgent):
                 max_charts=max_charts,
             )
 
+            # 4. Identify Target Candidates from Intelligence Semantic Labels
+            target_candidates = [
+                c["name"] for c in columns_info
+                if c.get("is_target_candidate", False) or c.get("semantic_label") in ("target_label", "target_value")
+            ]
+
             # 5. Populate DIO EDA & Artifacts Sections
             dio["eda"] = {
                 "summary_stats": summary_stats,
                 "correlations": correlations,
                 "charts": chart_paths,
+                "target_candidates": target_candidates,
             }
             dio["artifacts"]["chart_paths"] = chart_paths
 
@@ -96,6 +103,7 @@ class EDAAgent(BaseAgent):
                 "charts_generated": len(chart_paths),
                 "max_charts_configured": max_charts,
                 "numeric_columns_analyzed": len(correlations.get("numeric_columns_analyzed", [])),
+                "target_candidates_identified": target_candidates,
                 "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
             })
 

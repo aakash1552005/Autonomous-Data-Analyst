@@ -100,35 +100,40 @@
 - `agents/eda/summary_stats.py`:
   - Deterministic numeric summary statistics (count, null_count, null_pct, mean, std, min, 25%, median, 75%, max, IQR, skewness, kurtosis).
   - Categorical summary statistics (unique_count, top_category, top_category_freq, top_5 frequency distributions).
+  - Robust handling of zero-variance (constant) and all-NaN columns.
 - `agents/eda/correlations.py`:
   - Pearson correlation matrix and Spearman rank correlation matrix across numeric features.
   - Identification and sorting of top feature correlation pairs.
+  - Ground truth mathematical alignment verified.
 - `agents/eda/chart_generator.py`:
   - **Deterministic Rule-Based Selection (Zero LLM)**: Strict rule table mapping column types/counts to chart types.
-  - **Precedence Order**: 1. Heatmap ($\ge 3$ numerics), 2. Line Trend (date + numeric), 3. Scatter ($\ge 2$ numerics), 4. Histograms, 5. Categorical Bar Charts ($\le 15$ categories), 6. Box Plots.
+  - **Precedence Order**: 1. Heatmap ($\ge 3$ numerics), 2. Line Trend (unambiguous date + numeric), 3. Scatter ($\ge 2$ numerics), 4. Histograms, 5. Categorical Bar Charts ($\le 15$ categories), 6. Box Plots.
   - **Configurable Maximum Limit**: Default 6 charts, controlled dynamically by `config.yaml` (`eda.max_charts`).
+  - **PII & Privacy Protection**: Columns flagged `is_pii=True` and `semantic_label="identifier"` are strictly excluded from charts, filenames, and titles.
+  - **Ambiguous Dates Isolation**: Ambiguous date columns (`needs_user_confirmation=True`) are strictly excluded from time-series charts.
   - **Graceful Degradation**: Skips unavailable chart types without errors on narrow datasets.
   - **Plotly + Kaleido PNG Export**: Static image rendering into `runs/{run_id}/artifacts/charts/*.png`.
 - `agents/eda/eda_agent.py`:
   - `EDAAgent(BaseAgent)` consuming cleaned DataFrame and Phase 4 DIO.
+  - **Target Candidate Awareness**: Indexes target candidates in `dio["eda"]["target_candidates"]` without modifying feature definitions or causing data leakage.
   - Zero LLM calls, zero network dependencies, offline execution.
   - Populates ONLY `dio["eda"]` and `dio["artifacts"]["chart_paths"]`.
 
 ### Real Data Validation & Human Review
 - All 5 benchmark datasets validated with outputs saved in `tests/fixtures/phase5_validation/`.
-- Human review confirms exact statistical alignment and high-fidelity PNG chart artifacts.
+- Human review confirms exact statistical alignment, zero PII leakage, and high-fidelity PNG chart artifacts.
 
 ### Test Results
 ```bash
 .venv\Scripts\python.exe -m pytest tests/ -v
 ```
-- **170/170 PASSED** in 117.45s:
+- **174/174 PASSED** in 132.64s:
   - 42 Phase 0 tests
   - 32 Phase 1 tests
   - 17 Phase 2 tests
   - 49 Phase 3 tests
   - 16 Phase 4 tests
-  - 14 Phase 5 tests (9 unit tests + 5 real-data validation tests)
+  - 18 Phase 5 tests (13 unit tests + 5 real-data validation tests)
 
 ---
 

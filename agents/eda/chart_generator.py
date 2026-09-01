@@ -40,12 +40,23 @@ def select_charts_deterministically(
     Returns ordered list of chart generation plans up to `max_charts`.
     """
     col_type_map = {c["name"]: c.get("dtype_inferred", "string") for c in (columns_info or [])}
-    date_cols = [d["column"] for d in (date_columns_info or []) if d["column"] in df.columns]
+    pii_cols = {c["name"] for c in (columns_info or []) if c.get("is_pii", False)}
+    identifier_cols = {c["name"] for c in (columns_info or []) if c.get("semantic_label") == "identifier"}
+
+    # Ambiguous date columns requiring confirmation must NEVER become time-series axes
+    date_cols = [
+        d["column"]
+        for d in (date_columns_info or [])
+        if d["column"] in df.columns and not d.get("needs_user_confirmation", False)
+    ]
 
     numeric_cols: list[str] = []
     categorical_cols: list[str] = []
 
     for col in df.columns:
+        if col in pii_cols or col in identifier_cols:
+            continue  # Exclude PII and identifiers from visualization charts
+
         col_type = col_type_map.get(col, "string")
         if (col_type in ("int", "float") or pd.api.types.is_numeric_dtype(df[col])) and not pd.api.types.is_bool_dtype(df[col]):
             clean_s = pd.to_numeric(df[col], errors="coerce").dropna()

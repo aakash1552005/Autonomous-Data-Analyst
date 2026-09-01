@@ -150,7 +150,7 @@
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.016,
+      "runtime_seconds": 0.014,
       "warnings": 1,
       "errors": 0
     }
@@ -165,7 +165,7 @@
       "evidence": [
         "day value > 12 found in first position"
       ],
-      "timestamp": "2026-09-01T14:34:07.364718+00:00"
+      "timestamp": "2026-09-01T14:46:32.469529+00:00"
     },
     {
       "agent": "intelligence",
@@ -174,7 +174,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.365059+00:00"
+      "timestamp": "2026-09-01T14:46:32.469968+00:00"
     },
     {
       "agent": "intelligence",
@@ -183,7 +183,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.365504+00:00"
+      "timestamp": "2026-09-01T14:46:32.470547+00:00"
     },
     {
       "agent": "intelligence",
@@ -192,7 +192,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.366110+00:00"
+      "timestamp": "2026-09-01T14:46:32.471524+00:00"
     },
     {
       "agent": "intelligence",
@@ -201,7 +201,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.366506+00:00"
+      "timestamp": "2026-09-01T14:46:32.472067+00:00"
     },
     {
       "agent": "intelligence",
@@ -210,7 +210,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.366983+00:00"
+      "timestamp": "2026-09-01T14:46:32.472599+00:00"
     },
     {
       "agent": "intelligence",
@@ -219,7 +219,7 @@
       "label": "quantity",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.367630+00:00"
+      "timestamp": "2026-09-01T14:46:32.472960+00:00"
     },
     {
       "agent": "intelligence",
@@ -228,7 +228,7 @@
       "label": "quantity",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.368334+00:00"
+      "timestamp": "2026-09-01T14:46:32.473539+00:00"
     },
     {
       "agent": "intelligence",
@@ -237,7 +237,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.368992+00:00"
+      "timestamp": "2026-09-01T14:46:32.474010+00:00"
     },
     {
       "agent": "intelligence",
@@ -246,14 +246,14 @@
       "label": "target_label",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T14:34:07.369720+00:00"
+      "timestamp": "2026-09-01T14:46:32.474434+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "retail",
       "confidence": 0.95,
-      "timestamp": "2026-09-01T14:34:07.369817+00:00"
+      "timestamp": "2026-09-01T14:46:32.474499+00:00"
     }
   ]
 }
