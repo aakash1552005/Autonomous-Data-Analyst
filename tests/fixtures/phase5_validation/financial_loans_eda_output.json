@@ -261,17 +261,17 @@
   },
   "charts_generated_count": 6,
   "chart_paths": [
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_3_financia0\\20260901_144602_financial_loans.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_3_financia0\\20260901_144602_financial_loans.csv\\artifacts\\charts\\03_scatter_account_balance_vs_loan_amount.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_3_financia0\\20260901_144602_financial_loans.csv\\artifacts\\charts\\04_distribution_account_balance.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_3_financia0\\20260901_144602_financial_loans.csv\\artifacts\\charts\\04_distribution_loan_amount.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_3_financia0\\20260901_144602_financial_loans.csv\\artifacts\\charts\\04_distribution_interest_rate.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_3_financia0\\20260901_144602_financial_loans.csv\\artifacts\\charts\\04_distribution_credit_score.png"
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_3_financia0\\20260901_155927_financial_loans.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_3_financia0\\20260901_155927_financial_loans.csv\\artifacts\\charts\\03_scatter_account_balance_vs_loan_amount.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_3_financia0\\20260901_155927_financial_loans.csv\\artifacts\\charts\\04_distribution_account_balance.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_3_financia0\\20260901_155927_financial_loans.csv\\artifacts\\charts\\04_distribution_loan_amount.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_3_financia0\\20260901_155927_financial_loans.csv\\artifacts\\charts\\04_distribution_interest_rate.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_3_financia0\\20260901_155927_financial_loans.csv\\artifacts\\charts\\04_distribution_credit_score.png"
   ],
   "eda_metrics": [
     {
       "agent": "eda",
-      "runtime_seconds": 14.355,
+      "runtime_seconds": 12.194,
       "warnings": 0,
       "errors": 0
     }

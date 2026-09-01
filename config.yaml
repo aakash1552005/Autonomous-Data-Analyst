@@ -18,6 +18,9 @@ eda:
   max_charts: 6
 
 ml:
+  min_rows_for_ml: 30
+  min_rows_per_class: 5
+  leakage_threshold: 0.95
   train_test_split: 0.8
   random_state: 42
   min_rows_xgboost: 500

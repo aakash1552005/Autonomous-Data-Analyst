@@ -97,43 +97,41 @@
 **Status**: COMPLETE ✅
 
 ### Implementation Summary
-- `agents/eda/summary_stats.py`:
-  - Deterministic numeric summary statistics (count, null_count, null_pct, mean, std, min, 25%, median, 75%, max, IQR, skewness, kurtosis).
-  - Categorical summary statistics (unique_count, top_category, top_category_freq, top_5 frequency distributions).
-  - Robust handling of zero-variance (constant) and all-NaN columns.
-- `agents/eda/correlations.py`:
-  - Pearson correlation matrix and Spearman rank correlation matrix across numeric features.
-  - Identification and sorting of top feature correlation pairs.
-  - Ground truth mathematical alignment verified.
-- `agents/eda/chart_generator.py`:
-  - **Deterministic Rule-Based Selection (Zero LLM)**: Strict rule table mapping column types/counts to chart types.
-  - **Precedence Order**: 1. Heatmap ($\ge 3$ numerics), 2. Line Trend (unambiguous date + numeric), 3. Scatter ($\ge 2$ numerics), 4. Histograms, 5. Categorical Bar Charts ($\le 15$ categories), 6. Box Plots.
-  - **Configurable Maximum Limit**: Default 6 charts, controlled dynamically by `config.yaml` (`eda.max_charts`).
-  - **PII & Privacy Protection**: Columns flagged `is_pii=True` and `semantic_label="identifier"` are strictly excluded from charts, filenames, and titles.
-  - **Ambiguous Dates Isolation**: Ambiguous date columns (`needs_user_confirmation=True`) are strictly excluded from time-series charts.
-  - **Graceful Degradation**: Skips unavailable chart types without errors on narrow datasets.
-  - **Plotly + Kaleido PNG Export**: Static image rendering into `runs/{run_id}/artifacts/charts/*.png`.
-- `agents/eda/eda_agent.py`:
-  - `EDAAgent(BaseAgent)` consuming cleaned DataFrame and Phase 4 DIO.
-  - **Target Candidate Awareness**: Indexes target candidates in `dio["eda"]["target_candidates"]` without modifying feature definitions or causing data leakage.
-  - Zero LLM calls, zero network dependencies, offline execution.
-  - Populates ONLY `dio["eda"]` and `dio["artifacts"]["chart_paths"]`.
+- `agents/eda/summary_stats.py`: Tabular numeric and categorical summary statistics with zero-variance/NaN robustness.
+- `agents/eda/correlations.py`: Pearson and Spearman rank correlation matrices with top feature pairs.
+- `agents/eda/chart_generator.py`: Deterministic chart selector rule table, Plotly + Kaleido PNG image export, configurable `max_charts: 6`, PII/identifier exclusion, and ambiguous date exclusion.
+- `agents/eda/eda_agent.py`: `EDAAgent(BaseAgent)` consuming cleaned DataFrame + Phase 4 DIO. Populates ONLY `dio["eda"]` and `dio["artifacts"]["chart_paths"]`. Zero LLM calls.
+
+---
+
+## Phase 6 — Machine Learning Agent
+**Status**: COMPLETE ✅
+
+### Implementation Summary
+- `agents/ml/task_detector.py`: Deterministic target candidate selection and task detection (`classification` vs `regression` vs `unsupported`).
+- `agents/ml/target_validator.py`: Target validation and data sufficiency enforcement using configurable YAML parameters (`min_rows_for_ml: 30`, `min_rows_per_class: 5`). Calculates class distributions and regression stats.
+- `agents/ml/leakage_detector.py`: Multi-layer leakage prevention (target exclusion, PII exclusion, identifier exclusion, post-outcome temporal pattern exclusion, and near-perfect correlation / mutual-information thresholding with `leakage_threshold: 0.95`).
+- `agents/ml/preprocessor.py`: Scikit-learn `ColumnTransformer` builder. Transformers are fitted strictly on `X_train` after the split.
+- `agents/ml/model_trainer.py`: Candidate model training (LogisticRegression/Ridge, RandomForest, optional XGBoost with graceful fallback), Dummy baselines, task-appropriate metrics (Accuracy, Precision, Recall, F1, ROC-AUC, Confusion Matrix, MAE, MSE, RMSE, R²), and deterministic model selection.
+- `agents/ml/model_persister.py`: Pipeline serialization to `runs/{run_id}/artifacts/model.pkl`, SHA-256 calculation, and reload/prediction verification.
+- `agents/ml/ml_agent.py`: `MLAgent(BaseAgent)` coordinator. Mutates ONLY `dio["ml"]` and `dio["artifacts"]["model_pkl"]`. Strict zero-LLM decision making.
 
 ### Real Data Validation & Human Review
-- All 5 benchmark datasets validated with outputs saved in `tests/fixtures/phase5_validation/`.
-- Human review confirms exact statistical alignment, zero PII leakage, and high-fidelity PNG chart artifacts.
+- All 5 benchmark datasets validated with outputs saved in `tests/fixtures/phase6_validation/`.
+- Human review in `tests/fixtures/phase6_validation/README.md` documents safe rejections (`ML_003_INSUFFICIENT_DATA`) on tiny sample sizes ($N \le 6$) and complete PII/leakage prevention.
 
 ### Test Results
 ```bash
 .venv\Scripts\python.exe -m pytest tests/ -v
 ```
-- **174/174 PASSED** in 132.64s:
+- **196/196 PASSED** in 188.53s:
   - 42 Phase 0 tests
   - 32 Phase 1 tests
   - 17 Phase 2 tests
   - 49 Phase 3 tests
   - 16 Phase 4 tests
-  - 18 Phase 5 tests (13 unit tests + 5 real-data validation tests)
+  - 18 Phase 5 tests
+  - 22 Phase 6 tests (17 unit tests + 5 real-data validation tests)
 
 ---
 
@@ -144,8 +142,8 @@
 | `schema_version`, `dataset_id`, `dataset_hash`, `file_name`, `ingestion` | Core Foundation / Ingestion (Phase 1–2) | Complete & Verified |
 | `columns`, `date_columns`, `domain_guess`, `quality` | Intelligence Agent (Phase 3) | Complete & Verified |
 | `cleaning_log`, `artifacts.cleaned_csv`, `artifacts.removed_rows_csv` | Cleaning Agent (Phase 4) | Complete & Verified |
-| `eda`, `artifacts.chart_paths` | EDA Agent (Phase 5) | **Complete & Verified** |
-| `ml` | ML Agent (Phase 6) | UNTOUCHED (Empty) |
+| `eda`, `artifacts.chart_paths` | EDA Agent (Phase 5) | Complete & Verified |
+| `ml`, `artifacts.model_pkl` | ML Agent (Phase 6) | **Complete & Verified** |
 | `insights` | Insight Agent (Phase 7) | UNTOUCHED (Empty) |
 | `reports` | Report Agent (Phase 9) | UNTOUCHED (Empty) |
 | `progress`, `errors`, `agent_metrics`, `decision_log` | Shared Pipeline State / Provenance | Updated per agent |
@@ -153,4 +151,4 @@
 ---
 
 ## Next Phase
-- **Phase 6 — Machine Learning Agent**: Task detection (Classification, Regression, Clustering), baseline model training (RandomForest, LogisticRegression/Ridge, KMeans), automated evaluation metrics (Accuracy, F1, Precision, Recall, ROC-AUC, RMSE, MAE, R², Silhouette), feature importance extraction, and DIO `ml` section population.
+- **Phase 7 — Insight & Narrative Agent**: Synthesize findings from Intelligence, Cleaning, EDA, and ML into structured executive summaries, business insights, key drivers, anomaly highlights, and strategic recommendations using structured LLM prompts with token governance and strict PII redaction.

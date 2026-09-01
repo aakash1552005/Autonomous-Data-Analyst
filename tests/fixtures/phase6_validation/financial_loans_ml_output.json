@@ -1,0 +1,21 @@
+{
+  "dataset_name": "financial_loans",
+  "original_dataset_hash": "9e623c2caaca91f0becce3988af1e9c437dc0273dd6e02d1435f43453ee5d6ad",
+  "status": "insufficient_data",
+  "task_type": "classification",
+  "target_column": "default_status",
+  "reason": "Dataset has 6 rows, which is below the configured threshold of 30",
+  "target_validation": {
+    "total_rows": 6,
+    "min_rows_for_ml": 30,
+    "reason": "Dataset has 6 rows, which is below the configured threshold of 30"
+  },
+  "feature_columns": [],
+  "excluded_columns": [],
+  "baseline": {},
+  "candidate_models": [],
+  "selected_model": null,
+  "metrics": {},
+  "model_artifact": null,
+  "leakage_checks": []
+}

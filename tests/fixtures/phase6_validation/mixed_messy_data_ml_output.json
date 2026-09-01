@@ -1,0 +1,21 @@
+{
+  "dataset_name": "mixed_messy_data",
+  "original_dataset_hash": "da4eaaf65dd1476882f81f233118dcdf1e4bf5f6aa20b372bac01bf64087031e",
+  "status": "insufficient_data",
+  "task_type": "classification",
+  "target_column": " user_category ",
+  "reason": "Dataset has 6 rows, which is below the configured threshold of 30",
+  "target_validation": {
+    "total_rows": 6,
+    "min_rows_for_ml": 30,
+    "reason": "Dataset has 6 rows, which is below the configured threshold of 30"
+  },
+  "feature_columns": [],
+  "excluded_columns": [],
+  "baseline": {},
+  "candidate_models": [],
+  "selected_model": null,
+  "metrics": {},
+  "model_artifact": null,
+  "leakage_checks": []
+}

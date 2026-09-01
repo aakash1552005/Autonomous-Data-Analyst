@@ -1,0 +1,21 @@
+{
+  "dataset_name": "ambiguous_dates_pii",
+  "original_dataset_hash": "8ebaeab30cdcd7bc5f4cfc138d24548575178cf5f6fce113dfb8e22501df39b3",
+  "status": "insufficient_data",
+  "task_type": "regression",
+  "target_column": "amount",
+  "reason": "Dataset has 4 rows, which is below the configured threshold of 30",
+  "target_validation": {
+    "total_rows": 4,
+    "min_rows_for_ml": 30,
+    "reason": "Dataset has 4 rows, which is below the configured threshold of 30"
+  },
+  "feature_columns": [],
+  "excluded_columns": [],
+  "baseline": {},
+  "candidate_models": [],
+  "selected_model": null,
+  "metrics": {},
+  "model_artifact": null,
+  "leakage_checks": []
+}

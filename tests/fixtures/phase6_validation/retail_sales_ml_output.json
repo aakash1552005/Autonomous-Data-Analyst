@@ -1,0 +1,21 @@
+{
+  "dataset_name": "retail_sales",
+  "original_dataset_hash": "7d0eabf379646c7d6135fd71c6c507efb298595ab535e90e9e5b0430fb0ecef9",
+  "status": "insufficient_data",
+  "task_type": "classification",
+  "target_column": "status",
+  "reason": "Dataset has 6 rows, which is below the configured threshold of 30",
+  "target_validation": {
+    "total_rows": 6,
+    "min_rows_for_ml": 30,
+    "reason": "Dataset has 6 rows, which is below the configured threshold of 30"
+  },
+  "feature_columns": [],
+  "excluded_columns": [],
+  "baseline": {},
+  "candidate_models": [],
+  "selected_model": null,
+  "metrics": {},
+  "model_artifact": null,
+  "leakage_checks": []
+}

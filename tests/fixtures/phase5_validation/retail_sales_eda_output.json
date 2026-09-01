@@ -312,17 +312,17 @@
   },
   "charts_generated_count": 6,
   "chart_paths": [
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_1_retail_s0\\20260901_144536_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_1_retail_s0\\20260901_144536_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_1_retail_s0\\20260901_144536_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_1_retail_s0\\20260901_144536_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_1_retail_s0\\20260901_144536_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-13\\test_phase5_dataset_1_retail_s0\\20260901_144536_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_1_retail_s0\\20260901_155901_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_1_retail_s0\\20260901_155901_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_1_retail_s0\\20260901_155901_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_1_retail_s0\\20260901_155901_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_1_retail_s0\\20260901_155901_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-17\\test_phase5_dataset_1_retail_s0\\20260901_155901_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
   ],
   "eda_metrics": [
     {
       "agent": "eda",
-      "runtime_seconds": 12.426,
+      "runtime_seconds": 14.34,
       "warnings": 0,
       "errors": 0
     }

@@ -56,6 +56,9 @@ class EDAConfig:
 
 @dataclass
 class MLConfig:
+    min_rows_for_ml: int = 30
+    min_rows_per_class: int = 5
+    leakage_threshold: float = 0.95
     train_test_split: float = 0.8
     random_state: int = 42
     min_rows_xgboost: int = 500
@@ -64,6 +67,12 @@ class MLConfig:
     metric_leakage_r2_threshold: float = 0.98
 
     def validate(self) -> None:
+        if self.min_rows_for_ml <= 0:
+            raise ValueError(f"min_rows_for_ml must be positive, got {self.min_rows_for_ml}")
+        if self.min_rows_per_class <= 0:
+            raise ValueError(f"min_rows_per_class must be positive, got {self.min_rows_per_class}")
+        if not (0.0 < self.leakage_threshold <= 1.0):
+            raise ValueError(f"leakage_threshold must be between 0.0 and 1.0, got {self.leakage_threshold}")
         if not (0.0 < self.train_test_split < 1.0):
             raise ValueError(f"train_test_split must be between 0.0 and 1.0, got {self.train_test_split}")
         if not (0.5 <= self.class_imbalance_threshold < 1.0):
@@ -134,6 +143,9 @@ def load_config(config_path: str | Path | None = None) -> AppConfig:
 
     raw_ml = raw_data.get("ml", {})
     ml_config = MLConfig(
+        min_rows_for_ml=int(os.getenv("MIN_ROWS_FOR_ML", raw_ml.get("min_rows_for_ml", 30))),
+        min_rows_per_class=int(os.getenv("MIN_ROWS_PER_CLASS", raw_ml.get("min_rows_per_class", 5))),
+        leakage_threshold=float(os.getenv("LEAKAGE_THRESHOLD", raw_ml.get("leakage_threshold", 0.95))),
         train_test_split=float(raw_ml.get("train_test_split", 0.8)),
         random_state=int(raw_ml.get("random_state", 42)),
         min_rows_xgboost=int(raw_ml.get("min_rows_xgboost", 500)),

@@ -1,0 +1,21 @@
+{
+  "dataset_name": "healthcare_patients",
+  "original_dataset_hash": "b6c174993a9db870e1ebd3db9dfc41d1952bda1d85836be8a8e185d2e8107527",
+  "status": "insufficient_data",
+  "task_type": "classification",
+  "target_column": "age",
+  "reason": "Dataset has 6 rows, which is below the configured threshold of 30",
+  "target_validation": {
+    "total_rows": 6,
+    "min_rows_for_ml": 30,
+    "reason": "Dataset has 6 rows, which is below the configured threshold of 30"
+  },
+  "feature_columns": [],
+  "excluded_columns": [],
+  "baseline": {},
+  "candidate_models": [],
+  "selected_model": null,
+  "metrics": {},
+  "model_artifact": null,
+  "leakage_checks": []
+}
