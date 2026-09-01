@@ -1,0 +1,228 @@
+{
+  "dataset_name": "healthcare_patients",
+  "original_dataset_hash": "b6c174993a9db870e1ebd3db9dfc41d1952bda1d85836be8a8e185d2e8107527",
+  "cleaned_dataset_hash": "8f1110894a2d4b5026cbed75dd39668acfd22e744b568ae448ae9719bde42698",
+  "summary_stats_columns": [
+    "patient_id",
+    "age",
+    "blood_pressure",
+    "glucose",
+    "diagnosis",
+    "treatment",
+    "admission_date",
+    "discharge_date"
+  ],
+  "summary_stats": {
+    "patient_id": {
+      "column": "patient_id",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "PAT-001",
+      "top_category_freq": 1,
+      "top_categories": {
+        "PAT-001": 1,
+        "PAT-002": 1,
+        "PAT-003": 1,
+        "PAT-004": 1,
+        "PAT-005": 1
+      }
+    },
+    "age": {
+      "column": "age",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 49.8333,
+      "std": 15.6897,
+      "min": 28.0,
+      "q25": 40.5,
+      "median": 49.5,
+      "q75": 60.0,
+      "max": 71.0,
+      "iqr": 19.5,
+      "skewness": -0.0338,
+      "kurtosis": -0.8843
+    },
+    "blood_pressure": {
+      "column": "blood_pressure",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 129.6667,
+      "std": 16.0831,
+      "min": 110.0,
+      "q25": 118.5,
+      "median": 127.5,
+      "q75": 142.5,
+      "max": 150.0,
+      "iqr": 24.0,
+      "skewness": 0.149,
+      "kurtosis": -2.0246
+    },
+    "glucose": {
+      "column": "glucose",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 123.0,
+      "std": 38.9564,
+      "min": 88.0,
+      "q25": 92.75,
+      "median": 109.0,
+      "q75": 150.75,
+      "max": 180.0,
+      "iqr": 58.0,
+      "skewness": 0.7166,
+      "kurtosis": -1.5484
+    },
+    "diagnosis": {
+      "column": "diagnosis",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 3,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "Hypertension",
+      "top_category_freq": 2,
+      "top_categories": {
+        "Hypertension": 2,
+        "Diabetes": 2,
+        "Normal": 2
+      }
+    },
+    "treatment": {
+      "column": "treatment",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "Insulin",
+      "top_category_freq": 2,
+      "top_categories": {
+        "Insulin": 2,
+        "Unknown": 2,
+        "ACE-Inhibitor": 1,
+        "Beta-Blocker": 1
+      }
+    },
+    "admission_date": {
+      "column": "admission_date",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "2024-01-10",
+      "top_category_freq": 1,
+      "top_categories": {
+        "2024-01-10": 1,
+        "2024-02-12": 1,
+        "2024-03-01": 1,
+        "2024-03-15": 1,
+        "2024-04-05": 1
+      }
+    },
+    "discharge_date": {
+      "column": "discharge_date",
+      "type": "categorical",
+      "count": 5,
+      "unique_count": 5,
+      "null_count": 1,
+      "null_pct": 16.67,
+      "top_category": "2024-01-15",
+      "top_category_freq": 1,
+      "top_categories": {
+        "2024-01-15": 1,
+        "2024-02-18": 1,
+        "2024-03-02": 1,
+        "2024-03-20": 1,
+        "2024-04-21": 1
+      }
+    }
+  },
+  "correlations": {
+    "pearson": {
+      "age": {
+        "age": 1.0,
+        "blood_pressure": 0.9841,
+        "glucose": 0.9463
+      },
+      "blood_pressure": {
+        "age": 0.9841,
+        "blood_pressure": 1.0,
+        "glucose": 0.9726
+      },
+      "glucose": {
+        "age": 0.9463,
+        "blood_pressure": 0.9726,
+        "glucose": 1.0
+      }
+    },
+    "spearman": {
+      "age": {
+        "age": 1.0,
+        "blood_pressure": 1.0,
+        "glucose": 1.0
+      },
+      "blood_pressure": {
+        "age": 1.0,
+        "blood_pressure": 1.0,
+        "glucose": 1.0
+      },
+      "glucose": {
+        "age": 1.0,
+        "blood_pressure": 1.0,
+        "glucose": 1.0
+      }
+    },
+    "top_correlations": [
+      {
+        "col1": "age",
+        "col2": "blood_pressure",
+        "pearson_r": 0.9841,
+        "abs_r": 0.9841
+      },
+      {
+        "col1": "blood_pressure",
+        "col2": "glucose",
+        "pearson_r": 0.9726,
+        "abs_r": 0.9726
+      },
+      {
+        "col1": "age",
+        "col2": "glucose",
+        "pearson_r": 0.9463,
+        "abs_r": 0.9463
+      }
+    ],
+    "numeric_columns_analyzed": [
+      "age",
+      "blood_pressure",
+      "glucose"
+    ]
+  },
+  "charts_generated_count": 6,
+  "chart_paths": [
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_2_healthca0\\20260901_143312_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_2_healthca0\\20260901_143312_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_2_healthca0\\20260901_143312_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_2_healthca0\\20260901_143312_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_2_healthca0\\20260901_143312_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_2_healthca0\\20260901_143312_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
+  ],
+  "eda_metrics": [
+    {
+      "agent": "eda",
+      "runtime_seconds": 12.522,
+      "warnings": 0,
+      "errors": 0
+    }
+  ]
+}

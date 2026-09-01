@@ -93,110 +93,59 @@
 
 ---
 
-## Phase 4 — Test Quality Audit
+## Phase 5 — Exploratory Data Analysis (EDA) Agent
+**Status**: COMPLETE ✅
 
-```text
-PHASE 4 — TEST QUALITY AUDIT
-============================
+### Implementation Summary
+- `agents/eda/summary_stats.py`:
+  - Deterministic numeric summary statistics (count, null_count, null_pct, mean, std, min, 25%, median, 75%, max, IQR, skewness, kurtosis).
+  - Categorical summary statistics (unique_count, top_category, top_category_freq, top_5 frequency distributions).
+- `agents/eda/correlations.py`:
+  - Pearson correlation matrix and Spearman rank correlation matrix across numeric features.
+  - Identification and sorting of top feature correlation pairs.
+- `agents/eda/chart_generator.py`:
+  - **Deterministic Rule-Based Selection (Zero LLM)**: Strict rule table mapping column types/counts to chart types.
+  - **Precedence Order**: 1. Heatmap ($\ge 3$ numerics), 2. Line Trend (date + numeric), 3. Scatter ($\ge 2$ numerics), 4. Histograms, 5. Categorical Bar Charts ($\le 15$ categories), 6. Box Plots.
+  - **Configurable Maximum Limit**: Default 6 charts, controlled dynamically by `config.yaml` (`eda.max_charts`).
+  - **Graceful Degradation**: Skips unavailable chart types without errors on narrow datasets.
+  - **Plotly + Kaleido PNG Export**: Static image rendering into `runs/{run_id}/artifacts/charts/*.png`.
+- `agents/eda/eda_agent.py`:
+  - `EDAAgent(BaseAgent)` consuming cleaned DataFrame and Phase 4 DIO.
+  - Zero LLM calls, zero network dependencies, offline execution.
+  - Populates ONLY `dio["eda"]` and `dio["artifacts"]["chart_paths"]`.
 
-Random Seed:
-42
+### Real Data Validation & Human Review
+- All 5 benchmark datasets validated with outputs saved in `tests/fixtures/phase5_validation/`.
+- Human review confirms exact statistical alignment and high-fidelity PNG chart artifacts.
 
-Sampled Tests:
-1. tests/test_cleaning_agent.py::test_round_trip_reconstruction
-2. tests/test_pii_detector.py::test_pii_name_and_address_detection
-3. tests/test_date_resolver.py::test_date_resolution_locale_hinting
-4. tests/test_domain_classifier.py::test_domain_finance
-5. tests/test_domain_classifier.py::test_domain_healthcare
-
-Test 1:
-File: tests/test_cleaning_agent.py
-Function: test_round_trip_reconstruction
-Actual assertions:
-assert len(reconstructed_df) == len(original_df)
-assert list(reconstructed_df.columns) == list(original_df.columns)
-assert (orig_series.isna().to_numpy() == recon_series.isna().to_numpy()).all()
-assert (orig_series[non_null_mask].astype(str).to_numpy() == recon_series[non_null_mask].astype(str).to_numpy()).all()
-
-Assessment:
-PASS — verifies exact row count, column list, null positions, and all cell values against the original DataFrame.
-
-Test 2:
-File: tests/test_pii_detector.py
-Function: test_pii_name_and_address_detection
-Actual assertions:
-assert is_pii_name is True
-assert ptype_name == "name"
-assert is_pii_addr is True
-assert ptype_addr == "address"
-
-Assessment:
-PASS — verifies boolean PII flag and exact PII category type for both name and address inputs.
-
-Test 3:
-File: tests/test_date_resolver.py
-Function: test_date_resolution_locale_hinting
-Actual assertions:
-assert res_uk is not None
-assert res_uk["detected_format"] == "DD/MM/YYYY"
-assert res_uk["confidence"] == 0.70
-assert res_uk["needs_user_confirmation"] is False
-
-Assessment:
-PASS — verifies exact format string, numerical confidence (0.70), and user confirmation flag.
-
-Test 4:
-File: tests/test_domain_classifier.py
-Function: test_domain_finance
-Actual assertions:
-assert res["domain"] == "finance"
-assert res["confidence"] >= 0.70
-
-Assessment:
-PASS — verifies exact domain category ("finance") and confidence threshold.
-
-Test 5:
-File: tests/test_domain_classifier.py
-Function: test_domain_healthcare
-Actual assertions:
-assert res["domain"] == "healthcare"
-assert res["confidence"] >= 0.70
-
-Assessment:
-PASS — verifies exact domain category ("healthcare") and confidence threshold.
-
-Weak Tests Found:
-0
-
-Tests Strengthened:
-0
-
-Production Code Changes:
-0
-
-Full Regression:
-156/156 PASSED
-
-Audit Status:
-PASS
+### Test Results
+```bash
+.venv\Scripts\python.exe -m pytest tests/ -v
 ```
+- **170/170 PASSED** in 117.45s:
+  - 42 Phase 0 tests
+  - 32 Phase 1 tests
+  - 17 Phase 2 tests
+  - 49 Phase 3 tests
+  - 16 Phase 4 tests
+  - 14 Phase 5 tests (9 unit tests + 5 real-data validation tests)
 
 ---
 
 ## DIO Section Ownership Matrix
 
-| Section | Owning Component / Agent |
-| :--- | :--- |
-| `schema_version`, `dataset_id`, `dataset_hash`, `file_name`, `ingestion` | Core Foundation / Ingestion (Phase 1–2) |
-| `columns`, `date_columns`, `domain_guess`, `quality` | Intelligence Agent (Phase 3) |
-| `cleaning_log`, `artifacts.cleaned_csv`, `artifacts.removed_rows_csv` | Cleaning Agent (Phase 4) |
-| `eda` | EDA Agent (Phase 5) — UNTOUCHED |
-| `ml` | ML Agent (Phase 6) — UNTOUCHED |
-| `insights` | Insight Agent (Phase 7) — UNTOUCHED |
-| `reports` | Report Agent (Phase 9) — UNTOUCHED |
-| `progress`, `errors`, `agent_metrics`, `decision_log` | Shared Pipeline State / Provenance |
+| Section | Owning Component / Agent | Status |
+| :--- | :--- | :--- |
+| `schema_version`, `dataset_id`, `dataset_hash`, `file_name`, `ingestion` | Core Foundation / Ingestion (Phase 1–2) | Complete & Verified |
+| `columns`, `date_columns`, `domain_guess`, `quality` | Intelligence Agent (Phase 3) | Complete & Verified |
+| `cleaning_log`, `artifacts.cleaned_csv`, `artifacts.removed_rows_csv` | Cleaning Agent (Phase 4) | Complete & Verified |
+| `eda`, `artifacts.chart_paths` | EDA Agent (Phase 5) | **Complete & Verified** |
+| `ml` | ML Agent (Phase 6) | UNTOUCHED (Empty) |
+| `insights` | Insight Agent (Phase 7) | UNTOUCHED (Empty) |
+| `reports` | Report Agent (Phase 9) | UNTOUCHED (Empty) |
+| `progress`, `errors`, `agent_metrics`, `decision_log` | Shared Pipeline State / Provenance | Updated per agent |
 
 ---
 
 ## Next Phase
-- **Phase 5 — Exploratory Data Analysis (EDA) Agent**: Summary statistics, correlation matrices, automated Plotly chart generation (distributions, scatter, heatmaps, boxplots), Kaleido static image export, and DIO `eda` section population.
+- **Phase 6 — Machine Learning Agent**: Task detection (Classification, Regression, Clustering), baseline model training (RandomForest, LogisticRegression/Ridge, KMeans), automated evaluation metrics (Accuracy, F1, Precision, Recall, ROC-AUC, RMSE, MAE, R², Silhouette), feature importance extraction, and DIO `ml` section population.

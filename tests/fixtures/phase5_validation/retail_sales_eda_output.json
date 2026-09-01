@@ -1,0 +1,330 @@
+{
+  "dataset_name": "retail_sales",
+  "original_dataset_hash": "7d0eabf379646c7d6135fd71c6c507efb298595ab535e90e9e5b0430fb0ecef9",
+  "cleaned_dataset_hash": "a21f0ff568b471586840d62df309d0044968703dc113c52a6bdbf285548c479b",
+  "summary_stats_columns": [
+    "order_id",
+    "sku",
+    "order_date",
+    "customer_id",
+    "price",
+    "quantity",
+    "discount_pct",
+    "revenue",
+    "status"
+  ],
+  "summary_stats": {
+    "order_id": {
+      "column": "order_id",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 1003.5,
+      "std": 1.8708,
+      "min": 1001.0,
+      "q25": 1002.25,
+      "median": 1003.5,
+      "q75": 1004.75,
+      "max": 1006.0,
+      "iqr": 2.5,
+      "skewness": 0.0,
+      "kurtosis": -1.2
+    },
+    "sku": {
+      "column": "sku",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "SKU-A101",
+      "top_category_freq": 2,
+      "top_categories": {
+        "SKU-A101": 2,
+        "SKU-B202": 2,
+        "SKU-C303": 1,
+        "SKU-D404": 1
+      }
+    },
+    "order_date": {
+      "column": "order_date",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "2024-01-25",
+      "top_category_freq": 1,
+      "top_categories": {
+        "2024-01-25": 1,
+        "2024-02-14": 1,
+        "2024-03-03": 1,
+        "2024-04-18": 1,
+        "2024-05-22": 1
+      }
+    },
+    "customer_id": {
+      "column": "customer_id",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "CUST-901",
+      "top_category_freq": 1,
+      "top_categories": {
+        "CUST-901": 1,
+        "CUST-902": 1,
+        "CUST-903": 1,
+        "CUST-904": 1,
+        "CUST-905": 1
+      }
+    },
+    "price": {
+      "column": "price",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 43.2883,
+      "std": 41.7415,
+      "min": 8.75,
+      "q25": 15.5,
+      "median": 32.745,
+      "q75": 49.99,
+      "max": 120.0,
+      "iqr": 34.49,
+      "skewness": 1.5176,
+      "kurtosis": 2.3389
+    },
+    "quantity": {
+      "column": "quantity",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 2.5,
+      "std": 1.6432,
+      "min": 1.0,
+      "q25": 1.25,
+      "median": 2.0,
+      "q75": 3.5,
+      "max": 5.0,
+      "iqr": 2.25,
+      "skewness": 0.8114,
+      "kurtosis": -1.0288
+    },
+    "discount_pct": {
+      "column": "discount_pct",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 0.05,
+      "std": 0.0632,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 0.025,
+      "q75": 0.0875,
+      "max": 0.15,
+      "iqr": 0.0875,
+      "skewness": 0.8894,
+      "kurtosis": -0.7812
+    },
+    "revenue": {
+      "column": "revenue",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 106.005,
+      "std": 150.0437,
+      "min": 15.5,
+      "q25": 33.64,
+      "median": 45.775,
+      "q75": 79.9825,
+      "max": 408.0,
+      "iqr": 46.3425,
+      "skewness": 2.303,
+      "kurtosis": 5.4114
+    },
+    "status": {
+      "column": "status",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 3,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "delivered",
+      "top_category_freq": 4,
+      "top_categories": {
+        "delivered": 4,
+        "shipped": 1,
+        "returned": 1
+      }
+    }
+  },
+  "correlations": {
+    "pearson": {
+      "order_id": {
+        "order_id": 1.0,
+        "price": -0.3364,
+        "quantity": 0.2928,
+        "discount_pct": -0.4226,
+        "revenue": -0.2047
+      },
+      "price": {
+        "order_id": -0.3364,
+        "price": 1.0,
+        "quantity": 0.2067,
+        "discount_pct": 0.7917,
+        "revenue": 0.9423
+      },
+      "quantity": {
+        "order_id": 0.2928,
+        "price": 0.2067,
+        "quantity": 1.0,
+        "discount_pct": 0.5774,
+        "revenue": 0.452
+      },
+      "discount_pct": {
+        "order_id": -0.4226,
+        "price": 0.7917,
+        "quantity": 0.5774,
+        "discount_pct": 1.0,
+        "revenue": 0.853
+      },
+      "revenue": {
+        "order_id": -0.2047,
+        "price": 0.9423,
+        "quantity": 0.452,
+        "discount_pct": 0.853,
+        "revenue": 1.0
+      }
+    },
+    "spearman": {
+      "order_id": {
+        "order_id": 1.0,
+        "price": -0.4708,
+        "quantity": 0.2942,
+        "discount_pct": -0.3947,
+        "revenue": -0.3143
+      },
+      "price": {
+        "order_id": -0.4708,
+        "price": 1.0,
+        "quantity": -0.1515,
+        "discount_pct": 0.5002,
+        "revenue": 0.7945
+      },
+      "quantity": {
+        "order_id": 0.2942,
+        "price": -0.1515,
+        "quantity": 1.0,
+        "discount_pct": 0.6878,
+        "revenue": 0.3825
+      },
+      "discount_pct": {
+        "order_id": -0.3947,
+        "price": 0.5002,
+        "quantity": 0.6878,
+        "discount_pct": 1.0,
+        "revenue": 0.8197
+      },
+      "revenue": {
+        "order_id": -0.3143,
+        "price": 0.7945,
+        "quantity": 0.3825,
+        "discount_pct": 0.8197,
+        "revenue": 1.0
+      }
+    },
+    "top_correlations": [
+      {
+        "col1": "price",
+        "col2": "revenue",
+        "pearson_r": 0.9423,
+        "abs_r": 0.9423
+      },
+      {
+        "col1": "discount_pct",
+        "col2": "revenue",
+        "pearson_r": 0.853,
+        "abs_r": 0.853
+      },
+      {
+        "col1": "price",
+        "col2": "discount_pct",
+        "pearson_r": 0.7917,
+        "abs_r": 0.7917
+      },
+      {
+        "col1": "quantity",
+        "col2": "discount_pct",
+        "pearson_r": 0.5774,
+        "abs_r": 0.5774
+      },
+      {
+        "col1": "quantity",
+        "col2": "revenue",
+        "pearson_r": 0.452,
+        "abs_r": 0.452
+      },
+      {
+        "col1": "order_id",
+        "col2": "discount_pct",
+        "pearson_r": -0.4226,
+        "abs_r": 0.4226
+      },
+      {
+        "col1": "order_id",
+        "col2": "price",
+        "pearson_r": -0.3364,
+        "abs_r": 0.3364
+      },
+      {
+        "col1": "order_id",
+        "col2": "quantity",
+        "pearson_r": 0.2928,
+        "abs_r": 0.2928
+      },
+      {
+        "col1": "price",
+        "col2": "quantity",
+        "pearson_r": 0.2067,
+        "abs_r": 0.2067
+      },
+      {
+        "col1": "order_id",
+        "col2": "revenue",
+        "pearson_r": -0.2047,
+        "abs_r": 0.2047
+      }
+    ],
+    "numeric_columns_analyzed": [
+      "order_id",
+      "price",
+      "quantity",
+      "discount_pct",
+      "revenue"
+    ]
+  },
+  "charts_generated_count": 6,
+  "chart_paths": [
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_1_retail_s0\\20260901_143301_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_1_retail_s0\\20260901_143301_retail_sales.csv\\artifacts\\charts\\02_trend_order_id_over_time.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_1_retail_s0\\20260901_143301_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_1_retail_s0\\20260901_143301_retail_sales.csv\\artifacts\\charts\\04_distribution_order_id.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_1_retail_s0\\20260901_143301_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_1_retail_s0\\20260901_143301_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png"
+  ],
+  "eda_metrics": [
+    {
+      "agent": "eda",
+      "runtime_seconds": 11.745,
+      "warnings": 0,
+      "errors": 0
+    }
+  ]
+}

@@ -1,0 +1,154 @@
+{
+  "dataset_name": "ambiguous_dates_pii",
+  "original_dataset_hash": "8ebaeab30cdcd7bc5f4cfc138d24548575178cf5f6fce113dfb8e22501df39b3",
+  "cleaned_dataset_hash": "264096b5e46a1d18bb06b5a54fd5f58cda2b339b180daa8dc82e77d22ca7397d",
+  "summary_stats_columns": [
+    "user_id",
+    "full_name",
+    "email",
+    "phone_number",
+    "credit_card",
+    "subscription_date",
+    "amount"
+  ],
+  "summary_stats": {
+    "user_id": {
+      "column": "user_id",
+      "type": "categorical",
+      "count": 4,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "U-101",
+      "top_category_freq": 1,
+      "top_categories": {
+        "U-101": 1,
+        "U-102": 1,
+        "U-103": 1,
+        "U-104": 1
+      }
+    },
+    "full_name": {
+      "column": "full_name",
+      "type": "categorical",
+      "count": 4,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "Johnathan Doe",
+      "top_category_freq": 1,
+      "top_categories": {
+        "Johnathan Doe": 1,
+        "Jane Roe": 1,
+        "Alex Smith": 1,
+        "Maria Garcia": 1
+      }
+    },
+    "email": {
+      "column": "email",
+      "type": "categorical",
+      "count": 4,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "johndoe@email.com",
+      "top_category_freq": 1,
+      "top_categories": {
+        "johndoe@email.com": 1,
+        "jane.roe@corp.org": 1,
+        "alex.smith@web.net": 1,
+        "maria.g@domain.com": 1
+      }
+    },
+    "phone_number": {
+      "column": "phone_number",
+      "type": "categorical",
+      "count": 4,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "(555) 234-5678",
+      "top_category_freq": 1,
+      "top_categories": {
+        "(555) 234-5678": 1,
+        "555-876-5432": 1,
+        "+1-555-345-6789": 1,
+        "555-123-9999": 1
+      }
+    },
+    "credit_card": {
+      "column": "credit_card",
+      "type": "categorical",
+      "count": 4,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "4532-1122-3344-5566",
+      "top_category_freq": 1,
+      "top_categories": {
+        "4532-1122-3344-5566": 1,
+        "5412-9988-7766-5544": 1,
+        "3782-8224-6310-0051": 1,
+        "4024-0071-8899-2233": 1
+      }
+    },
+    "subscription_date": {
+      "column": "subscription_date",
+      "type": "categorical",
+      "count": 4,
+      "unique_count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "05/06/2024",
+      "top_category_freq": 1,
+      "top_categories": {
+        "05/06/2024": 1,
+        "07/08/2024": 1,
+        "01/02/2024": 1,
+        "10/11/2024": 1
+      }
+    },
+    "amount": {
+      "column": "amount",
+      "type": "numeric",
+      "count": 4,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 49.99,
+      "std": 35.5903,
+      "min": 19.99,
+      "q25": 27.49,
+      "median": 39.99,
+      "q75": 62.49,
+      "max": 99.99,
+      "iqr": 35.0,
+      "skewness": 1.3309,
+      "kurtosis": 1.5
+    }
+  },
+  "correlations": {
+    "pearson": {},
+    "spearman": {},
+    "top_correlations": [],
+    "numeric_columns_analyzed": [
+      "amount"
+    ]
+  },
+  "charts_generated_count": 6,
+  "chart_paths": [
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_5_ambiguou0\\20260901_143352_ambiguous_dates_pii.csv\\artifacts\\charts\\02_trend_amount_over_time.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_5_ambiguou0\\20260901_143352_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_5_ambiguou0\\20260901_143352_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_user_id_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_5_ambiguou0\\20260901_143352_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_full_name_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_5_ambiguou0\\20260901_143352_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_email_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_5_ambiguou0\\20260901_143352_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_phone_number_counts.png"
+  ],
+  "eda_metrics": [
+    {
+      "agent": "eda",
+      "runtime_seconds": 14.344,
+      "warnings": 0,
+      "errors": 0
+    }
+  ]
+}

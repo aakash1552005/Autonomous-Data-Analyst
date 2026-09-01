@@ -1,0 +1,279 @@
+{
+  "dataset_name": "financial_loans",
+  "original_dataset_hash": "9e623c2caaca91f0becce3988af1e9c437dc0273dd6e02d1435f43453ee5d6ad",
+  "cleaned_dataset_hash": "0366e607547b94b28b99332a30550191689d977fc80579a70eaeb6fb228b38c8",
+  "summary_stats_columns": [
+    "transaction_id",
+    "account_balance",
+    "loan_amount",
+    "interest_rate",
+    "credit_score",
+    "default_status"
+  ],
+  "summary_stats": {
+    "transaction_id": {
+      "column": "transaction_id",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "TXN-1001",
+      "top_category_freq": 1,
+      "top_categories": {
+        "TXN-1001": 1,
+        "TXN-1002": 1,
+        "TXN-1003": 1,
+        "TXN-1004": 1,
+        "TXN-1005": 1
+      }
+    },
+    "account_balance": {
+      "column": "account_balance",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 5141.9333,
+      "std": 5231.7048,
+      "min": 850.25,
+      "q25": 1675.025,
+      "median": 3800.3,
+      "q75": 5775.125,
+      "max": 15000.75,
+      "iqr": 4100.1,
+      "skewness": 1.6977,
+      "kurtosis": 3.1374
+    },
+    "loan_amount": {
+      "column": "loan_amount",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 15000.0,
+      "std": 9033.2718,
+      "min": 5000.0,
+      "q25": 9000.0,
+      "median": 13500.0,
+      "q75": 18750.0,
+      "max": 30000.0,
+      "iqr": 9750.0,
+      "skewness": 0.8669,
+      "kurtosis": 0.45
+    },
+    "interest_rate": {
+      "column": "interest_rate",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 0.074,
+      "std": 0.0253,
+      "min": 0.045,
+      "q25": 0.0575,
+      "median": 0.07,
+      "q75": 0.0855,
+      "max": 0.115,
+      "iqr": 0.028,
+      "skewness": 0.7506,
+      "kurtosis": 0.1483
+    },
+    "credit_score": {
+      "column": "credit_score",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 685.8333,
+      "std": 72.1399,
+      "min": 580.0,
+      "q25": 648.75,
+      "median": 692.5,
+      "q75": 717.5,
+      "max": 790.0,
+      "iqr": 68.75,
+      "skewness": -0.0789,
+      "kurtosis": 0.1941
+    },
+    "default_status": {
+      "column": "default_status",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 0.3333,
+      "std": 0.5164,
+      "min": 0.0,
+      "q25": 0.0,
+      "median": 0.0,
+      "q75": 0.75,
+      "max": 1.0,
+      "iqr": 0.75,
+      "skewness": 0.9682,
+      "kurtosis": -1.875
+    }
+  },
+  "correlations": {
+    "pearson": {
+      "account_balance": {
+        "account_balance": 1.0,
+        "loan_amount": 0.9725,
+        "interest_rate": -0.8133,
+        "credit_score": 0.8943,
+        "default_status": -0.6095
+      },
+      "loan_amount": {
+        "account_balance": 0.9725,
+        "loan_amount": 1.0,
+        "interest_rate": -0.9186,
+        "credit_score": 0.9499,
+        "default_status": -0.7289
+      },
+      "interest_rate": {
+        "account_balance": -0.8133,
+        "loan_amount": -0.9186,
+        "interest_rate": 1.0,
+        "credit_score": -0.9686,
+        "default_status": 0.8587
+      },
+      "credit_score": {
+        "account_balance": 0.8943,
+        "loan_amount": 0.9499,
+        "interest_rate": -0.9686,
+        "credit_score": 1.0,
+        "default_status": -0.8143
+      },
+      "default_status": {
+        "account_balance": -0.6095,
+        "loan_amount": -0.7289,
+        "interest_rate": 0.8587,
+        "credit_score": -0.8143,
+        "default_status": 1.0
+      }
+    },
+    "spearman": {
+      "account_balance": {
+        "account_balance": 1.0,
+        "loan_amount": 1.0,
+        "interest_rate": -1.0,
+        "credit_score": 0.9429,
+        "default_status": -0.8281
+      },
+      "loan_amount": {
+        "account_balance": 1.0,
+        "loan_amount": 1.0,
+        "interest_rate": -1.0,
+        "credit_score": 0.9429,
+        "default_status": -0.8281
+      },
+      "interest_rate": {
+        "account_balance": -1.0,
+        "loan_amount": -1.0,
+        "interest_rate": 1.0,
+        "credit_score": -0.9429,
+        "default_status": 0.8281
+      },
+      "credit_score": {
+        "account_balance": 0.9429,
+        "loan_amount": 0.9429,
+        "interest_rate": -0.9429,
+        "credit_score": 1.0,
+        "default_status": -0.8281
+      },
+      "default_status": {
+        "account_balance": -0.8281,
+        "loan_amount": -0.8281,
+        "interest_rate": 0.8281,
+        "credit_score": -0.8281,
+        "default_status": 1.0
+      }
+    },
+    "top_correlations": [
+      {
+        "col1": "account_balance",
+        "col2": "loan_amount",
+        "pearson_r": 0.9725,
+        "abs_r": 0.9725
+      },
+      {
+        "col1": "interest_rate",
+        "col2": "credit_score",
+        "pearson_r": -0.9686,
+        "abs_r": 0.9686
+      },
+      {
+        "col1": "loan_amount",
+        "col2": "credit_score",
+        "pearson_r": 0.9499,
+        "abs_r": 0.9499
+      },
+      {
+        "col1": "loan_amount",
+        "col2": "interest_rate",
+        "pearson_r": -0.9186,
+        "abs_r": 0.9186
+      },
+      {
+        "col1": "account_balance",
+        "col2": "credit_score",
+        "pearson_r": 0.8943,
+        "abs_r": 0.8943
+      },
+      {
+        "col1": "interest_rate",
+        "col2": "default_status",
+        "pearson_r": 0.8587,
+        "abs_r": 0.8587
+      },
+      {
+        "col1": "credit_score",
+        "col2": "default_status",
+        "pearson_r": -0.8143,
+        "abs_r": 0.8143
+      },
+      {
+        "col1": "account_balance",
+        "col2": "interest_rate",
+        "pearson_r": -0.8133,
+        "abs_r": 0.8133
+      },
+      {
+        "col1": "loan_amount",
+        "col2": "default_status",
+        "pearson_r": -0.7289,
+        "abs_r": 0.7289
+      },
+      {
+        "col1": "account_balance",
+        "col2": "default_status",
+        "pearson_r": -0.6095,
+        "abs_r": 0.6095
+      }
+    ],
+    "numeric_columns_analyzed": [
+      "account_balance",
+      "loan_amount",
+      "interest_rate",
+      "credit_score",
+      "default_status"
+    ]
+  },
+  "charts_generated_count": 6,
+  "chart_paths": [
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_3_financia0\\20260901_143325_financial_loans.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_3_financia0\\20260901_143325_financial_loans.csv\\artifacts\\charts\\03_scatter_account_balance_vs_loan_amount.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_3_financia0\\20260901_143325_financial_loans.csv\\artifacts\\charts\\04_distribution_account_balance.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_3_financia0\\20260901_143325_financial_loans.csv\\artifacts\\charts\\04_distribution_loan_amount.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_3_financia0\\20260901_143325_financial_loans.csv\\artifacts\\charts\\04_distribution_interest_rate.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_3_financia0\\20260901_143325_financial_loans.csv\\artifacts\\charts\\04_distribution_credit_score.png"
+  ],
+  "eda_metrics": [
+    {
+      "agent": "eda",
+      "runtime_seconds": 11.475,
+      "warnings": 0,
+      "errors": 0
+    }
+  ]
+}

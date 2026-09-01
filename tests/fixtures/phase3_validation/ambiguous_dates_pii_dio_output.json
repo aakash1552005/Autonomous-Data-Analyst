@@ -126,7 +126,7 @@
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.014,
+      "runtime_seconds": 0.017,
       "warnings": 3,
       "errors": 0
     }
@@ -141,7 +141,7 @@
       "evidence": [
         "all day and month components <= 12; no disambiguating signal"
       ],
-      "timestamp": "2026-09-01T06:43:35.882019+00:00"
+      "timestamp": "2026-09-01T14:34:07.512259+00:00"
     },
     {
       "agent": "intelligence",
@@ -150,14 +150,14 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T06:43:35.882582+00:00"
+      "timestamp": "2026-09-01T14:34:07.513070+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "full_name",
       "pii_type": "name",
-      "timestamp": "2026-09-01T06:43:35.882920+00:00"
+      "timestamp": "2026-09-01T14:34:07.513749+00:00"
     },
     {
       "agent": "intelligence",
@@ -166,14 +166,14 @@
       "label": "person_name",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T06:43:35.883044+00:00"
+      "timestamp": "2026-09-01T14:34:07.513889+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "email",
       "pii_type": "email",
-      "timestamp": "2026-09-01T06:43:35.883355+00:00"
+      "timestamp": "2026-09-01T14:34:07.514213+00:00"
     },
     {
       "agent": "intelligence",
@@ -182,14 +182,14 @@
       "label": "email",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T06:43:35.883470+00:00"
+      "timestamp": "2026-09-01T14:34:07.514329+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "phone_number",
       "pii_type": "phone",
-      "timestamp": "2026-09-01T06:43:35.883774+00:00"
+      "timestamp": "2026-09-01T14:34:07.514615+00:00"
     },
     {
       "agent": "intelligence",
@@ -198,14 +198,14 @@
       "label": "phone",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T06:43:35.883891+00:00"
+      "timestamp": "2026-09-01T14:34:07.514715+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "credit_card",
       "pii_type": "credit_card",
-      "timestamp": "2026-09-01T06:43:35.884213+00:00"
+      "timestamp": "2026-09-01T14:34:07.514974+00:00"
     },
     {
       "agent": "intelligence",
@@ -214,7 +214,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "pii_blocked",
-      "timestamp": "2026-09-01T06:43:35.884591+00:00"
+      "timestamp": "2026-09-01T14:34:07.515310+00:00"
     },
     {
       "agent": "intelligence",
@@ -223,7 +223,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-01T06:43:35.885334+00:00"
+      "timestamp": "2026-09-01T14:34:07.516229+00:00"
     },
     {
       "agent": "intelligence",
@@ -232,14 +232,14 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-01T06:43:35.885813+00:00"
+      "timestamp": "2026-09-01T14:34:07.516818+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "generic",
       "confidence": 0.5,
-      "timestamp": "2026-09-01T06:43:35.885888+00:00"
+      "timestamp": "2026-09-01T14:34:07.516892+00:00"
     }
   ]
 }

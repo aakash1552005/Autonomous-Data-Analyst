@@ -1,0 +1,119 @@
+{
+  "dataset_name": "mixed_messy_data",
+  "original_dataset_hash": "da4eaaf65dd1476882f81f233118dcdf1e4bf5f6aa20b372bac01bf64087031e",
+  "cleaned_dataset_hash": "f698b09d621fa52194ea77e3280436fcbfa7d372c7b86dd534117ca26d9e8528",
+  "summary_stats_columns": [
+    "record_id",
+    " user_category ",
+    "metric_score",
+    "flag_active",
+    "notes"
+  ],
+  "summary_stats": {
+    "record_id": {
+      "column": "record_id",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "REC-01",
+      "top_category_freq": 1,
+      "top_categories": {
+        "REC-01": 1,
+        "REC-02": 1,
+        "REC-03": 1,
+        "REC-04": 1,
+        "REC-05": 1
+      }
+    },
+    " user_category ": {
+      "column": " user_category ",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 3,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "Enterprise",
+      "top_category_freq": 3,
+      "top_categories": {
+        "Enterprise": 3,
+        "Standard": 2,
+        "Trial": 1
+      }
+    },
+    "metric_score": {
+      "column": "metric_score",
+      "type": "numeric",
+      "count": 6,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "mean": 72.14,
+      "std": 17.4757,
+      "min": 45.0,
+      "q25": 63.785,
+      "median": 73.17,
+      "q75": 84.925,
+      "max": 92.0,
+      "iqr": 21.14,
+      "skewness": -0.5145,
+      "kurtosis": -0.3571
+    },
+    "flag_active": {
+      "column": "flag_active",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 2,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "True",
+      "top_category_freq": 3,
+      "top_categories": {
+        "True": 3,
+        "False": 3
+      }
+    },
+    "notes": {
+      "column": "notes",
+      "type": "categorical",
+      "count": 6,
+      "unique_count": 5,
+      "null_count": 0,
+      "null_pct": 0.0,
+      "top_category": "Active account",
+      "top_category_freq": 2,
+      "top_categories": {
+        "Active account": 2,
+        "First record": 1,
+        "Missing score": 1,
+        "Renewed": 1,
+        "No category": 1
+      }
+    }
+  },
+  "correlations": {
+    "pearson": {},
+    "spearman": {},
+    "top_correlations": [],
+    "numeric_columns_analyzed": [
+      "metric_score"
+    ]
+  },
+  "charts_generated_count": 6,
+  "chart_paths": [
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_4_mixed_me0\\20260901_143337_mixed_messy_data.csv\\artifacts\\charts\\04_distribution_metric_score.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_4_mixed_me0\\20260901_143337_mixed_messy_data.csv\\artifacts\\charts\\05_bar_record_id_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_4_mixed_me0\\20260901_143337_mixed_messy_data.csv\\artifacts\\charts\\05_bar_user_category_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_4_mixed_me0\\20260901_143337_mixed_messy_data.csv\\artifacts\\charts\\05_bar_flag_active_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_4_mixed_me0\\20260901_143337_mixed_messy_data.csv\\artifacts\\charts\\05_bar_notes_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-12\\test_phase5_dataset_4_mixed_me0\\20260901_143337_mixed_messy_data.csv\\artifacts\\charts\\06_boxplot_metric_score.png"
+  ],
+  "eda_metrics": [
+    {
+      "agent": "eda",
+      "runtime_seconds": 15.765,
+      "warnings": 0,
+      "errors": 0
+    }
+  ]
+}
