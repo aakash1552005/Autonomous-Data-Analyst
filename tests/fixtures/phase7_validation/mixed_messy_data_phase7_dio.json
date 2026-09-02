@@ -1,0 +1,504 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "77e75402-8221-46ce-8129-89087dbd7b14",
+  "dataset_hash": "da4eaaf65dd1476882f81f233118dcdf1e4bf5f6aa20b372bac01bf64087031e",
+  "file_name": "mixed_messy_data.csv",
+  "ingestion": {
+    "n_rows": 7,
+    "n_columns": 5,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\04_distribution_metric_score.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\05_bar_user_category_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\05_bar_flag_active_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\05_bar_notes_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\06_boxplot_metric_score.png"
+    ]
+  },
+  "columns": [
+    {
+      "name": "record_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": " user_category ",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1429,
+      "unique_count": 3,
+      "is_target_candidate": true
+    },
+    {
+      "name": "metric_score",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "score",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1429,
+      "unique_count": 5,
+      "is_target_candidate": true
+    },
+    {
+      "name": "flag_active",
+      "dtype_raw": "bool",
+      "dtype_inferred": "bool",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 2,
+      "is_target_candidate": false
+    },
+    {
+      "name": "notes",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1429,
+      "unique_count": 5,
+      "is_target_candidate": true
+    }
+  ],
+  "date_columns": [],
+  "domain_guess": {
+    "domain": "generic",
+    "confidence": 0.5
+  },
+  "quality": {
+    "score": 86,
+    "issues": [
+      "14.3% null values in column ' user_category '",
+      "14.3% null values in column 'metric_score'",
+      "14.3% null values in column 'notes'",
+      "Duplicate rows detected (14.3% of dataset)",
+      "Low-confidence semantic label in column ' user_category ' (confidence: 0.4)",
+      "Low-confidence semantic label in column 'flag_active' (confidence: 0.4)",
+      "Low-confidence semantic label in column 'notes' (confidence: 0.4)"
+    ]
+  },
+  "cleaning_log": [
+    {
+      "column": "ALL_COLUMNS",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "drop_duplicates",
+      "reason": "Exact duplicate rows detected (1 rows removed, preserved in sidecar)",
+      "replacement_value": null,
+      "reversible": true,
+      "details": {
+        "duplicate_count": 1,
+        "duplicate_pct": 14.29,
+        "removed_indices": [
+          5
+        ]
+      }
+    },
+    {
+      "column": " user_category ",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "metric_score",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "flag_active",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'bool' to inferred type 'bool'",
+      "replacement_value": "bool",
+      "reversible": true
+    },
+    {
+      "column": "notes",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": " user_category ",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode 'Enterprise' used",
+      "replacement_value": "Enterprise",
+      "generated_synthetic": true,
+      "reversible": true,
+      "original_null_indices": [
+        6
+      ]
+    },
+    {
+      "column": "metric_score",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mean",
+      "reason": "distribution skew = -0.51 (|skew| <= 1), mean chosen",
+      "replacement_value": 72.14,
+      "generated_synthetic": true,
+      "reversible": true,
+      "original_null_indices": [
+        1
+      ]
+    },
+    {
+      "column": "notes",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mode",
+      "reason": "missing percentage = 16.7% (<= 30%), mode 'Active account' used",
+      "replacement_value": "Active account",
+      "generated_synthetic": true,
+      "reversible": true,
+      "original_null_indices": [
+        3
+      ]
+    }
+  ],
+  "eda": {
+    "summary_stats": {
+      "record_id": {
+        "column": "record_id",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "REC-01",
+        "top_category_freq": 1,
+        "top_categories": {
+          "REC-01": 1,
+          "REC-02": 1,
+          "REC-03": 1,
+          "REC-04": 1,
+          "REC-05": 1
+        }
+      },
+      " user_category ": {
+        "column": " user_category ",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 3,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "Enterprise",
+        "top_category_freq": 3,
+        "top_categories": {
+          "Enterprise": 3,
+          "Standard": 2,
+          "Trial": 1
+        }
+      },
+      "metric_score": {
+        "column": "metric_score",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 72.14,
+        "std": 17.4757,
+        "min": 45.0,
+        "q25": 63.785,
+        "median": 73.17,
+        "q75": 84.925,
+        "max": 92.0,
+        "iqr": 21.14,
+        "skewness": -0.5145,
+        "kurtosis": -0.3571
+      },
+      "flag_active": {
+        "column": "flag_active",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 2,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "True",
+        "top_category_freq": 3,
+        "top_categories": {
+          "True": 3,
+          "False": 3
+        }
+      },
+      "notes": {
+        "column": "notes",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 5,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "Active account",
+        "top_category_freq": 2,
+        "top_categories": {
+          "Active account": 2,
+          "First record": 1,
+          "Missing score": 1,
+          "Renewed": 1,
+          "No category": 1
+        }
+      }
+    },
+    "correlations": {
+      "pearson": {},
+      "spearman": {},
+      "top_correlations": [],
+      "numeric_columns_analyzed": [
+        "metric_score"
+      ]
+    },
+    "charts": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\04_distribution_metric_score.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\05_bar_user_category_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\05_bar_flag_active_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\05_bar_notes_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline3\\20260902_122001_mixed_messy_data.csv\\artifacts\\charts\\06_boxplot_metric_score.png"
+    ],
+    "target_candidates": [
+      "record_id",
+      " user_category ",
+      "metric_score",
+      "notes"
+    ]
+  },
+  "ml": {
+    "status": "insufficient_data",
+    "error_code": "ML_003_INSUFFICIENT_DATA",
+    "task_type": "classification",
+    "target_column": " user_category ",
+    "target_validation": {
+      "total_rows": 6,
+      "min_rows_for_ml": 30,
+      "reason": "Dataset has 6 rows, which is below the configured threshold of 30"
+    },
+    "reason": "Dataset has 6 rows, which is below the configured threshold of 30",
+    "feature_columns": [],
+    "excluded_columns": [],
+    "split": {},
+    "preprocessing": {},
+    "baseline": {},
+    "candidate_models": [],
+    "selected_model": null,
+    "metrics": {},
+    "reproducibility": {},
+    "leakage_checks": []
+  },
+  "insights": [
+    {
+      "category": "quality",
+      "text": "Analyzed dataset of 7 rows and 5 columns with an overall data quality score of 86 out of 100.",
+      "confidence": 1.0,
+      "evidence": "dio.quality.score",
+      "recommendation": "Maintain standardized data ingestion pipelines to preserve data quality and prevent schema drift.",
+      "grounded_numbers": [
+        7.0,
+        5.0,
+        86.0,
+        100.0
+      ],
+      "id": "ins_001"
+    }
+  ],
+  "reports": {
+    "pdf_path": null,
+    "pptx_path": null
+  },
+  "progress": {
+    "intelligence": "FINISHED",
+    "cleaning": "FINISHED",
+    "eda": "FINISHED",
+    "ml": "FINISHED",
+    "insight": "FINISHED"
+  },
+  "errors": [
+    {
+      "agent": "ml",
+      "code": "ML_003_INSUFFICIENT_DATA",
+      "message": "Dataset has 6 rows, which is below the configured threshold of 30",
+      "timestamp": "2026-09-02T12:20:12.374570+00:00"
+    },
+    {
+      "agent": "insight",
+      "code": "INS_001",
+      "message": "LLM insight generation failed: Ollama request timed out after 60s.",
+      "timestamp": "2026-09-02T12:21:16.513540+00:00"
+    }
+  ],
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.103,
+      "warnings": 3,
+      "errors": 0
+    },
+    {
+      "agent": "cleaning",
+      "runtime_seconds": 0.139,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "eda",
+      "runtime_seconds": 10.676,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "ml",
+      "runtime_seconds": 0.002,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "insight",
+      "runtime_seconds": 64.1368,
+      "warnings": 1,
+      "errors": 1,
+      "insights_count": 1
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "record_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:20:01.515903+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": " user_category ",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:20:01.524026+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "metric_score",
+      "label": "score",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:20:01.529220+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "flag_active",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:20:01.536369+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "notes",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:20:01.544066+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "generic",
+      "confidence": 0.5,
+      "timestamp": "2026-09-02T12:20:01.544187+00:00"
+    },
+    {
+      "agent": "cleaning",
+      "action": "dataset_cleaned",
+      "rows_before": 7,
+      "rows_after": 6,
+      "cols_before": 5,
+      "cols_after": 5,
+      "duplicates_removed": 1,
+      "cleaned_dataset_hash": "f698b09d621fa52194ea77e3280436fcbfa7d372c7b86dd534117ca26d9e8528",
+      "timestamp": "2026-09-02T12:20:01.682821+00:00"
+    },
+    {
+      "agent": "eda",
+      "action": "eda_completed",
+      "charts_generated": 5,
+      "max_charts_configured": 6,
+      "numeric_columns_analyzed": 1,
+      "target_candidates_identified": [
+        "record_id",
+        " user_category ",
+        "metric_score",
+        "notes"
+      ],
+      "timestamp": "2026-09-02T12:20:12.366918+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "backfill_floor_reached",
+      "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
+      "timestamp": "2026-09-02T12:21:16.513744+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "insights_generated",
+      "count": 1,
+      "llm_used": false,
+      "min_insights_satisfied": false,
+      "timestamp": "2026-09-02T12:21:16.513911+00:00"
+    }
+  ],
+  "llm_usage": {
+    "total_tokens": 0,
+    "total_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "calls": []
+  }
+}

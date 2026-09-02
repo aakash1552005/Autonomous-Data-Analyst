@@ -1,0 +1,718 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "bc4c79ec-dded-49ad-8f71-d85c8d7c9fa2",
+  "dataset_hash": "b6c174993a9db870e1ebd3db9dfc41d1952bda1d85836be8a8e185d2e8107527",
+  "file_name": "healthcare_patients.csv",
+  "ingestion": {
+    "n_rows": 6,
+    "n_columns": 8,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
+    ]
+  },
+  "columns": [
+    {
+      "name": "patient_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "age",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "age",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "blood_pressure",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "health_metric",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "glucose",
+      "dtype_raw": "float64",
+      "dtype_inferred": "int",
+      "semantic_label": "health_metric",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1667,
+      "unique_count": 5,
+      "is_target_candidate": true
+    },
+    {
+      "name": "diagnosis",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "health_metric",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 3,
+      "is_target_candidate": true
+    },
+    {
+      "name": "treatment",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "health_metric",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.3333,
+      "unique_count": 3,
+      "is_target_candidate": false
+    },
+    {
+      "name": "admission_date",
+      "dtype_raw": "str",
+      "dtype_inferred": "date",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": false
+    },
+    {
+      "name": "discharge_date",
+      "dtype_raw": "str",
+      "dtype_inferred": "date",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.1667,
+      "unique_count": 5,
+      "is_target_candidate": false
+    }
+  ],
+  "date_columns": [
+    {
+      "column": "admission_date",
+      "detected_format": "YYYY-MM-DD",
+      "confidence": 1.0,
+      "evidence": [
+        "four-digit year in first position"
+      ],
+      "needs_user_confirmation": false
+    },
+    {
+      "column": "discharge_date",
+      "detected_format": "YYYY-MM-DD",
+      "confidence": 1.0,
+      "evidence": [
+        "four-digit year in first position"
+      ],
+      "needs_user_confirmation": false
+    }
+  ],
+  "domain_guess": {
+    "domain": "healthcare",
+    "confidence": 0.95
+  },
+  "quality": {
+    "score": 94,
+    "issues": [
+      "16.7% null values in column 'glucose'",
+      "33.3% null values in column 'treatment'",
+      "16.7% null values in column 'discharge_date'",
+      "Low-confidence semantic label in column 'admission_date' (confidence: 0.4)",
+      "Low-confidence semantic label in column 'discharge_date' (confidence: 0.4)"
+    ]
+  },
+  "cleaning_log": [
+    {
+      "column": "age",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "blood_pressure",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "glucose",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "diagnosis",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "treatment",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "admission_date",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "normalize_date",
+      "reason": "Normalized date format from 'YYYY-MM-DD' to ISO 'YYYY-MM-DD'",
+      "replacement_value": "YYYY-MM-DD",
+      "reversible": true
+    },
+    {
+      "column": "discharge_date",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "normalize_date",
+      "reason": "Normalized date format from 'YYYY-MM-DD' to ISO 'YYYY-MM-DD'",
+      "replacement_value": "YYYY-MM-DD",
+      "reversible": true
+    },
+    {
+      "column": "glucose",
+      "missing_count": 1,
+      "missing_pct": 16.67,
+      "method": "mean",
+      "reason": "distribution skew = 0.71 (|skew| <= 1), mean chosen",
+      "replacement_value": 123,
+      "generated_synthetic": true,
+      "reversible": true,
+      "original_null_indices": [
+        3
+      ]
+    },
+    {
+      "column": "treatment",
+      "missing_count": 2,
+      "missing_pct": 33.33,
+      "method": "constant_unknown",
+      "reason": "missing percentage = 33.3% (> 30% or no valid mode), 'Unknown' assigned",
+      "replacement_value": "Unknown",
+      "generated_synthetic": true,
+      "reversible": true,
+      "original_null_indices": [
+        2,
+        5
+      ]
+    }
+  ],
+  "eda": {
+    "summary_stats": {
+      "patient_id": {
+        "column": "patient_id",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "PAT-001",
+        "top_category_freq": 1,
+        "top_categories": {
+          "PAT-001": 1,
+          "PAT-002": 1,
+          "PAT-003": 1,
+          "PAT-004": 1,
+          "PAT-005": 1
+        }
+      },
+      "age": {
+        "column": "age",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 49.8333,
+        "std": 15.6897,
+        "min": 28.0,
+        "q25": 40.5,
+        "median": 49.5,
+        "q75": 60.0,
+        "max": 71.0,
+        "iqr": 19.5,
+        "skewness": -0.0338,
+        "kurtosis": -0.8843
+      },
+      "blood_pressure": {
+        "column": "blood_pressure",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 129.6667,
+        "std": 16.0831,
+        "min": 110.0,
+        "q25": 118.5,
+        "median": 127.5,
+        "q75": 142.5,
+        "max": 150.0,
+        "iqr": 24.0,
+        "skewness": 0.149,
+        "kurtosis": -2.0246
+      },
+      "glucose": {
+        "column": "glucose",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 123.0,
+        "std": 38.9564,
+        "min": 88.0,
+        "q25": 92.75,
+        "median": 109.0,
+        "q75": 150.75,
+        "max": 180.0,
+        "iqr": 58.0,
+        "skewness": 0.7166,
+        "kurtosis": -1.5484
+      },
+      "diagnosis": {
+        "column": "diagnosis",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 3,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "Hypertension",
+        "top_category_freq": 2,
+        "top_categories": {
+          "Hypertension": 2,
+          "Diabetes": 2,
+          "Normal": 2
+        }
+      },
+      "treatment": {
+        "column": "treatment",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "Insulin",
+        "top_category_freq": 2,
+        "top_categories": {
+          "Insulin": 2,
+          "Unknown": 2,
+          "ACE-Inhibitor": 1,
+          "Beta-Blocker": 1
+        }
+      },
+      "admission_date": {
+        "column": "admission_date",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "2024-01-10",
+        "top_category_freq": 1,
+        "top_categories": {
+          "2024-01-10": 1,
+          "2024-02-12": 1,
+          "2024-03-01": 1,
+          "2024-03-15": 1,
+          "2024-04-05": 1
+        }
+      },
+      "discharge_date": {
+        "column": "discharge_date",
+        "type": "categorical",
+        "count": 5,
+        "unique_count": 5,
+        "null_count": 1,
+        "null_pct": 16.67,
+        "top_category": "2024-01-15",
+        "top_category_freq": 1,
+        "top_categories": {
+          "2024-01-15": 1,
+          "2024-02-18": 1,
+          "2024-03-02": 1,
+          "2024-03-20": 1,
+          "2024-04-21": 1
+        }
+      }
+    },
+    "correlations": {
+      "pearson": {
+        "age": {
+          "age": 1.0,
+          "blood_pressure": 0.9841,
+          "glucose": 0.9463
+        },
+        "blood_pressure": {
+          "age": 0.9841,
+          "blood_pressure": 1.0,
+          "glucose": 0.9726
+        },
+        "glucose": {
+          "age": 0.9463,
+          "blood_pressure": 0.9726,
+          "glucose": 1.0
+        }
+      },
+      "spearman": {
+        "age": {
+          "age": 1.0,
+          "blood_pressure": 1.0,
+          "glucose": 1.0
+        },
+        "blood_pressure": {
+          "age": 1.0,
+          "blood_pressure": 1.0,
+          "glucose": 1.0
+        },
+        "glucose": {
+          "age": 1.0,
+          "blood_pressure": 1.0,
+          "glucose": 1.0
+        }
+      },
+      "top_correlations": [
+        {
+          "col1": "age",
+          "col2": "blood_pressure",
+          "pearson_r": 0.9841,
+          "abs_r": 0.9841
+        },
+        {
+          "col1": "blood_pressure",
+          "col2": "glucose",
+          "pearson_r": 0.9726,
+          "abs_r": 0.9726
+        },
+        {
+          "col1": "age",
+          "col2": "glucose",
+          "pearson_r": 0.9463,
+          "abs_r": 0.9463
+        }
+      ],
+      "numeric_columns_analyzed": [
+        "age",
+        "blood_pressure",
+        "glucose"
+      ]
+    },
+    "charts": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline1\\20260902_121726_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
+    ],
+    "target_candidates": [
+      "patient_id",
+      "age",
+      "blood_pressure",
+      "glucose",
+      "diagnosis"
+    ]
+  },
+  "ml": {
+    "status": "insufficient_data",
+    "error_code": "ML_003_INSUFFICIENT_DATA",
+    "task_type": "classification",
+    "target_column": "age",
+    "target_validation": {
+      "total_rows": 6,
+      "min_rows_for_ml": 30,
+      "reason": "Dataset has 6 rows, which is below the configured threshold of 30"
+    },
+    "reason": "Dataset has 6 rows, which is below the configured threshold of 30",
+    "feature_columns": [],
+    "excluded_columns": [],
+    "split": {},
+    "preprocessing": {},
+    "baseline": {},
+    "candidate_models": [],
+    "selected_model": null,
+    "metrics": {},
+    "reproducibility": {},
+    "leakage_checks": []
+  },
+  "insights": [
+    {
+      "category": "quality",
+      "text": "Analyzed dataset of 6 rows and 8 columns with an overall data quality score of 94 out of 100.",
+      "confidence": 1.0,
+      "evidence": "dio.quality.score",
+      "recommendation": "Maintain standardized data ingestion pipelines to preserve data quality and prevent schema drift.",
+      "grounded_numbers": [
+        6.0,
+        8.0,
+        94.0,
+        100.0
+      ],
+      "id": "ins_001"
+    }
+  ],
+  "reports": {
+    "pdf_path": null,
+    "pptx_path": null
+  },
+  "progress": {
+    "intelligence": "FINISHED",
+    "cleaning": "FINISHED",
+    "eda": "FINISHED",
+    "ml": "FINISHED",
+    "insight": "FINISHED"
+  },
+  "errors": [
+    {
+      "agent": "ml",
+      "code": "ML_003_INSUFFICIENT_DATA",
+      "message": "Dataset has 6 rows, which is below the configured threshold of 30",
+      "timestamp": "2026-09-02T12:17:40.530135+00:00"
+    },
+    {
+      "agent": "insight",
+      "code": "INS_001",
+      "message": "LLM insight generation failed: Ollama request timed out after 60s.",
+      "timestamp": "2026-09-02T12:18:44.607742+00:00"
+    }
+  ],
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.129,
+      "warnings": 2,
+      "errors": 0
+    },
+    {
+      "agent": "cleaning",
+      "runtime_seconds": 0.132,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "eda",
+      "runtime_seconds": 13.892,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "ml",
+      "runtime_seconds": 0.002,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "insight",
+      "runtime_seconds": 64.0751,
+      "warnings": 1,
+      "errors": 1,
+      "insights_count": 1
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "date_resolved",
+      "column": "admission_date",
+      "detected_format": "YYYY-MM-DD",
+      "confidence": 1.0,
+      "evidence": [
+        "four-digit year in first position"
+      ],
+      "timestamp": "2026-09-02T12:17:26.450721+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "date_resolved",
+      "column": "discharge_date",
+      "detected_format": "YYYY-MM-DD",
+      "confidence": 1.0,
+      "evidence": [
+        "four-digit year in first position"
+      ],
+      "timestamp": "2026-09-02T12:17:26.450744+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "patient_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.455299+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "age",
+      "label": "age",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.457743+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "blood_pressure",
+      "label": "health_metric",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.461347+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "glucose",
+      "label": "health_metric",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.464548+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "diagnosis",
+      "label": "health_metric",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.467838+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "treatment",
+      "label": "health_metric",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.476409+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "admission_date",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.484305+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "discharge_date",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:17:26.493953+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "healthcare",
+      "confidence": 0.95,
+      "timestamp": "2026-09-02T12:17:26.494122+00:00"
+    },
+    {
+      "agent": "cleaning",
+      "action": "dataset_cleaned",
+      "rows_before": 6,
+      "rows_after": 6,
+      "cols_before": 8,
+      "cols_after": 8,
+      "duplicates_removed": 0,
+      "cleaned_dataset_hash": "8f1110894a2d4b5026cbed75dd39668acfd22e744b568ae448ae9719bde42698",
+      "timestamp": "2026-09-02T12:17:26.626654+00:00"
+    },
+    {
+      "agent": "eda",
+      "action": "eda_completed",
+      "charts_generated": 6,
+      "max_charts_configured": 6,
+      "numeric_columns_analyzed": 3,
+      "target_candidates_identified": [
+        "patient_id",
+        "age",
+        "blood_pressure",
+        "glucose",
+        "diagnosis"
+      ],
+      "timestamp": "2026-09-02T12:17:40.526504+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "backfill_floor_reached",
+      "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
+      "timestamp": "2026-09-02T12:18:44.607917+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "insights_generated",
+      "count": 1,
+      "llm_used": false,
+      "min_insights_satisfied": false,
+      "timestamp": "2026-09-02T12:18:44.607942+00:00"
+    }
+  ],
+  "llm_usage": {
+    "total_tokens": 0,
+    "total_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "calls": []
+  }
+}

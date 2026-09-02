@@ -27,3 +27,11 @@ ml:
   class_imbalance_threshold: 0.90
   metric_leakage_f1_threshold: 0.98
   metric_leakage_r2_threshold: 0.98
+
+insights:
+  min_insights: 3
+  max_insights: 6
+  grounding_tolerance: 0.05
+  temperature: 0.2
+  max_tokens: 800
+

@@ -1,0 +1,546 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "cfa5b5f1-8920-470e-bc82-4d0fefb31c6c",
+  "dataset_hash": "8ebaeab30cdcd7bc5f4cfc138d24548575178cf5f6fce113dfb8e22501df39b3",
+  "file_name": "ambiguous_dates_pii.csv",
+  "ingestion": {
+    "n_rows": 4,
+    "n_columns": 7,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png"
+    ]
+  },
+  "columns": [
+    {
+      "name": "user_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "full_name",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "person_name",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": true,
+      "pii_type": "name",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "email",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "email",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": true,
+      "pii_type": "email",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "phone_number",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "phone",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": true,
+      "pii_type": "phone",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "credit_card",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "pii_blocked",
+      "is_pii": true,
+      "pii_type": "credit_card",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "subscription_date",
+      "dtype_raw": "str",
+      "dtype_inferred": "date",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": false
+    },
+    {
+      "name": "amount",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    }
+  ],
+  "date_columns": [
+    {
+      "column": "subscription_date",
+      "detected_format": "ambiguous",
+      "confidence": 0.5,
+      "evidence": [
+        "all day and month components <= 12; no disambiguating signal"
+      ],
+      "needs_user_confirmation": true
+    }
+  ],
+  "domain_guess": {
+    "domain": "generic",
+    "confidence": 0.5
+  },
+  "quality": {
+    "score": 81,
+    "issues": [
+      "Ambiguous date format in column 'subscription_date' (requires confirmation)",
+      "Low-confidence semantic label in column 'credit_card' (confidence: 0.4)",
+      "Low-confidence semantic label in column 'subscription_date' (confidence: 0.4)"
+    ]
+  },
+  "cleaning_log": [
+    {
+      "column": "amount",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "subscription_date",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "preserve_ambiguous_date",
+      "reason": "Date format is ambiguous and requires user confirmation; preserved raw values unchanged.",
+      "replacement_value": null,
+      "reversible": true,
+      "warning": true
+    }
+  ],
+  "eda": {
+    "summary_stats": {
+      "user_id": {
+        "column": "user_id",
+        "type": "categorical",
+        "count": 4,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "U-101",
+        "top_category_freq": 1,
+        "top_categories": {
+          "U-101": 1,
+          "U-102": 1,
+          "U-103": 1,
+          "U-104": 1
+        }
+      },
+      "full_name": {
+        "column": "full_name",
+        "type": "categorical",
+        "count": 4,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "Johnathan Doe",
+        "top_category_freq": 1,
+        "top_categories": {
+          "Johnathan Doe": 1,
+          "Jane Roe": 1,
+          "Alex Smith": 1,
+          "Maria Garcia": 1
+        }
+      },
+      "email": {
+        "column": "email",
+        "type": "categorical",
+        "count": 4,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "johndoe@email.com",
+        "top_category_freq": 1,
+        "top_categories": {
+          "johndoe@email.com": 1,
+          "jane.roe@corp.org": 1,
+          "alex.smith@web.net": 1,
+          "maria.g@domain.com": 1
+        }
+      },
+      "phone_number": {
+        "column": "phone_number",
+        "type": "categorical",
+        "count": 4,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "(555) 234-5678",
+        "top_category_freq": 1,
+        "top_categories": {
+          "(555) 234-5678": 1,
+          "555-876-5432": 1,
+          "+1-555-345-6789": 1,
+          "555-123-9999": 1
+        }
+      },
+      "credit_card": {
+        "column": "credit_card",
+        "type": "categorical",
+        "count": 4,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "4532-1122-3344-5566",
+        "top_category_freq": 1,
+        "top_categories": {
+          "4532-1122-3344-5566": 1,
+          "5412-9988-7766-5544": 1,
+          "3782-8224-6310-0051": 1,
+          "4024-0071-8899-2233": 1
+        }
+      },
+      "subscription_date": {
+        "column": "subscription_date",
+        "type": "categorical",
+        "count": 4,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "05/06/2024",
+        "top_category_freq": 1,
+        "top_categories": {
+          "05/06/2024": 1,
+          "07/08/2024": 1,
+          "01/02/2024": 1,
+          "10/11/2024": 1
+        }
+      },
+      "amount": {
+        "column": "amount",
+        "type": "numeric",
+        "count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 49.99,
+        "std": 35.5903,
+        "min": 19.99,
+        "q25": 27.49,
+        "median": 39.99,
+        "q75": 62.49,
+        "max": 99.99,
+        "iqr": 35.0,
+        "skewness": 1.3309,
+        "kurtosis": 1.5
+      }
+    },
+    "correlations": {
+      "pearson": {},
+      "spearman": {},
+      "top_correlations": [],
+      "numeric_columns_analyzed": [
+        "amount"
+      ]
+    },
+    "charts": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png"
+    ],
+    "target_candidates": [
+      "user_id",
+      "amount"
+    ]
+  },
+  "ml": {
+    "status": "insufficient_data",
+    "error_code": "ML_003_INSUFFICIENT_DATA",
+    "task_type": "regression",
+    "target_column": "amount",
+    "target_validation": {
+      "total_rows": 4,
+      "min_rows_for_ml": 30,
+      "reason": "Dataset has 4 rows, which is below the configured threshold of 30"
+    },
+    "reason": "Dataset has 4 rows, which is below the configured threshold of 30",
+    "feature_columns": [],
+    "excluded_columns": [],
+    "split": {},
+    "preprocessing": {},
+    "baseline": {},
+    "candidate_models": [],
+    "selected_model": null,
+    "metrics": {},
+    "reproducibility": {},
+    "leakage_checks": []
+  },
+  "insights": [
+    {
+      "category": "quality",
+      "text": "Analyzed dataset of 4 rows and 7 columns with an overall data quality score of 81 out of 100.",
+      "confidence": 1.0,
+      "evidence": "dio.quality.score",
+      "recommendation": "Maintain standardized data ingestion pipelines to preserve data quality and prevent schema drift.",
+      "grounded_numbers": [
+        4.0,
+        7.0,
+        81.0,
+        100.0
+      ],
+      "id": "ins_001"
+    }
+  ],
+  "reports": {
+    "pdf_path": null,
+    "pptx_path": null
+  },
+  "progress": {
+    "intelligence": "FINISHED",
+    "cleaning": "FINISHED",
+    "eda": "FINISHED",
+    "ml": "FINISHED",
+    "insight": "FINISHED"
+  },
+  "errors": [
+    {
+      "agent": "ml",
+      "code": "ML_003_INSUFFICIENT_DATA",
+      "message": "Dataset has 4 rows, which is below the configured threshold of 30",
+      "timestamp": "2026-09-02T12:21:23.819133+00:00"
+    },
+    {
+      "agent": "insight",
+      "code": "INS_001",
+      "message": "LLM insight generation failed: Ollama request timed out after 60s.",
+      "timestamp": "2026-09-02T12:22:27.935736+00:00"
+    }
+  ],
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.111,
+      "warnings": 3,
+      "errors": 0
+    },
+    {
+      "agent": "cleaning",
+      "runtime_seconds": 0.097,
+      "warnings": 1,
+      "errors": 0
+    },
+    {
+      "agent": "eda",
+      "runtime_seconds": 7.02,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "ml",
+      "runtime_seconds": 0.001,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "insight",
+      "runtime_seconds": 64.1151,
+      "warnings": 1,
+      "errors": 1,
+      "insights_count": 1
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "date_resolved",
+      "column": "subscription_date",
+      "detected_format": "ambiguous",
+      "confidence": 0.5,
+      "evidence": [
+        "all day and month components <= 12; no disambiguating signal"
+      ],
+      "timestamp": "2026-09-02T12:21:16.659797+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "user_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:21:16.663873+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "full_name",
+      "pii_type": "name",
+      "timestamp": "2026-09-02T12:21:16.666736+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "full_name",
+      "label": "person_name",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:21:16.667743+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "email",
+      "pii_type": "email",
+      "timestamp": "2026-09-02T12:21:16.671075+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "email",
+      "label": "email",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:21:16.671427+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "phone_number",
+      "pii_type": "phone",
+      "timestamp": "2026-09-02T12:21:16.673930+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "phone_number",
+      "label": "phone",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:21:16.675379+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "pii_detected",
+      "column": "credit_card",
+      "pii_type": "credit_card",
+      "timestamp": "2026-09-02T12:21:16.678287+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "credit_card",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "pii_blocked",
+      "timestamp": "2026-09-02T12:21:16.680838+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "subscription_date",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:21:16.686202+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "amount",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:21:16.688565+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "generic",
+      "confidence": 0.5,
+      "timestamp": "2026-09-02T12:21:16.688789+00:00"
+    },
+    {
+      "agent": "cleaning",
+      "action": "dataset_cleaned",
+      "rows_before": 4,
+      "rows_after": 4,
+      "cols_before": 7,
+      "cols_after": 7,
+      "duplicates_removed": 0,
+      "cleaned_dataset_hash": "264096b5e46a1d18bb06b5a54fd5f58cda2b339b180daa8dc82e77d22ca7397d",
+      "timestamp": "2026-09-02T12:21:16.786349+00:00"
+    },
+    {
+      "agent": "eda",
+      "action": "eda_completed",
+      "charts_generated": 3,
+      "max_charts_configured": 6,
+      "numeric_columns_analyzed": 1,
+      "target_candidates_identified": [
+        "user_id",
+        "amount"
+      ],
+      "timestamp": "2026-09-02T12:21:23.816128+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "backfill_floor_reached",
+      "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
+      "timestamp": "2026-09-02T12:22:27.935946+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "insights_generated",
+      "count": 1,
+      "llm_used": false,
+      "min_insights_satisfied": false,
+      "timestamp": "2026-09-02T12:22:27.935981+00:00"
+    }
+  ],
+  "llm_usage": {
+    "total_tokens": 0,
+    "total_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "calls": []
+  }
+}

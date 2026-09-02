@@ -1,0 +1,829 @@
+{
+  "schema_version": "1.0.0",
+  "dataset_id": "6b079a32-a54b-488c-b605-22e445406b87",
+  "dataset_hash": "7d0eabf379646c7d6135fd71c6c507efb298595ab535e90e9e5b0430fb0ecef9",
+  "file_name": "retail_sales.csv",
+  "ingestion": {
+    "n_rows": 6,
+    "n_columns": 9,
+    "file_type": "csv",
+    "encoding": "utf-8"
+  },
+  "artifacts": {
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\removed_rows.csv",
+    "model_pkl": null,
+    "pdf_report": null,
+    "pptx_report": null,
+    "chart_paths": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
+    ]
+  },
+  "columns": [
+    {
+      "name": "order_id",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "sku",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "order_date",
+      "dtype_raw": "str",
+      "dtype_inferred": "date",
+      "semantic_label": "unknown",
+      "confidence": 0.4,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": false
+    },
+    {
+      "name": "customer_id",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "identifier",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "price",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "quantity",
+      "dtype_raw": "int64",
+      "dtype_inferred": "int",
+      "semantic_label": "quantity",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "discount_pct",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "quantity",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 4,
+      "is_target_candidate": true
+    },
+    {
+      "name": "revenue",
+      "dtype_raw": "float64",
+      "dtype_inferred": "float",
+      "semantic_label": "currency_amount",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 6,
+      "is_target_candidate": true
+    },
+    {
+      "name": "status",
+      "dtype_raw": "str",
+      "dtype_inferred": "category",
+      "semantic_label": "target_label",
+      "confidence": 0.9,
+      "method_used": "rule",
+      "is_pii": false,
+      "pii_type": "none",
+      "null_pct": 0.0,
+      "unique_count": 3,
+      "is_target_candidate": true
+    }
+  ],
+  "date_columns": [
+    {
+      "column": "order_date",
+      "detected_format": "DD/MM/YYYY",
+      "confidence": 1.0,
+      "evidence": [
+        "day value > 12 found in first position"
+      ],
+      "needs_user_confirmation": false
+    }
+  ],
+  "domain_guess": {
+    "domain": "retail",
+    "confidence": 0.95
+  },
+  "quality": {
+    "score": 98,
+    "issues": [
+      "Low-confidence semantic label in column 'order_date' (confidence: 0.4)"
+    ]
+  },
+  "cleaning_log": [
+    {
+      "column": "price",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "quantity",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'int64' to inferred type 'int'",
+      "replacement_value": "int",
+      "reversible": true
+    },
+    {
+      "column": "discount_pct",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "revenue",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'float64' to inferred type 'float'",
+      "replacement_value": "float",
+      "reversible": true
+    },
+    {
+      "column": "status",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "type_coercion",
+      "reason": "coerced raw dtype 'str' to inferred type 'category'",
+      "replacement_value": "category",
+      "reversible": true
+    },
+    {
+      "column": "order_date",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "normalize_date",
+      "reason": "Normalized date format from 'DD/MM/YYYY' to ISO 'YYYY-MM-DD'",
+      "replacement_value": "YYYY-MM-DD",
+      "reversible": true
+    },
+    {
+      "column": "price",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "flag_outliers_iqr",
+      "reason": "IQR outlier detection: [-36.23, 101.72] (retained and flagged)",
+      "replacement_value": null,
+      "reversible": true,
+      "details": {
+        "q1": 15.5,
+        "q3": 49.99,
+        "iqr": 34.49,
+        "lower_bound": -36.235,
+        "upper_bound": 101.725,
+        "outlier_count": 1,
+        "outlier_pct": 16.67,
+        "outlier_indices": [
+          2
+        ]
+      }
+    },
+    {
+      "column": "revenue",
+      "missing_count": 0,
+      "missing_pct": 0.0,
+      "method": "flag_outliers_iqr",
+      "reason": "IQR outlier detection: [-35.87, 149.50] (retained and flagged)",
+      "replacement_value": null,
+      "reversible": true,
+      "details": {
+        "q1": 33.64,
+        "q3": 79.9825,
+        "iqr": 46.3425,
+        "lower_bound": -35.8738,
+        "upper_bound": 149.4963,
+        "outlier_count": 1,
+        "outlier_pct": 16.67,
+        "outlier_indices": [
+          2
+        ]
+      }
+    }
+  ],
+  "eda": {
+    "summary_stats": {
+      "order_id": {
+        "column": "order_id",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 1003.5,
+        "std": 1.8708,
+        "min": 1001.0,
+        "q25": 1002.25,
+        "median": 1003.5,
+        "q75": 1004.75,
+        "max": 1006.0,
+        "iqr": 2.5,
+        "skewness": 0.0,
+        "kurtosis": -1.2
+      },
+      "sku": {
+        "column": "sku",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 4,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "SKU-A101",
+        "top_category_freq": 2,
+        "top_categories": {
+          "SKU-A101": 2,
+          "SKU-B202": 2,
+          "SKU-C303": 1,
+          "SKU-D404": 1
+        }
+      },
+      "order_date": {
+        "column": "order_date",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "2024-01-25",
+        "top_category_freq": 1,
+        "top_categories": {
+          "2024-01-25": 1,
+          "2024-02-14": 1,
+          "2024-03-03": 1,
+          "2024-04-18": 1,
+          "2024-05-22": 1
+        }
+      },
+      "customer_id": {
+        "column": "customer_id",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "CUST-901",
+        "top_category_freq": 1,
+        "top_categories": {
+          "CUST-901": 1,
+          "CUST-902": 1,
+          "CUST-903": 1,
+          "CUST-904": 1,
+          "CUST-905": 1
+        }
+      },
+      "price": {
+        "column": "price",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 43.2883,
+        "std": 41.7415,
+        "min": 8.75,
+        "q25": 15.5,
+        "median": 32.745,
+        "q75": 49.99,
+        "max": 120.0,
+        "iqr": 34.49,
+        "skewness": 1.5176,
+        "kurtosis": 2.3389
+      },
+      "quantity": {
+        "column": "quantity",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 2.5,
+        "std": 1.6432,
+        "min": 1.0,
+        "q25": 1.25,
+        "median": 2.0,
+        "q75": 3.5,
+        "max": 5.0,
+        "iqr": 2.25,
+        "skewness": 0.8114,
+        "kurtosis": -1.0288
+      },
+      "discount_pct": {
+        "column": "discount_pct",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 0.05,
+        "std": 0.0632,
+        "min": 0.0,
+        "q25": 0.0,
+        "median": 0.025,
+        "q75": 0.0875,
+        "max": 0.15,
+        "iqr": 0.0875,
+        "skewness": 0.8894,
+        "kurtosis": -0.7812
+      },
+      "revenue": {
+        "column": "revenue",
+        "type": "numeric",
+        "count": 6,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "mean": 106.005,
+        "std": 150.0437,
+        "min": 15.5,
+        "q25": 33.64,
+        "median": 45.775,
+        "q75": 79.9825,
+        "max": 408.0,
+        "iqr": 46.3425,
+        "skewness": 2.303,
+        "kurtosis": 5.4114
+      },
+      "status": {
+        "column": "status",
+        "type": "categorical",
+        "count": 6,
+        "unique_count": 3,
+        "null_count": 0,
+        "null_pct": 0.0,
+        "top_category": "delivered",
+        "top_category_freq": 4,
+        "top_categories": {
+          "delivered": 4,
+          "shipped": 1,
+          "returned": 1
+        }
+      }
+    },
+    "correlations": {
+      "pearson": {
+        "order_id": {
+          "order_id": 1.0,
+          "price": -0.3364,
+          "quantity": 0.2928,
+          "discount_pct": -0.4226,
+          "revenue": -0.2047
+        },
+        "price": {
+          "order_id": -0.3364,
+          "price": 1.0,
+          "quantity": 0.2067,
+          "discount_pct": 0.7917,
+          "revenue": 0.9423
+        },
+        "quantity": {
+          "order_id": 0.2928,
+          "price": 0.2067,
+          "quantity": 1.0,
+          "discount_pct": 0.5774,
+          "revenue": 0.452
+        },
+        "discount_pct": {
+          "order_id": -0.4226,
+          "price": 0.7917,
+          "quantity": 0.5774,
+          "discount_pct": 1.0,
+          "revenue": 0.853
+        },
+        "revenue": {
+          "order_id": -0.2047,
+          "price": 0.9423,
+          "quantity": 0.452,
+          "discount_pct": 0.853,
+          "revenue": 1.0
+        }
+      },
+      "spearman": {
+        "order_id": {
+          "order_id": 1.0,
+          "price": -0.4708,
+          "quantity": 0.2942,
+          "discount_pct": -0.3947,
+          "revenue": -0.3143
+        },
+        "price": {
+          "order_id": -0.4708,
+          "price": 1.0,
+          "quantity": -0.1515,
+          "discount_pct": 0.5002,
+          "revenue": 0.7945
+        },
+        "quantity": {
+          "order_id": 0.2942,
+          "price": -0.1515,
+          "quantity": 1.0,
+          "discount_pct": 0.6878,
+          "revenue": 0.3825
+        },
+        "discount_pct": {
+          "order_id": -0.3947,
+          "price": 0.5002,
+          "quantity": 0.6878,
+          "discount_pct": 1.0,
+          "revenue": 0.8197
+        },
+        "revenue": {
+          "order_id": -0.3143,
+          "price": 0.7945,
+          "quantity": 0.3825,
+          "discount_pct": 0.8197,
+          "revenue": 1.0
+        }
+      },
+      "top_correlations": [
+        {
+          "col1": "price",
+          "col2": "revenue",
+          "pearson_r": 0.9423,
+          "abs_r": 0.9423
+        },
+        {
+          "col1": "discount_pct",
+          "col2": "revenue",
+          "pearson_r": 0.853,
+          "abs_r": 0.853
+        },
+        {
+          "col1": "price",
+          "col2": "discount_pct",
+          "pearson_r": 0.7917,
+          "abs_r": 0.7917
+        },
+        {
+          "col1": "quantity",
+          "col2": "discount_pct",
+          "pearson_r": 0.5774,
+          "abs_r": 0.5774
+        },
+        {
+          "col1": "quantity",
+          "col2": "revenue",
+          "pearson_r": 0.452,
+          "abs_r": 0.452
+        },
+        {
+          "col1": "order_id",
+          "col2": "discount_pct",
+          "pearson_r": -0.4226,
+          "abs_r": 0.4226
+        },
+        {
+          "col1": "order_id",
+          "col2": "price",
+          "pearson_r": -0.3364,
+          "abs_r": 0.3364
+        },
+        {
+          "col1": "order_id",
+          "col2": "quantity",
+          "pearson_r": 0.2928,
+          "abs_r": 0.2928
+        },
+        {
+          "col1": "price",
+          "col2": "quantity",
+          "pearson_r": 0.2067,
+          "abs_r": 0.2067
+        },
+        {
+          "col1": "order_id",
+          "col2": "revenue",
+          "pearson_r": -0.2047,
+          "abs_r": 0.2047
+        }
+      ],
+      "numeric_columns_analyzed": [
+        "order_id",
+        "price",
+        "quantity",
+        "discount_pct",
+        "revenue"
+      ]
+    },
+    "charts": [
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
+    ],
+    "target_candidates": [
+      "order_id",
+      "sku",
+      "customer_id",
+      "price",
+      "quantity",
+      "discount_pct",
+      "revenue",
+      "status"
+    ]
+  },
+  "ml": {
+    "status": "insufficient_data",
+    "error_code": "ML_003_INSUFFICIENT_DATA",
+    "task_type": "classification",
+    "target_column": "status",
+    "target_validation": {
+      "total_rows": 6,
+      "min_rows_for_ml": 30,
+      "reason": "Dataset has 6 rows, which is below the configured threshold of 30"
+    },
+    "reason": "Dataset has 6 rows, which is below the configured threshold of 30",
+    "feature_columns": [],
+    "excluded_columns": [],
+    "split": {},
+    "preprocessing": {},
+    "baseline": {},
+    "candidate_models": [],
+    "selected_model": null,
+    "metrics": {},
+    "reproducibility": {},
+    "leakage_checks": []
+  },
+  "insights": [
+    {
+      "category": "quality",
+      "text": "Analyzed dataset of 6 rows and 9 columns with an overall data quality score of 98 out of 100.",
+      "confidence": 1.0,
+      "evidence": "dio.quality.score",
+      "recommendation": "Maintain standardized data ingestion pipelines to preserve data quality and prevent schema drift.",
+      "grounded_numbers": [
+        6.0,
+        9.0,
+        98.0,
+        100.0
+      ],
+      "id": "ins_001"
+    }
+  ],
+  "reports": {
+    "pdf_path": null,
+    "pptx_path": null
+  },
+  "progress": {
+    "intelligence": "FINISHED",
+    "cleaning": "FINISHED",
+    "eda": "FINISHED",
+    "ml": "FINISHED",
+    "insight": "FINISHED"
+  },
+  "errors": [
+    {
+      "agent": "ml",
+      "code": "ML_003_INSUFFICIENT_DATA",
+      "message": "Dataset has 6 rows, which is below the configured threshold of 30",
+      "timestamp": "2026-09-02T12:16:22.229239+00:00"
+    },
+    {
+      "agent": "insight",
+      "code": "INS_001",
+      "message": "LLM insight generation failed: Ollama request timed out after 60s.",
+      "timestamp": "2026-09-02T12:17:26.302337+00:00"
+    }
+  ],
+  "agent_metrics": [
+    {
+      "agent": "intelligence",
+      "runtime_seconds": 0.015,
+      "warnings": 1,
+      "errors": 0
+    },
+    {
+      "agent": "cleaning",
+      "runtime_seconds": 0.022,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "eda",
+      "runtime_seconds": 13.356,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "ml",
+      "runtime_seconds": 0.002,
+      "warnings": 0,
+      "errors": 0
+    },
+    {
+      "agent": "insight",
+      "runtime_seconds": 64.0713,
+      "warnings": 1,
+      "errors": 1,
+      "insights_count": 1
+    }
+  ],
+  "decision_log": [
+    {
+      "agent": "intelligence",
+      "action": "date_resolved",
+      "column": "order_date",
+      "detected_format": "DD/MM/YYYY",
+      "confidence": 1.0,
+      "evidence": [
+        "day value > 12 found in first position"
+      ],
+      "timestamp": "2026-09-02T12:16:08.840154+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "order_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.840536+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "sku",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.840960+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "order_date",
+      "label": "unknown",
+      "confidence": 0.4,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.841517+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "customer_id",
+      "label": "identifier",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.841877+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "price",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.842256+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "quantity",
+      "label": "quantity",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.842554+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "discount_pct",
+      "label": "quantity",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.843047+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "revenue",
+      "label": "currency_amount",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.843461+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "semantic_labeled",
+      "column": "status",
+      "label": "target_label",
+      "confidence": 0.9,
+      "method": "rule",
+      "timestamp": "2026-09-02T12:16:08.843854+00:00"
+    },
+    {
+      "agent": "intelligence",
+      "action": "domain_classified",
+      "domain": "retail",
+      "confidence": 0.95,
+      "timestamp": "2026-09-02T12:16:08.843927+00:00"
+    },
+    {
+      "agent": "cleaning",
+      "action": "dataset_cleaned",
+      "rows_before": 6,
+      "rows_after": 6,
+      "cols_before": 9,
+      "cols_after": 9,
+      "duplicates_removed": 0,
+      "cleaned_dataset_hash": "a21f0ff568b471586840d62df309d0044968703dc113c52a6bdbf285548c479b",
+      "timestamp": "2026-09-02T12:16:08.865894+00:00"
+    },
+    {
+      "agent": "eda",
+      "action": "eda_completed",
+      "charts_generated": 6,
+      "max_charts_configured": 6,
+      "numeric_columns_analyzed": 5,
+      "target_candidates_identified": [
+        "order_id",
+        "sku",
+        "customer_id",
+        "price",
+        "quantity",
+        "discount_pct",
+        "revenue",
+        "status"
+      ],
+      "timestamp": "2026-09-02T12:16:22.224309+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "backfill_floor_reached",
+      "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
+      "timestamp": "2026-09-02T12:17:26.302444+00:00"
+    },
+    {
+      "agent": "insight",
+      "action": "insights_generated",
+      "count": 1,
+      "llm_used": false,
+      "min_insights_satisfied": false,
+      "timestamp": "2026-09-02T12:17:26.302456+00:00"
+    }
+  ],
+  "llm_usage": {
+    "total_tokens": 0,
+    "total_calls": 0,
+    "prompt_tokens": 0,
+    "completion_tokens": 0,
+    "calls": []
+  }
+}

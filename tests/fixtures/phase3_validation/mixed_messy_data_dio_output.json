@@ -94,7 +94,7 @@
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.015,
+      "runtime_seconds": 0.012,
       "warnings": 3,
       "errors": 0
     }
@@ -107,7 +107,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T11:49:16.636225+00:00"
+      "timestamp": "2026-09-02T12:26:15.412174+00:00"
     },
     {
       "agent": "intelligence",
@@ -116,7 +116,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T11:49:16.637349+00:00"
+      "timestamp": "2026-09-02T12:26:15.412941+00:00"
     },
     {
       "agent": "intelligence",
@@ -125,7 +125,7 @@
       "label": "score",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T11:49:16.637926+00:00"
+      "timestamp": "2026-09-02T12:26:15.413386+00:00"
     },
     {
       "agent": "intelligence",
@@ -134,7 +134,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T11:49:16.638803+00:00"
+      "timestamp": "2026-09-02T12:26:15.414325+00:00"
     },
     {
       "agent": "intelligence",
@@ -143,14 +143,14 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T11:49:16.639770+00:00"
+      "timestamp": "2026-09-02T12:26:15.415295+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "generic",
       "confidence": 0.5,
-      "timestamp": "2026-09-02T11:49:16.639821+00:00"
+      "timestamp": "2026-09-02T12:26:15.415343+00:00"
     }
   ]
 }

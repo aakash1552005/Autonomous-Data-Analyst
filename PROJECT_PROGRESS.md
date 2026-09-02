@@ -145,6 +145,27 @@
 
 ---
 
+## Phase 7 — Insight & Narrative Agent
+**Status**: COMPLETE & ADVERSARIALLY AUDITED ✅
+
+### Implementation Summary
+- `config.yaml` & `core/config.py`: Added `insights` configuration block (`min_insights: 3`, `max_insights: 6`, `grounding_tolerance: 0.05`, `temperature: 0.2`, `max_tokens: 800`).
+- `agents/insight/evidence_collector.py`: Collects and indexes grounded numbers (separated into `grounded_ints` and `grounded_floats` to prevent cross-type grounding errors like 99.9% matching 100 rows). Compiles structured, PII-free evidence summaries for the LLM.
+- `agents/insight/hallucination_guard.py`: Strict regex number extractor (`extract_numbers_from_text`) and numerical claim validator (`verify_insight_grounding`). Evaluates relative/absolute tolerance ($\le 0.05$) and percentage scale mappings ($0.85 \leftrightarrow 85\%$). Rejects unquantified (zero-number) claims and ungrounded numbers.
+- `agents/insight/prompt_builder.py`: Builds strictly formatted, JSON-only prompts containing structured dataset profiles, summary stats, top correlations, and ML metrics without raw DataFrame rows or PII.
+- `agents/insight/deterministic_engine.py`: 100% reproducible statistical insight generator for deterministic fallback and backfill. Extracts top ML drivers, significant linear correlations ($|r| \ge 0.20$), numeric distribution bounds (mean, median, range), and dominant categorical percentages.
+- **Backfill Floor / Evidence Availability Guarantee**: Deterministic backfill never fabricates or pads insights. If a dataset genuinely lacks sufficient grounded evidence, the agent outputs only the valid grounded insights and explicitly records `backfill_floor_reached` in `dio["decision_log"]`.
+- `agents/insight/insight_agent.py`: `InsightAgent(BaseAgent)` pipeline coordinator. Mutates ONLY `dio["insights"]` and standard provenance metadata (`progress`, `agent_metrics`, `decision_log`, `llm_usage`, `errors`). Strictly preserves upstream sections.
+
+### Test Results
+- **25 Phase 7 Tests PASSED**:
+  - 8 Unit Tests (`tests/test_insight_agent.py`)
+  - 12 Adversarial & Boundary Tests (`tests/test_insight_adversarial.py`)
+  - 5 Real-Data End-to-End Pipeline Validations (`tests/test_phase7_real_data_validation.py`)
+- **Repository Total: 232/232 PASSED** across Phases 0–7.
+
+---
+
 ## DIO Section Ownership Matrix
 
 | Section | Owning Component / Agent | Status |
@@ -153,12 +174,12 @@
 | `columns`, `date_columns`, `domain_guess`, `quality` | Intelligence Agent (Phase 3) | Complete & Verified |
 | `cleaning_log`, `artifacts.cleaned_csv`, `artifacts.removed_rows_csv` | Cleaning Agent (Phase 4) | Complete & Verified |
 | `eda`, `artifacts.chart_paths` | EDA Agent (Phase 5) | Complete & Verified |
-| `ml`, `artifacts.model_pkl` | ML Agent (Phase 6) | **Complete & Audited** |
-| `insights` | Insight Agent (Phase 7) | UNTOUCHED (Empty) |
+| `ml`, `artifacts.model_pkl` | ML Agent (Phase 6) | Complete & Audited |
+| `insights` | Insight Agent (Phase 7) | **Complete & Audited** |
 | `reports` | Report Agent (Phase 9) | UNTOUCHED (Empty) |
 | `progress`, `errors`, `agent_metrics`, `decision_log` | Shared Pipeline State / Provenance | Updated per agent |
 
 ---
 
 ## Next Phase
-- **Phase 7 — Insight & Narrative Agent**: Synthesize findings from Intelligence, Cleaning, EDA, and ML into structured executive summaries, business insights, key drivers, anomaly highlights, and strategic recommendations using structured LLM prompts with token governance and strict PII redaction.
+- **Phase 8 — Hypothesis & Statistical Testing Agent**: Formulate and test domain-relevant hypotheses deterministically using parametric/non-parametric tests (t-tests, ANOVA, Chi-Square, Mann-Whitney U, Kruskal-Wallis) with strict assumption checking and effect sizes.
