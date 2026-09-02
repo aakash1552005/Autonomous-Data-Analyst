@@ -105,7 +105,7 @@
 ---
 
 ## Phase 6 — Machine Learning Agent
-**Status**: COMPLETE ✅
+**Status**: COMPLETE & ADVERSARIALLY AUDITED ✅
 
 ### Implementation Summary
 - `agents/ml/task_detector.py`: Deterministic target candidate selection and task detection (`classification` vs `regression` vs `unsupported`).
@@ -116,22 +116,31 @@
 - `agents/ml/model_persister.py`: Pipeline serialization to `runs/{run_id}/artifacts/model.pkl`, SHA-256 calculation, and reload/prediction verification.
 - `agents/ml/ml_agent.py`: `MLAgent(BaseAgent)` coordinator. Mutates ONLY `dio["ml"]` and `dio["artifacts"]["model_pkl"]`. Strict zero-LLM decision making.
 
-### Real Data Validation & Human Review
-- All 5 benchmark datasets validated with outputs saved in `tests/fixtures/phase6_validation/`.
-- Human review in `tests/fixtures/phase6_validation/README.md` documents safe rejections (`ML_003_INSUFFICIENT_DATA`) on tiny sample sizes ($N \le 6$) and complete PII/leakage prevention.
+### Adversarial Audit & Verification
+- **Adversarial Audit Suite (`tests/test_ml_adversarial_audit.py`)**:
+  - Leakage threshold exact boundary ($r \ge 0.95$, $NMI \ge 0.95$, and suspicious names).
+  - Strict target isolation from feature matrix $X$.
+  - PII & identifier exclusion even with 100% predictive power.
+  - Preprocessing isolation (outliers in $X_{\text{test}}$ do not contaminate $X_{\text{train}}$ statistics).
+  - Data sufficiency boundaries (30 vs 29 rows, 5 vs 4 samples/class).
+  - Baseline comparison & deterministic model selection.
+  - Model serialization, SHA-256 hashing, reload, and prediction inference.
+  - Bit-for-bit dataset immutability and deep DIO mutation boundary snapshot.
+  - Full end-to-end positive path verified on a 120-row synthetic dataset (`telecom_customer_churn_120.csv`).
+- **Real Data Benchmark Rejections**: All 5 small benchmark datasets ($N \le 6$) safely rejected with `ML_003_INSUFFICIENT_DATA`.
 
 ### Test Results
 ```bash
 .venv\Scripts\python.exe -m pytest tests/ -v
 ```
-- **196/196 PASSED** in 188.53s:
+- **206/206 PASSED** in 180.76s:
   - 42 Phase 0 tests
   - 32 Phase 1 tests
   - 17 Phase 2 tests
   - 49 Phase 3 tests
   - 16 Phase 4 tests
   - 18 Phase 5 tests
-  - 22 Phase 6 tests (17 unit tests + 5 real-data validation tests)
+  - 32 Phase 6 tests (17 unit + 5 real-data validation + 10 adversarial audit tests)
 
 ---
 
@@ -143,7 +152,7 @@
 | `columns`, `date_columns`, `domain_guess`, `quality` | Intelligence Agent (Phase 3) | Complete & Verified |
 | `cleaning_log`, `artifacts.cleaned_csv`, `artifacts.removed_rows_csv` | Cleaning Agent (Phase 4) | Complete & Verified |
 | `eda`, `artifacts.chart_paths` | EDA Agent (Phase 5) | Complete & Verified |
-| `ml`, `artifacts.model_pkl` | ML Agent (Phase 6) | **Complete & Verified** |
+| `ml`, `artifacts.model_pkl` | ML Agent (Phase 6) | **Complete & Audited** |
 | `insights` | Insight Agent (Phase 7) | UNTOUCHED (Empty) |
 | `reports` | Report Agent (Phase 9) | UNTOUCHED (Empty) |
 | `progress`, `errors`, `agent_metrics`, `decision_log` | Shared Pipeline State / Provenance | Updated per agent |
