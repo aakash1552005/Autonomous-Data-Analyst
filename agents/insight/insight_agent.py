@@ -64,7 +64,14 @@ class InsightAgent(BaseAgent):
                 governor=governor,
             )
             if not client.is_available():
-                logger.warning(f"InsightAgent: Ollama host {self.config.llm.host} is unreachable. Using deterministic fallback.")
+                logger.warning(f"InsightAgent: Ollama host {self.config.llm.host} is unreachable.")
+                if self.config.llm.api_key:
+                    logger.info("InsightAgent: Falling back to OpenAI provider.")
+                    return OpenAIClient(
+                        api_key=self.config.llm.api_key,
+                        model="gpt-4o-mini",
+                        governor=governor,
+                    )
                 return None
             return client
         elif self.config.llm.provider == "openai":

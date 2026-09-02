@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "dataset_id": "cfa5b5f1-8920-470e-bc82-4d0fefb31c6c",
+  "dataset_id": "df6d35a5-d014-4638-8df6-0c381d54ba50",
   "dataset_hash": "8ebaeab30cdcd7bc5f4cfc138d24548575178cf5f6fce113dfb8e22501df39b3",
   "file_name": "ambiguous_dates_pii.csv",
   "ingestion": {
@@ -10,15 +10,15 @@
     "encoding": "utf-8"
   },
   "artifacts": {
-    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\cleaned_data.csv",
-    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\removed_rows.csv",
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\removed_rows.csv",
     "model_pkl": null,
     "pdf_report": null,
     "pptx_report": null,
     "chart_paths": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png"
     ]
   },
   "columns": [
@@ -283,9 +283,9 @@
       ]
     },
     "charts": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline4\\20260902_122116_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline4\\20260902_125703_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png"
     ],
     "target_candidates": [
       "user_id",
@@ -346,31 +346,31 @@
       "agent": "ml",
       "code": "ML_003_INSUFFICIENT_DATA",
       "message": "Dataset has 4 rows, which is below the configured threshold of 30",
-      "timestamp": "2026-09-02T12:21:23.819133+00:00"
+      "timestamp": "2026-09-02T12:57:09.416103+00:00"
     },
     {
       "agent": "insight",
       "code": "INS_001",
       "message": "LLM insight generation failed: Ollama request timed out after 60s.",
-      "timestamp": "2026-09-02T12:22:27.935736+00:00"
+      "timestamp": "2026-09-02T12:58:13.557220+00:00"
     }
   ],
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.111,
+      "runtime_seconds": 0.096,
       "warnings": 3,
       "errors": 0
     },
     {
       "agent": "cleaning",
-      "runtime_seconds": 0.097,
+      "runtime_seconds": 0.082,
       "warnings": 1,
       "errors": 0
     },
     {
       "agent": "eda",
-      "runtime_seconds": 7.02,
+      "runtime_seconds": 5.317,
       "warnings": 0,
       "errors": 0
     },
@@ -382,7 +382,7 @@
     },
     {
       "agent": "insight",
-      "runtime_seconds": 64.1151,
+      "runtime_seconds": 64.1382,
       "warnings": 1,
       "errors": 1,
       "insights_count": 1
@@ -398,7 +398,7 @@
       "evidence": [
         "all day and month components <= 12; no disambiguating signal"
       ],
-      "timestamp": "2026-09-02T12:21:16.659797+00:00"
+      "timestamp": "2026-09-02T12:57:03.975832+00:00"
     },
     {
       "agent": "intelligence",
@@ -407,14 +407,14 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:21:16.663873+00:00"
+      "timestamp": "2026-09-02T12:57:03.981411+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "full_name",
       "pii_type": "name",
-      "timestamp": "2026-09-02T12:21:16.666736+00:00"
+      "timestamp": "2026-09-02T12:57:03.984375+00:00"
     },
     {
       "agent": "intelligence",
@@ -423,14 +423,14 @@
       "label": "person_name",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:21:16.667743+00:00"
+      "timestamp": "2026-09-02T12:57:03.986077+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "email",
       "pii_type": "email",
-      "timestamp": "2026-09-02T12:21:16.671075+00:00"
+      "timestamp": "2026-09-02T12:57:03.989633+00:00"
     },
     {
       "agent": "intelligence",
@@ -439,14 +439,14 @@
       "label": "email",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:21:16.671427+00:00"
+      "timestamp": "2026-09-02T12:57:03.991039+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "phone_number",
       "pii_type": "phone",
-      "timestamp": "2026-09-02T12:21:16.673930+00:00"
+      "timestamp": "2026-09-02T12:57:03.991830+00:00"
     },
     {
       "agent": "intelligence",
@@ -455,14 +455,14 @@
       "label": "phone",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:21:16.675379+00:00"
+      "timestamp": "2026-09-02T12:57:03.992387+00:00"
     },
     {
       "agent": "intelligence",
       "action": "pii_detected",
       "column": "credit_card",
       "pii_type": "credit_card",
-      "timestamp": "2026-09-02T12:21:16.678287+00:00"
+      "timestamp": "2026-09-02T12:57:03.994614+00:00"
     },
     {
       "agent": "intelligence",
@@ -471,7 +471,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "pii_blocked",
-      "timestamp": "2026-09-02T12:21:16.680838+00:00"
+      "timestamp": "2026-09-02T12:57:03.997694+00:00"
     },
     {
       "agent": "intelligence",
@@ -480,7 +480,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:21:16.686202+00:00"
+      "timestamp": "2026-09-02T12:57:04.001138+00:00"
     },
     {
       "agent": "intelligence",
@@ -489,14 +489,14 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:21:16.688565+00:00"
+      "timestamp": "2026-09-02T12:57:04.005221+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "generic",
       "confidence": 0.5,
-      "timestamp": "2026-09-02T12:21:16.688789+00:00"
+      "timestamp": "2026-09-02T12:57:04.005414+00:00"
     },
     {
       "agent": "cleaning",
@@ -507,7 +507,7 @@
       "cols_after": 7,
       "duplicates_removed": 0,
       "cleaned_dataset_hash": "264096b5e46a1d18bb06b5a54fd5f58cda2b339b180daa8dc82e77d22ca7397d",
-      "timestamp": "2026-09-02T12:21:16.786349+00:00"
+      "timestamp": "2026-09-02T12:57:04.087541+00:00"
     },
     {
       "agent": "eda",
@@ -519,13 +519,13 @@
         "user_id",
         "amount"
       ],
-      "timestamp": "2026-09-02T12:21:23.816128+00:00"
+      "timestamp": "2026-09-02T12:57:09.412657+00:00"
     },
     {
       "agent": "insight",
       "action": "backfill_floor_reached",
       "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
-      "timestamp": "2026-09-02T12:22:27.935946+00:00"
+      "timestamp": "2026-09-02T12:58:13.557391+00:00"
     },
     {
       "agent": "insight",
@@ -533,7 +533,7 @@
       "count": 1,
       "llm_used": false,
       "min_insights_satisfied": false,
-      "timestamp": "2026-09-02T12:22:27.935981+00:00"
+      "timestamp": "2026-09-02T12:58:13.557409+00:00"
     }
   ],
   "llm_usage": {

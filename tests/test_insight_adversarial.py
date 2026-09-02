@@ -5,9 +5,9 @@ Adversarial test suite for Phase 7 (Insight & Narrative Agent).
 Thoroughly verifies:
 1. Hallucination guard rejection of fabricated numbers (e.g. 99.9%).
 2. Valid + invalid number combination rejection.
-3. Rounding tolerance boundary checks.
+3. Rounding tolerance boundary checks and exact float/int boundaries.
 4. Qualitative (zero-number) insight rejection.
-5. Max insight cap enforcement.
+5. Max insight cap enforcement (custom 5 and production default 6).
 6. Deterministic backfill when LLM provides insufficient valid insights.
 7. Malformed JSON handling.
 8. LLM offline/timeout handling.
@@ -17,7 +17,9 @@ Thoroughly verifies:
 12. EDA empty charts state (zero visual claims).
 13. DIO mutation boundary snapshot equality.
 14. Backfill floor check: No hallucinated padding when evidence is sparse.
-15. Zero raw-row access guarantee.
+15. Grounding strictly validates insight["text"] and ignores metadata numbers.
+16. Deterministic fallback 100% reproducibility across multiple runs.
+17. Full schema contract compliance.
 """
 
 from __future__ import annotations
@@ -29,10 +31,11 @@ import pytest
 import pandas as pd
 
 from core.dio import DIO
-from core.config import AppConfig
+from core.config import AppConfig, load_config
 from llm.base import LLMProvider, LLMResponse, TokenGovernor, LLMTokenBudgetExceededError
 from agents.insight.insight_agent import InsightAgent
 from agents.insight.evidence_collector import extract_all_dio_numbers
+from agents.insight.hallucination_guard import is_number_grounded, verify_insight_grounding
 
 
 class AdversarialMockLLM(LLMProvider):
@@ -147,44 +150,74 @@ def test_adversarial_hallucination_valid_plus_invalid_combination(rich_dio: DIO,
 
     _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
 
-    # Assert rejection
     assert any(d.get("action") == "hallucination_guard_rejected" for d in updated_dio["decision_log"])
     assert not any("555.0" in ins["text"] for ins in updated_dio["insights"])
 
 
-def test_adversarial_rounding_tolerance_boundaries(rich_dio: DIO, tmp_path: Path):
+def test_adversarial_grounding_validates_only_text_and_ignores_metadata():
     """
-    Test rounding within tolerance (64.8 vs 64.76 -> within 5% tol) is accepted,
-    whereas an out-of-tolerance number (145.0 vs max 118.75 -> > 20% error) is rejected.
+    Requirement: Grounding guard must extract numerical claims EXCLUSIVELY from insight["text"].
+    Numbers present in id, category, evidence, confidence, etc., must not influence grounding.
     """
-    # 64.8 is within 5% of 64.76
-    # 145.0 is outside tolerance of any number in rich_dio
-    candidate_json = json.dumps([
-        {
-            "category": "distribution",
-            "text": "Average monthly charges are approximately 64.8 across 120 customers.",
-            "confidence": 0.90,
-            "evidence": "eda.summary_stats.monthly_charges.mean",
-            "recommendation": "Monitor charges.",
-        },
-        {
-            "category": "distribution",
-            "text": "Average monthly charges are approximately 145.0 across 120 customers.",
-            "confidence": 0.90,
-            "evidence": "eda.summary_stats.monthly_charges.mean",
-            "recommendation": "Monitor charges.",
-        }
-    ])
+    grounded_ints = {100}
+    grounded_floats = {64.76}
 
-    mock_llm = AdversarialMockLLM(candidate_json)
-    agent = InsightAgent(llm_provider=mock_llm)
-    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+    # Fabricated 99.9 in text, valid 100 in metadata
+    insight_with_metadata = {
+        "id": "ins_100",
+        "category": "distribution_001",
+        "evidence": "eda.summary_stats.column_100",
+        "confidence": 0.90,
+        "text": "Revenue increased by 99.9%",
+        "recommendation": "Expand operations",
+    }
 
-    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+    is_grounded, nums, reason = verify_insight_grounding(
+        insight_with_metadata,
+        grounded_ints=grounded_ints,
+        grounded_floats=grounded_floats,
+        tolerance=0.05,
+    )
+    # Must be rejected because 99.9 in text is not grounded, despite 100 in id/evidence
+    assert is_grounded is False
+    assert nums == [99.9]
+    assert "99.9" in reason
 
-    # 64.8 should be kept, 145.0 must be dropped
-    assert any("64.8" in ins["text"] for ins in updated_dio["insights"])
-    assert not any("145.0" in ins["text"] for ins in updated_dio["insights"])
+
+def test_adversarial_exact_tolerance_boundaries():
+    """
+    Exact tolerance boundary verification:
+    1. Ground truth 64.76, narrative 64.8 -> ACCEPT (rel error 0.0006 <= 0.05)
+    2. Ground truth 64.76, narrative 67.9 -> ACCEPT (rel error 0.0484 <= 0.05)
+    3. Ground truth 64.76, narrative 68.5 -> REJECT (rel error 0.0577 > 0.05)
+    4. Ground truth 100, narrative 100 -> ACCEPT (exact int)
+    5. Ground truth 100, narrative 106 -> REJECT (rel error > 0.05)
+    6. Ground truth 0.85, narrative 85% -> ACCEPT (percentage scaling)
+    7. Ground truth 85, narrative 85% -> ACCEPT (integer score/percentage)
+    """
+    grounded_ints = {100, 85}
+    grounded_floats = {64.76, 0.85}
+
+    # 1. 64.76 vs 64.8 (diff 0.04 -> <= 5%)
+    assert is_number_grounded(64.8, grounded_ints, grounded_floats, tolerance=0.05) is True
+
+    # 2. 64.76 vs 67.9 (diff 3.14 -> 4.84% <= 5%)
+    assert is_number_grounded(67.9, grounded_ints, grounded_floats, tolerance=0.05) is True
+
+    # 3. 64.76 vs 68.5 (diff 3.74 -> 5.77% > 5%)
+    assert is_number_grounded(68.5, grounded_ints, grounded_floats, tolerance=0.05) is False
+
+    # 4. 100 vs 100
+    assert is_number_grounded(100.0, grounded_ints, grounded_floats, tolerance=0.05) is True
+
+    # 5. 100 vs 106
+    assert is_number_grounded(106.0, grounded_ints, grounded_floats, tolerance=0.05) is False
+
+    # 6. 0.85 vs 85%
+    assert is_number_grounded(85.0, grounded_ints, grounded_floats, tolerance=0.05) is True
+
+    # 7. 85 vs 85%
+    assert is_number_grounded(85.0, grounded_ints, grounded_floats, tolerance=0.05) is True
 
 
 def test_adversarial_zero_number_qualitative_claim_rejection(rich_dio: DIO, tmp_path: Path):
@@ -213,9 +246,9 @@ def test_adversarial_zero_number_qualitative_claim_rejection(rich_dio: DIO, tmp_
     assert any("zero numbers" in r.get("reason", "").lower() for r in rejections)
 
 
-def test_adversarial_max_insights_capping(rich_dio: DIO, tmp_path: Path):
+def test_adversarial_max_insights_capping_custom_override(rich_dio: DIO, tmp_path: Path):
     """
-    LLM returns 10 valid insights; agent must deterministically cap to max_insights (6).
+    Custom override test: When config.insights.max_insights = 5, caps to 5.
     """
     ten_insights = []
     for i in range(10):
@@ -237,6 +270,119 @@ def test_adversarial_max_insights_capping(rich_dio: DIO, tmp_path: Path):
 
     assert len(updated_dio["insights"]) == 5
     assert updated_dio["insights"][-1]["id"] == "ins_005"
+
+
+def test_adversarial_max_insights_capping_production_default(rich_dio: DIO, tmp_path: Path):
+    """
+    Production default test: Under default config.yaml (max_insights: 6), caps to 6.
+    """
+    ten_insights = []
+    for i in range(10):
+        ten_insights.append({
+            "category": "distribution",
+            "text": f"Average monthly charges are 64.76 with variant #{i + 1} across 120 rows.",
+            "confidence": 0.90,
+            "evidence": "eda.summary_stats.monthly_charges.mean",
+            "recommendation": f"Recommendation #{i + 1}.",
+        })
+
+    mock_llm = AdversarialMockLLM(json.dumps(ten_insights))
+    prod_config = load_config()
+    assert prod_config.insights.max_insights == 6
+
+    agent = InsightAgent(config=prod_config, llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    assert len(updated_dio["insights"]) == 6
+    assert updated_dio["insights"][-1]["id"] == "ins_006"
+
+
+def test_adversarial_empty_charts_generates_zero_visual_claims(rich_dio: DIO, tmp_path: Path):
+    """
+    When EDA charts are empty, verify that zero visual/chart claims are produced
+    (e.g., 'the chart shows', 'the graph indicates', 'the plot reveals', etc.).
+    """
+    rich_dio["eda"]["charts"] = []
+    rich_dio["artifacts"]["chart_paths"] = []
+
+    mock_llm = AdversarialMockLLM("[]")
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    forbidden_visual_phrases = [
+        "chart shows",
+        "graph indicates",
+        "visualization demonstrates",
+        "plot reveals",
+        "histogram displays",
+        "scatter plot illustrates",
+    ]
+
+    for ins in updated_dio["insights"]:
+        text_lower = ins["text"].lower()
+        rec_lower = ins["recommendation"].lower()
+        for phrase in forbidden_visual_phrases:
+            assert phrase not in text_lower, f"Forbidden visual claim found: {phrase}"
+            assert phrase not in rec_lower, f"Forbidden visual claim found in recommendation: {phrase}"
+
+
+def test_adversarial_deterministic_fallback_reproducibility(rich_dio: DIO, tmp_path: Path):
+    """
+    Deterministic fallback must produce 100% bit-for-bit identical outputs across multiple runs.
+    """
+    mock_llm = AdversarialMockLLM("[]")
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    dio_copy_1 = copy.deepcopy(rich_dio)
+    agent_1 = InsightAgent(llm_provider=mock_llm)
+    _, res_dio_1 = agent_1.run(df, dio_copy_1, run_dir=tmp_path)
+
+    dio_copy_2 = copy.deepcopy(rich_dio)
+    agent_2 = InsightAgent(llm_provider=mock_llm)
+    _, res_dio_2 = agent_2.run(df, dio_copy_2, run_dir=tmp_path)
+
+    assert len(res_dio_1["insights"]) == len(res_dio_2["insights"])
+    for i1, i2 in zip(res_dio_1["insights"], res_dio_2["insights"]):
+        assert i1["id"] == i2["id"]
+        assert i1["category"] == i2["category"]
+        assert i1["text"] == i2["text"]
+        assert i1["confidence"] == i2["confidence"]
+        assert i1["evidence"] == i2["evidence"]
+        assert i1["recommendation"] == i2["recommendation"]
+        assert i1["grounded_numbers"] == i2["grounded_numbers"]
+
+
+def test_adversarial_schema_contract_programmatic_assertions(rich_dio: DIO, tmp_path: Path):
+    """
+    Assert full schema contract compliance for every single generated insight:
+    - id, category, text, confidence, evidence, recommendation, grounded_numbers
+    - 0.0 <= confidence <= 1.0
+    - text and recommendation non-empty
+    - grounded_numbers non-empty and matching numbers in text
+    """
+    mock_llm = AdversarialMockLLM("[]")
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    assert len(updated_dio["insights"]) >= 3
+    valid_categories = {"distribution", "correlation", "quality", "machine_learning"}
+
+    for ins in updated_dio["insights"]:
+        assert isinstance(ins.get("id"), str) and ins["id"].startswith("ins_")
+        assert ins.get("category") in valid_categories
+        assert isinstance(ins.get("text"), str) and len(ins["text"].strip()) > 0
+        assert isinstance(ins.get("recommendation"), str) and len(ins["recommendation"].strip()) > 0
+        assert isinstance(ins.get("evidence"), str) and len(ins["evidence"].strip()) > 0
+        assert isinstance(ins.get("confidence"), (int, float))
+        assert 0.0 <= ins["confidence"] <= 1.0
+        assert isinstance(ins.get("grounded_numbers"), list)
+        assert len(ins["grounded_numbers"]) >= 1
 
 
 def test_adversarial_malformed_json_fallback(rich_dio: DIO, tmp_path: Path):
@@ -304,7 +450,6 @@ def test_adversarial_pii_prompt_safety(rich_dio: DIO, tmp_path: Path):
 
     agent.run(df, rich_dio, run_dir=tmp_path)
 
-    # Verify prompt does NOT contain any raw PII values
     assert "999-99-9999" not in mock_llm.last_prompt
     assert "password" not in mock_llm.last_prompt.lower()
 

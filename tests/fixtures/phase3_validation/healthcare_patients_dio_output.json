@@ -150,7 +150,7 @@
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.013,
+      "runtime_seconds": 0.017,
       "warnings": 2,
       "errors": 0
     }
@@ -165,7 +165,7 @@
       "evidence": [
         "four-digit year in first position"
       ],
-      "timestamp": "2026-09-02T12:26:15.351822+00:00"
+      "timestamp": "2026-09-02T13:02:34.426313+00:00"
     },
     {
       "agent": "intelligence",
@@ -176,7 +176,7 @@
       "evidence": [
         "four-digit year in first position"
       ],
-      "timestamp": "2026-09-02T12:26:15.351834+00:00"
+      "timestamp": "2026-09-02T13:02:34.426327+00:00"
     },
     {
       "agent": "intelligence",
@@ -185,7 +185,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.352288+00:00"
+      "timestamp": "2026-09-02T13:02:34.427010+00:00"
     },
     {
       "agent": "intelligence",
@@ -194,7 +194,7 @@
       "label": "age",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.352619+00:00"
+      "timestamp": "2026-09-02T13:02:34.428248+00:00"
     },
     {
       "agent": "intelligence",
@@ -203,7 +203,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.352952+00:00"
+      "timestamp": "2026-09-02T13:02:34.428920+00:00"
     },
     {
       "agent": "intelligence",
@@ -212,7 +212,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.353398+00:00"
+      "timestamp": "2026-09-02T13:02:34.429464+00:00"
     },
     {
       "agent": "intelligence",
@@ -221,7 +221,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.353802+00:00"
+      "timestamp": "2026-09-02T13:02:34.429886+00:00"
     },
     {
       "agent": "intelligence",
@@ -230,7 +230,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.354412+00:00"
+      "timestamp": "2026-09-02T13:02:34.430613+00:00"
     },
     {
       "agent": "intelligence",
@@ -239,7 +239,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.355000+00:00"
+      "timestamp": "2026-09-02T13:02:34.431447+00:00"
     },
     {
       "agent": "intelligence",
@@ -248,14 +248,14 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:26:15.355749+00:00"
+      "timestamp": "2026-09-02T13:02:34.433294+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "healthcare",
       "confidence": 0.95,
-      "timestamp": "2026-09-02T12:26:15.355809+00:00"
+      "timestamp": "2026-09-02T13:02:34.433358+00:00"
     }
   ]
 }

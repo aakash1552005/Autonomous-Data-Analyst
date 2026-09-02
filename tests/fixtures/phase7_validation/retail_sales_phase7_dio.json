@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "dataset_id": "6b079a32-a54b-488c-b605-22e445406b87",
+  "dataset_id": "c546c98b-5a3d-4e31-93fd-a07bf2da9cf3",
   "dataset_hash": "7d0eabf379646c7d6135fd71c6c507efb298595ab535e90e9e5b0430fb0ecef9",
   "file_name": "retail_sales.csv",
   "ingestion": {
@@ -10,18 +10,18 @@
     "encoding": "utf-8"
   },
   "artifacts": {
-    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\cleaned_data.csv",
-    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\removed_rows.csv",
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\removed_rows.csv",
     "model_pkl": null,
     "pdf_report": null,
     "pptx_report": null,
     "chart_paths": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
     ]
   },
   "columns": [
@@ -561,12 +561,12 @@
       ]
     },
     "charts": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline0\\20260902_121608_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\02_trend_price_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\03_scatter_price_vs_revenue.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\04_distribution_price.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\04_distribution_quantity.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline0\\20260902_125157_retail_sales.csv\\artifacts\\charts\\04_distribution_discount_pct.png"
     ],
     "target_candidates": [
       "order_id",
@@ -633,31 +633,31 @@
       "agent": "ml",
       "code": "ML_003_INSUFFICIENT_DATA",
       "message": "Dataset has 6 rows, which is below the configured threshold of 30",
-      "timestamp": "2026-09-02T12:16:22.229239+00:00"
+      "timestamp": "2026-09-02T12:52:11.598950+00:00"
     },
     {
       "agent": "insight",
       "code": "INS_001",
       "message": "LLM insight generation failed: Ollama request timed out after 60s.",
-      "timestamp": "2026-09-02T12:17:26.302337+00:00"
+      "timestamp": "2026-09-02T12:53:15.731876+00:00"
     }
   ],
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.015,
+      "runtime_seconds": 0.04,
       "warnings": 1,
       "errors": 0
     },
     {
       "agent": "cleaning",
-      "runtime_seconds": 0.022,
+      "runtime_seconds": 0.038,
       "warnings": 0,
       "errors": 0
     },
     {
       "agent": "eda",
-      "runtime_seconds": 13.356,
+      "runtime_seconds": 14.051,
       "warnings": 0,
       "errors": 0
     },
@@ -669,7 +669,7 @@
     },
     {
       "agent": "insight",
-      "runtime_seconds": 64.0713,
+      "runtime_seconds": 64.1312,
       "warnings": 1,
       "errors": 1,
       "insights_count": 1
@@ -685,7 +685,7 @@
       "evidence": [
         "day value > 12 found in first position"
       ],
-      "timestamp": "2026-09-02T12:16:08.840154+00:00"
+      "timestamp": "2026-09-02T12:51:57.498370+00:00"
     },
     {
       "agent": "intelligence",
@@ -694,7 +694,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.840536+00:00"
+      "timestamp": "2026-09-02T12:51:57.498691+00:00"
     },
     {
       "agent": "intelligence",
@@ -703,7 +703,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.840960+00:00"
+      "timestamp": "2026-09-02T12:51:57.499083+00:00"
     },
     {
       "agent": "intelligence",
@@ -712,7 +712,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.841517+00:00"
+      "timestamp": "2026-09-02T12:51:57.500463+00:00"
     },
     {
       "agent": "intelligence",
@@ -721,7 +721,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.841877+00:00"
+      "timestamp": "2026-09-02T12:51:57.500878+00:00"
     },
     {
       "agent": "intelligence",
@@ -730,7 +730,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.842256+00:00"
+      "timestamp": "2026-09-02T12:51:57.501229+00:00"
     },
     {
       "agent": "intelligence",
@@ -739,7 +739,7 @@
       "label": "quantity",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.842554+00:00"
+      "timestamp": "2026-09-02T12:51:57.501546+00:00"
     },
     {
       "agent": "intelligence",
@@ -748,7 +748,7 @@
       "label": "quantity",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.843047+00:00"
+      "timestamp": "2026-09-02T12:51:57.501978+00:00"
     },
     {
       "agent": "intelligence",
@@ -757,7 +757,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.843461+00:00"
+      "timestamp": "2026-09-02T12:51:57.502350+00:00"
     },
     {
       "agent": "intelligence",
@@ -766,14 +766,14 @@
       "label": "target_label",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:16:08.843854+00:00"
+      "timestamp": "2026-09-02T12:51:57.502797+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "retail",
       "confidence": 0.95,
-      "timestamp": "2026-09-02T12:16:08.843927+00:00"
+      "timestamp": "2026-09-02T12:51:57.502865+00:00"
     },
     {
       "agent": "cleaning",
@@ -784,7 +784,7 @@
       "cols_after": 9,
       "duplicates_removed": 0,
       "cleaned_dataset_hash": "a21f0ff568b471586840d62df309d0044968703dc113c52a6bdbf285548c479b",
-      "timestamp": "2026-09-02T12:16:08.865894+00:00"
+      "timestamp": "2026-09-02T12:51:57.541127+00:00"
     },
     {
       "agent": "eda",
@@ -802,13 +802,13 @@
         "revenue",
         "status"
       ],
-      "timestamp": "2026-09-02T12:16:22.224309+00:00"
+      "timestamp": "2026-09-02T12:52:11.594594+00:00"
     },
     {
       "agent": "insight",
       "action": "backfill_floor_reached",
       "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
-      "timestamp": "2026-09-02T12:17:26.302444+00:00"
+      "timestamp": "2026-09-02T12:53:15.732251+00:00"
     },
     {
       "agent": "insight",
@@ -816,7 +816,7 @@
       "count": 1,
       "llm_used": false,
       "min_insights_satisfied": false,
-      "timestamp": "2026-09-02T12:17:26.302456+00:00"
+      "timestamp": "2026-09-02T12:53:15.732313+00:00"
     }
   ],
   "llm_usage": {

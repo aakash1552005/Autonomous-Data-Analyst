@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "dataset_id": "315ba8f0-fca6-4ac7-977a-345f33eb721f",
+  "dataset_id": "f0f22281-ad0d-4f33-a4e2-d3526a940155",
   "dataset_hash": "9e623c2caaca91f0becce3988af1e9c437dc0273dd6e02d1435f43453ee5d6ad",
   "file_name": "financial_loans.csv",
   "ingestion": {
@@ -10,18 +10,18 @@
     "encoding": "utf-8"
   },
   "artifacts": {
-    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\cleaned_data.csv",
-    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\removed_rows.csv",
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\removed_rows.csv",
     "model_pkl": null,
     "pdf_report": null,
     "pptx_report": null,
     "chart_paths": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\03_scatter_account_balance_vs_loan_amount.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_account_balance.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_loan_amount.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_interest_rate.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_credit_score.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\03_scatter_account_balance_vs_loan_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_account_balance.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_loan_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_interest_rate.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_credit_score.png"
     ]
   },
   "columns": [
@@ -434,12 +434,12 @@
       ]
     },
     "charts": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\03_scatter_account_balance_vs_loan_amount.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_account_balance.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_loan_amount.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_interest_rate.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-31\\test_phase7_real_data_pipeline2\\20260902_121844_financial_loans.csv\\artifacts\\charts\\04_distribution_credit_score.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\03_scatter_account_balance_vs_loan_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_account_balance.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_loan_amount.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_interest_rate.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline2\\20260902_125432_financial_loans.csv\\artifacts\\charts\\04_distribution_credit_score.png"
     ],
     "target_candidates": [
       "transaction_id",
@@ -504,31 +504,31 @@
       "agent": "ml",
       "code": "ML_003_INSUFFICIENT_DATA",
       "message": "Dataset has 6 rows, which is below the configured threshold of 30",
-      "timestamp": "2026-09-02T12:18:57.283037+00:00"
+      "timestamp": "2026-09-02T12:54:44.000476+00:00"
     },
     {
       "agent": "insight",
       "code": "INS_001",
       "message": "LLM insight generation failed: Ollama request timed out after 60s.",
-      "timestamp": "2026-09-02T12:20:01.379444+00:00"
+      "timestamp": "2026-09-02T12:55:48.100352+00:00"
     }
   ],
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.061,
+      "runtime_seconds": 0.064,
       "warnings": 1,
       "errors": 0
     },
     {
       "agent": "cleaning",
-      "runtime_seconds": 0.082,
+      "runtime_seconds": 0.095,
       "warnings": 0,
       "errors": 0
     },
     {
       "agent": "eda",
-      "runtime_seconds": 12.448,
+      "runtime_seconds": 11.099,
       "warnings": 0,
       "errors": 0
     },
@@ -540,7 +540,7 @@
     },
     {
       "agent": "insight",
-      "runtime_seconds": 64.0948,
+      "runtime_seconds": 64.0983,
       "warnings": 1,
       "errors": 1,
       "insights_count": 1
@@ -554,7 +554,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:18:44.725617+00:00"
+      "timestamp": "2026-09-02T12:54:32.771272+00:00"
     },
     {
       "agent": "intelligence",
@@ -563,7 +563,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:18:44.729498+00:00"
+      "timestamp": "2026-09-02T12:54:32.774579+00:00"
     },
     {
       "agent": "intelligence",
@@ -572,7 +572,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:18:44.730763+00:00"
+      "timestamp": "2026-09-02T12:54:32.779496+00:00"
     },
     {
       "agent": "intelligence",
@@ -581,7 +581,7 @@
       "label": "percentage",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:18:44.732109+00:00"
+      "timestamp": "2026-09-02T12:54:32.783186+00:00"
     },
     {
       "agent": "intelligence",
@@ -590,7 +590,7 @@
       "label": "financial_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:18:44.735060+00:00"
+      "timestamp": "2026-09-02T12:54:32.786981+00:00"
     },
     {
       "agent": "intelligence",
@@ -599,14 +599,14 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:18:44.743962+00:00"
+      "timestamp": "2026-09-02T12:54:32.795504+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "finance",
       "confidence": 0.95,
-      "timestamp": "2026-09-02T12:18:44.744215+00:00"
+      "timestamp": "2026-09-02T12:54:32.795583+00:00"
     },
     {
       "agent": "cleaning",
@@ -617,7 +617,7 @@
       "cols_after": 6,
       "duplicates_removed": 0,
       "cleaned_dataset_hash": "0366e607547b94b28b99332a30550191689d977fc80579a70eaeb6fb228b38c8",
-      "timestamp": "2026-09-02T12:18:44.826784+00:00"
+      "timestamp": "2026-09-02T12:54:32.890384+00:00"
     },
     {
       "agent": "eda",
@@ -633,13 +633,13 @@
         "credit_score",
         "default_status"
       ],
-      "timestamp": "2026-09-02T12:18:57.279915+00:00"
+      "timestamp": "2026-09-02T12:54:43.995768+00:00"
     },
     {
       "agent": "insight",
       "action": "backfill_floor_reached",
       "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
-      "timestamp": "2026-09-02T12:20:01.379614+00:00"
+      "timestamp": "2026-09-02T12:55:48.100513+00:00"
     },
     {
       "agent": "insight",
@@ -647,7 +647,7 @@
       "count": 1,
       "llm_used": false,
       "min_insights_satisfied": false,
-      "timestamp": "2026-09-02T12:20:01.379662+00:00"
+      "timestamp": "2026-09-02T12:55:48.100527+00:00"
     }
   ],
   "llm_usage": {
