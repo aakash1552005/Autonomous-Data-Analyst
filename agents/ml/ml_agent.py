@@ -226,6 +226,7 @@ class MLAgent(BaseAgent):
                 task_type=task_type,
                 preprocessor=preprocessor,
                 random_seed=self.config.ml.random_state,
+                min_rows_xgboost=self.config.ml.min_rows_xgboost,
             )
 
             # 8. Persist Model Artifact & Compute SHA-256

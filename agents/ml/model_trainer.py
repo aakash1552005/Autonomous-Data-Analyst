@@ -143,12 +143,15 @@ def train_and_evaluate_models(
     task_type: str,
     preprocessor: Any,
     random_seed: int = 42,
+    min_rows_xgboost: int = 500,
 ) -> dict[str, Any]:
     """
     Train baselines and candidate models, evaluate on test set, and select best model.
+    Enforces min_rows_xgboost threshold and handles optional XGBoost dependency.
     """
     candidate_records: list[dict[str, Any]] = []
     fitted_pipelines: dict[str, Pipeline] = {}
+    total_rows = len(X_train) + len(X_test)
 
     if task_type == "classification":
         n_classes = int(y_train.nunique())
@@ -189,27 +192,34 @@ def train_and_evaluate_models(
             "metrics": rf_metrics,
         })
 
-        # 4. Candidate 3: XGBoost Classifier (Optional)
-        try:
-            from xgboost import XGBClassifier
-            xgb_pipe = Pipeline([
-                ("preprocessor", preprocessor),
-                ("estimator", XGBClassifier(random_state=random_seed, eval_metric="logloss")),
-            ])
-            xgb_pipe.fit(X_train, y_train)
-            xgb_metrics = evaluate_classification_model(xgb_pipe, X_test, y_test, n_classes)
-            fitted_pipelines["xgboost"] = xgb_pipe
-            candidate_records.append({
-                "model_name": "xgboost",
-                "status": "trained",
-                "metrics": xgb_metrics,
-            })
-        except Exception as e:
+        # 4. Candidate 3: XGBoost Classifier (Optional & Threshold-Guarded)
+        if total_rows < min_rows_xgboost:
             candidate_records.append({
                 "model_name": "xgboost",
                 "status": "skipped",
-                "reason": f"not available: {str(e)}",
+                "reason": f"dataset has {total_rows} rows, below min_rows_xgboost threshold of {min_rows_xgboost}",
             })
+        else:
+            try:
+                from xgboost import XGBClassifier
+                xgb_pipe = Pipeline([
+                    ("preprocessor", preprocessor),
+                    ("estimator", XGBClassifier(random_state=random_seed, eval_metric="logloss")),
+                ])
+                xgb_pipe.fit(X_train, y_train)
+                xgb_metrics = evaluate_classification_model(xgb_pipe, X_test, y_test, n_classes)
+                fitted_pipelines["xgboost"] = xgb_pipe
+                candidate_records.append({
+                    "model_name": "xgboost",
+                    "status": "trained",
+                    "metrics": xgb_metrics,
+                })
+            except Exception as e:
+                candidate_records.append({
+                    "model_name": "xgboost",
+                    "status": "skipped",
+                    "reason": f"not available: {str(e)}",
+                })
 
         # Deterministic Selection: Max F1 -> Max Recall -> Max Precision -> Priority
         trained_candidates = [c for c in candidate_records if c["status"] == "trained"]
@@ -261,27 +271,34 @@ def train_and_evaluate_models(
             "metrics": rf_metrics,
         })
 
-        # 4. Candidate 3: XGBoost Regressor (Optional)
-        try:
-            from xgboost import XGBRegressor
-            xgb_pipe = Pipeline([
-                ("preprocessor", preprocessor),
-                ("estimator", XGBRegressor(random_state=random_seed)),
-            ])
-            xgb_pipe.fit(X_train, y_train)
-            xgb_metrics = evaluate_regression_model(xgb_pipe, X_test, y_test)
-            fitted_pipelines["xgboost"] = xgb_pipe
-            candidate_records.append({
-                "model_name": "xgboost",
-                "status": "trained",
-                "metrics": xgb_metrics,
-            })
-        except Exception as e:
+        # 4. Candidate 3: XGBoost Regressor (Optional & Threshold-Guarded)
+        if total_rows < min_rows_xgboost:
             candidate_records.append({
                 "model_name": "xgboost",
                 "status": "skipped",
-                "reason": f"not available: {str(e)}",
+                "reason": f"dataset has {total_rows} rows, below min_rows_xgboost threshold of {min_rows_xgboost}",
             })
+        else:
+            try:
+                from xgboost import XGBRegressor
+                xgb_pipe = Pipeline([
+                    ("preprocessor", preprocessor),
+                    ("estimator", XGBRegressor(random_state=random_seed)),
+                ])
+                xgb_pipe.fit(X_train, y_train)
+                xgb_metrics = evaluate_regression_model(xgb_pipe, X_test, y_test)
+                fitted_pipelines["xgboost"] = xgb_pipe
+                candidate_records.append({
+                    "model_name": "xgboost",
+                    "status": "trained",
+                    "metrics": xgb_metrics,
+                })
+            except Exception as e:
+                candidate_records.append({
+                    "model_name": "xgboost",
+                    "status": "skipped",
+                    "reason": f"not available: {str(e)}",
+                })
 
         # Deterministic Selection: Min RMSE -> Min MAE -> Max R2
         trained_candidates = [c for c in candidate_records if c["status"] == "trained"]

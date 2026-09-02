@@ -112,7 +112,7 @@
 - `agents/ml/target_validator.py`: Target validation and data sufficiency enforcement using configurable YAML parameters (`min_rows_for_ml: 30`, `min_rows_per_class: 5`). Calculates class distributions and regression stats.
 - `agents/ml/leakage_detector.py`: Multi-layer leakage prevention (target exclusion, PII exclusion, identifier exclusion, post-outcome temporal pattern exclusion, and near-perfect correlation / mutual-information thresholding with `leakage_threshold: 0.95`).
 - `agents/ml/preprocessor.py`: Scikit-learn `ColumnTransformer` builder. Transformers are fitted strictly on `X_train` after the split.
-- `agents/ml/model_trainer.py`: Candidate model training (LogisticRegression/Ridge, RandomForest, optional XGBoost with graceful fallback), Dummy baselines, task-appropriate metrics (Accuracy, Precision, Recall, F1, ROC-AUC, Confusion Matrix, MAE, MSE, RMSE, R²), and deterministic model selection.
+- `agents/ml/model_trainer.py`: Candidate model training (LogisticRegression/Ridge, RandomForest, optional XGBoost with `min_rows_xgboost: 500` threshold guard and graceful fallback), Dummy baselines, task-appropriate metrics (Accuracy, Precision, Recall, F1, ROC-AUC, Confusion Matrix, MAE, MSE, RMSE, R²), and deterministic model selection.
 - `agents/ml/model_persister.py`: Pipeline serialization to `runs/{run_id}/artifacts/model.pkl`, SHA-256 calculation, and reload/prediction verification.
 - `agents/ml/ml_agent.py`: `MLAgent(BaseAgent)` coordinator. Mutates ONLY `dio["ml"]` and `dio["artifacts"]["model_pkl"]`. Strict zero-LLM decision making.
 
@@ -123,6 +123,7 @@
   - PII & identifier exclusion even with 100% predictive power.
   - Preprocessing isolation (outliers in $X_{\text{test}}$ do not contaminate $X_{\text{train}}$ statistics).
   - Data sufficiency boundaries (30 vs 29 rows, 5 vs 4 samples/class).
+  - `min_rows_xgboost` threshold enforcement (skipped when $N < 500$, trained when $N \ge 500$).
   - Baseline comparison & deterministic model selection.
   - Model serialization, SHA-256 hashing, reload, and prediction inference.
   - Bit-for-bit dataset immutability and deep DIO mutation boundary snapshot.
@@ -133,14 +134,14 @@
 ```bash
 .venv\Scripts\python.exe -m pytest tests/ -v
 ```
-- **206/206 PASSED** in 180.76s:
+- **207/207 PASSED** in 219.19s:
   - 42 Phase 0 tests
   - 32 Phase 1 tests
   - 17 Phase 2 tests
   - 49 Phase 3 tests
   - 16 Phase 4 tests
   - 18 Phase 5 tests
-  - 32 Phase 6 tests (17 unit + 5 real-data validation + 10 adversarial audit tests)
+  - 33 Phase 6 tests (17 unit + 5 real-data validation + 11 adversarial audit tests)
 
 ---
 

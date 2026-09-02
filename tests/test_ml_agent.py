@@ -320,7 +320,10 @@ def test_optional_xgboost_simulation_when_unavailable(tmp_path: Path, monkeypatc
         {"name": "target", "dtype_inferred": "int", "is_target_candidate": True},
     ]
 
-    agent = MLAgent()
+    config = AppConfig()
+    config.ml.min_rows_xgboost = 30  # Allow 40 rows to attempt XGBoost import
+
+    agent = MLAgent(config=config)
     _, updated_dio = agent.run(df, dio, run_dir=tmp_path)
 
     assert updated_dio["ml"]["status"] == "trained"

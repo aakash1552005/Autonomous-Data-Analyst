@@ -424,10 +424,16 @@ def test_positive_path_complete_synthetic_dataset_100_rows(tmp_path: Path):
     assert len(ml_res["feature_columns"]) >= 5
     assert ml_res["split"]["train_rows"] == 96  # 80% of 120
     assert ml_res["split"]["test_rows"] == 24   # 20% of 120
-    assert ml_res["selected_model"] in ("logistic_regression", "random_forest", "xgboost")
+    assert ml_res["selected_model"] in ("logistic_regression", "random_forest")
     assert "metrics" in ml_res
     assert "f1" in ml_res["metrics"]
     assert "accuracy" in ml_res["metrics"]
+
+    # Verify XGBoost status reflects min_rows_xgboost=500 rule
+    xgb_entry = next((c for c in ml_res["candidate_models"] if c["model_name"] == "xgboost"), None)
+    assert xgb_entry is not None
+    assert xgb_entry["status"] == "skipped"
+    assert "below min_rows_xgboost threshold of 500" in xgb_entry["reason"]
 
     # Verify model artifact exists, is hashed, and reloads
     model_path = Path(dio["artifacts"]["model_pkl"])
@@ -439,3 +445,44 @@ def test_positive_path_complete_synthetic_dataset_100_rows(tmp_path: Path):
     preds = reloaded_pipeline.predict(sample_test_row)
     assert len(preds) == 3
     assert all(p in (0, 1) for p in preds)
+
+
+def test_min_rows_xgboost_threshold_enforcement(tmp_path: Path):
+    """
+    Verify min_rows_xgboost behavior:
+    1. Dataset rows < min_rows_xgboost -> XGBoost skipped with threshold reason.
+    2. Dataset rows >= min_rows_xgboost -> XGBoost evaluated and trained.
+    """
+    np.random.seed(42)
+    n = 60
+    df = pd.DataFrame({
+        "feat": np.random.randn(n),
+        "target": np.random.choice([0, 1], n),
+    })
+    dio = DIO.create_empty(file_name="xgb_thresh.csv", dataset_hash="h_xgb_t")
+    dio["columns"] = [
+        {"name": "feat", "dtype_inferred": "float"},
+        {"name": "target", "dtype_inferred": "int", "is_target_candidate": True},
+    ]
+
+    # Case A: Default config (min_rows_xgboost=500) -> 60 rows < 500 -> XGBoost SKIPPED
+    config_500 = AppConfig()
+    config_500.ml.min_rows_xgboost = 500
+    agent_500 = MLAgent(config=config_500)
+    _, dio_500 = agent_500.run(df.copy(), copy.deepcopy(dio), run_dir=tmp_path / "run_500")
+
+    xgb_500 = next((c for c in dio_500["ml"]["candidate_models"] if c["model_name"] == "xgboost"), None)
+    assert xgb_500 is not None
+    assert xgb_500["status"] == "skipped"
+    assert "below min_rows_xgboost threshold of 500" in xgb_500["reason"]
+
+    # Case B: Config with min_rows_xgboost=50 -> 60 rows >= 50 -> XGBoost TRAINED
+    config_50 = AppConfig()
+    config_50.ml.min_rows_xgboost = 50
+    agent_50 = MLAgent(config=config_50)
+    _, dio_50 = agent_50.run(df.copy(), copy.deepcopy(dio), run_dir=tmp_path / "run_50")
+
+    xgb_50 = next((c for c in dio_50["ml"]["candidate_models"] if c["model_name"] == "xgboost"), None)
+    assert xgb_50 is not None
+    assert xgb_50["status"] == "trained"
+    assert "metrics" in xgb_50
