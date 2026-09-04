@@ -437,21 +437,87 @@ def test_adversarial_token_budget_exhaustion(rich_dio: DIO, tmp_path: Path):
 def test_adversarial_pii_prompt_safety(rich_dio: DIO, tmp_path: Path):
     """
     Ensure that PII column names or metadata containing raw PII values never enter the prompt.
+    Tests active exclusion: PII columns are added to both dio["columns"] and
+    dio["eda"]["summary_stats"]["categorical"] with realistic sensitive values.
     """
-    rich_dio["columns"].append({
-        "name": "ssn",
-        "dtype_inferred": "string",
-        "semantic_label": "ssn",
-        "is_pii": True,
+    rich_dio["columns"].extend([
+        {
+            "name": "full_name",
+            "dtype_inferred": "category",
+            "semantic_label": "person_name",
+            "is_pii": True,
+            "pii_type": "name",
+        },
+        {
+            "name": "email",
+            "dtype_inferred": "category",
+            "semantic_label": "email",
+            "is_pii": True,
+            "pii_type": "email",
+        },
+        {
+            "name": "phone_number",
+            "dtype_inferred": "category",
+            "semantic_label": "phone",
+            "is_pii": True,
+            "pii_type": "phone",
+        },
+        {
+            "name": "customer_id",
+            "dtype_inferred": "category",
+            "semantic_label": "identifier",
+            "is_pii": False,
+            "pii_type": "none",
+        },
+    ])
+
+    if "categorical" not in rich_dio["eda"]["summary_stats"]:
+        rich_dio["eda"]["summary_stats"]["categorical"] = {}
+
+    rich_dio["eda"]["summary_stats"]["categorical"].update({
+        "full_name": {
+            "unique_count": 4,
+            "top_categories": {"Johnathan Doe": 2, "Jane Roe": 1, "Alex Smith": 1},
+        },
+        "email": {
+            "unique_count": 4,
+            "top_categories": {"john@example.com": 2, "jane@corp.org": 1},
+        },
+        "phone_number": {
+            "unique_count": 4,
+            "top_categories": {"555-123-4567": 2, "555-987-6543": 1},
+        },
+        "customer_id": {
+            "unique_count": 4,
+            "top_categories": {"CUST-1001": 1, "CUST-1002": 1},
+        },
     })
+
     mock_llm = AdversarialMockLLM("[]")
     agent = InsightAgent(llm_provider=mock_llm)
     df = pd.DataFrame({"monthly_charges": [64.76] * 120})
 
     agent.run(df, rich_dio, run_dir=tmp_path)
 
-    assert "999-99-9999" not in mock_llm.last_prompt
-    assert "password" not in mock_llm.last_prompt.lower()
+    prompt = mock_llm.last_prompt
+
+    # Assert PII values are absent
+    assert "Johnathan Doe" not in prompt
+    assert "Jane Roe" not in prompt
+    assert "john@example.com" not in prompt
+    assert "555-123-4567" not in prompt
+    assert "CUST-1001" not in prompt
+
+    # Assert PII/identifier column names are absent from evidence
+    assert "full_name" not in prompt
+    assert "phone_number" not in prompt
+    assert "customer_id" not in prompt
+
+    # Assert legitimate non-PII evidence remains available
+    assert "monthly_charges" in prompt
+    assert "total_charges" in prompt
+    assert "64.76" in prompt
+
 
 
 def test_adversarial_ml_insufficient_data_produces_zero_ml_claims(tmp_path: Path):
@@ -550,3 +616,180 @@ def test_adversarial_backfill_floor_no_fabrication_on_empty_evidence(tmp_path: P
     floor_logs = [d for d in updated_dio["decision_log"] if d.get("action") == "backfill_floor_reached"]
     assert len(floor_logs) >= 1
     assert "insufficient evidence in dataset" in floor_logs[0]["reason"]
+
+
+def test_adversarial_llm_schema_missing_recommendation(rich_dio: DIO, tmp_path: Path):
+    """
+    Test A — Missing recommendation:
+    LLM returns an otherwise valid, numerically grounded insight missing 'recommendation'.
+    Must be rejected for schema non-compliance, logged, and backfilled via deterministic engine.
+    """
+    malformed_json = json.dumps([
+        {
+            "category": "distribution",
+            "text": "Average monthly charges are 64.76 across 120 customers.",
+            "confidence": 0.90,
+            "evidence": "eda.summary_stats.monthly_charges.mean",
+            # "recommendation" is intentionally omitted
+        }
+    ])
+    mock_llm = AdversarialMockLLM(malformed_json)
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    # 1. Candidate rejected and logged in decision_log
+    rejections = [d for d in updated_dio["decision_log"] if d.get("action") == "insight_schema_rejected"]
+    assert len(rejections) >= 1
+    assert "recommendation" in rejections[0]["reason"].lower()
+
+    # 2. Logged in errors
+    assert any(e.get("code") == "INS_003" for e in updated_dio["errors"])
+
+    # 3. Candidate absent from final insights
+    assert not any(ins.get("text") == "Average monthly charges are 64.76 across 120 customers." and "recommendation" not in ins for ins in updated_dio["insights"])
+    for ins in updated_dio["insights"]:
+        assert "recommendation" in ins and len(ins["recommendation"].strip()) > 0
+
+    # 4. Deterministic fallback used to satisfy min_insights
+    assert len(updated_dio["insights"]) >= 3
+
+
+def test_adversarial_llm_schema_missing_evidence(rich_dio: DIO, tmp_path: Path):
+    """
+    Test B — Missing evidence:
+    LLM returns an insight missing 'evidence'. Must be rejected.
+    """
+    malformed_json = json.dumps([
+        {
+            "category": "distribution",
+            "text": "Average monthly charges are 64.76 across 120 customers.",
+            "confidence": 0.90,
+            "recommendation": "Review pricing tiers.",
+            # "evidence" is intentionally omitted
+        }
+    ])
+    mock_llm = AdversarialMockLLM(malformed_json)
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    rejections = [d for d in updated_dio["decision_log"] if d.get("action") == "insight_schema_rejected"]
+    assert len(rejections) >= 1
+    assert "evidence" in rejections[0]["reason"].lower()
+    assert any(e.get("code") == "INS_003" for e in updated_dio["errors"])
+
+
+def test_adversarial_llm_schema_missing_category(rich_dio: DIO, tmp_path: Path):
+    """
+    Test C — Missing category:
+    LLM returns an insight missing 'category'. Must be rejected.
+    """
+    malformed_json = json.dumps([
+        {
+            "text": "Average monthly charges are 64.76 across 120 customers.",
+            "confidence": 0.90,
+            "evidence": "eda.summary_stats.monthly_charges.mean",
+            "recommendation": "Review pricing tiers.",
+            # "category" is intentionally omitted
+        }
+    ])
+    mock_llm = AdversarialMockLLM(malformed_json)
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    rejections = [d for d in updated_dio["decision_log"] if d.get("action") == "insight_schema_rejected"]
+    assert len(rejections) >= 1
+    assert "category" in rejections[0]["reason"].lower()
+
+
+@pytest.mark.parametrize("invalid_conf", [1.5, -0.1, "high", True])
+def test_adversarial_llm_schema_invalid_confidence(rich_dio: DIO, tmp_path: Path, invalid_conf: Any):
+    """
+    Test D — Invalid confidence:
+    Values outside [0.0, 1.0], strings like 'high', or boolean values must all be rejected.
+    """
+    malformed_json = json.dumps([
+        {
+            "category": "distribution",
+            "text": "Average monthly charges are 64.76 across 120 customers.",
+            "confidence": invalid_conf,
+            "evidence": "eda.summary_stats.monthly_charges.mean",
+            "recommendation": "Review pricing tiers.",
+        }
+    ])
+    mock_llm = AdversarialMockLLM(malformed_json)
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    rejections = [d for d in updated_dio["decision_log"] if d.get("action") == "insight_schema_rejected"]
+    assert len(rejections) >= 1
+    assert "confidence" in rejections[0]["reason"].lower()
+
+
+def test_adversarial_llm_schema_invalid_category(rich_dio: DIO, tmp_path: Path):
+    """
+    Test E — Invalid category:
+    Unsupported category must be rejected.
+    """
+    malformed_json = json.dumps([
+        {
+            "category": "unsupported_speculation",
+            "text": "Average monthly charges are 64.76 across 120 customers.",
+            "confidence": 0.85,
+            "evidence": "eda.summary_stats.monthly_charges.mean",
+            "recommendation": "Review pricing tiers.",
+        }
+    ])
+    mock_llm = AdversarialMockLLM(malformed_json)
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    rejections = [d for d in updated_dio["decision_log"] if d.get("action") == "insight_schema_rejected"]
+    assert len(rejections) >= 1
+    assert "category" in rejections[0]["reason"].lower()
+
+
+def test_adversarial_llm_schema_complete_valid_candidate_accepted(rich_dio: DIO, tmp_path: Path):
+    """
+    Test F — Complete valid LLM candidate:
+    A fully valid seven-field candidate must be accepted after grounding.
+    Verifies that strict validation does not break the positive LLM path.
+    """
+    valid_json = json.dumps([
+        {
+            "category": "distribution",
+            "text": "Average monthly charges are 64.76 across 120 customers.",
+            "confidence": 0.92,
+            "evidence": "eda.summary_stats.monthly_charges.mean",
+            "recommendation": "Review account pricing tiers.",
+        }
+    ])
+    mock_llm = AdversarialMockLLM(valid_json)
+    agent = InsightAgent(llm_provider=mock_llm)
+    df = pd.DataFrame({"monthly_charges": [64.76] * 120})
+
+    _, updated_dio = agent.run(df, rich_dio, run_dir=tmp_path)
+
+    # Must NOT have any schema rejections
+    rejections = [d for d in updated_dio["decision_log"] if d.get("action") == "insight_schema_rejected"]
+    assert len(rejections) == 0
+
+    # The first insight must be the accepted LLM candidate
+    accepted_ins = updated_dio["insights"][0]
+    assert accepted_ins["id"] == "ins_001"
+    assert accepted_ins["category"] == "distribution"
+    assert "64.76" in accepted_ins["text"]
+    assert accepted_ins["confidence"] == 0.92
+    assert accepted_ins["evidence"] == "eda.summary_stats.monthly_charges.mean"
+    assert accepted_ins["recommendation"] == "Review account pricing tiers."
+    assert 64.76 in accepted_ins["grounded_numbers"]
+    assert 120.0 in accepted_ins["grounded_numbers"]

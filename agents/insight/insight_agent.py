@@ -27,7 +27,7 @@ from llm.ollama_client import OllamaClient
 from llm.openai_client import OpenAIClient
 from agents.insight.evidence_collector import collect_evidence_summary, extract_all_dio_numbers
 from agents.insight.prompt_builder import build_insight_prompt
-from agents.insight.hallucination_guard import verify_insight_grounding
+from agents.insight.hallucination_guard import verify_insight_grounding, validate_insight_schema
 from agents.insight.deterministic_engine import generate_deterministic_insights
 
 logger = get_logger("agents.insight")
@@ -170,6 +170,25 @@ class InsightAgent(BaseAgent):
                     })
 
                 for cand in candidates:
+                    # 1. Validate Schema Contract
+                    is_schema_valid, schema_reason = validate_insight_schema(cand)
+                    if not is_schema_valid:
+                        dio["decision_log"].append({
+                            "agent": self.name,
+                            "action": "insight_schema_rejected",
+                            "reason": schema_reason,
+                            "rejected_candidate": {k: str(v) for k, v in cand.items()} if isinstance(cand, dict) else str(cand),
+                            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                        })
+                        dio["errors"].append({
+                            "agent": self.name,
+                            "code": "INS_003",
+                            "message": f"Rejected malformed insight candidate: {schema_reason}",
+                            "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+                        })
+                        continue
+
+                    # 2. Numerical Grounding
                     is_grounded, nums, reason = verify_insight_grounding(
                         cand,
                         grounded_ints=grounded_ints,
@@ -178,6 +197,7 @@ class InsightAgent(BaseAgent):
                     )
                     if is_grounded:
                         cand["grounded_numbers"] = nums
+                        cand["category"] = cand["category"].strip().lower()
                         valid_insights.append(cand)
                     else:
                         dio["decision_log"].append({

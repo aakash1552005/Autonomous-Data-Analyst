@@ -119,3 +119,48 @@ def verify_insight_grounding(
         )
 
     return True, extracted, ""
+
+
+VALID_INSIGHT_CATEGORIES = {"distribution", "correlation", "quality", "machine_learning"}
+
+
+def validate_insight_schema(candidate: dict[str, Any]) -> tuple[bool, str]:
+    """
+    Validate that an LLM-generated insight candidate strictly complies with the 7-field contract.
+    Ensures category, text, confidence, evidence, and recommendation are present, validly typed,
+    and meet domain constraints.
+    Returns (is_valid, rejection_reason).
+    """
+    if not isinstance(candidate, dict):
+        return False, "Candidate is not a dictionary"
+
+    # 1. category: required, string, in valid categories
+    category = candidate.get("category")
+    if not isinstance(category, str) or not category.strip():
+        return False, "Missing or empty 'category' field"
+    if category.strip().lower() not in VALID_INSIGHT_CATEGORIES:
+        return False, f"Invalid 'category' '{category}'. Must be one of: {sorted(VALID_INSIGHT_CATEGORIES)}"
+
+    # 2. text: required, non-empty string
+    text = candidate.get("text")
+    if not isinstance(text, str) or not text.strip():
+        return False, "Missing or empty 'text' field"
+
+    # 3. confidence: required, numeric (int or float, not bool), between 0.0 and 1.0
+    confidence = candidate.get("confidence")
+    if isinstance(confidence, bool) or not isinstance(confidence, (int, float)):
+        return False, f"Invalid 'confidence' value: {confidence!r}. Must be a float between 0.0 and 1.0"
+    if not (0.0 <= float(confidence) <= 1.0):
+        return False, f"Out-of-range 'confidence' value: {confidence}. Must be between 0.0 and 1.0"
+
+    # 4. evidence: required, non-empty string
+    evidence = candidate.get("evidence")
+    if not isinstance(evidence, str) or not evidence.strip():
+        return False, "Missing or empty 'evidence' field"
+
+    # 5. recommendation: required, non-empty string
+    recommendation = candidate.get("recommendation")
+    if not isinstance(recommendation, str) or not recommendation.strip():
+        return False, "Missing or empty 'recommendation' field"
+
+    return True, ""

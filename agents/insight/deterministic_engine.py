@@ -10,6 +10,7 @@ from __future__ import annotations
 
 from typing import Any
 from agents.insight.hallucination_guard import extract_numbers_from_text
+from agents.insight.evidence_collector import get_excluded_pii_columns
 
 
 def generate_deterministic_insights(
@@ -20,8 +21,10 @@ def generate_deterministic_insights(
     Generate structured insights deterministically from DIO evidence.
     Prioritizes highest-signal statistical findings across ML, Correlations,
     Distributions, and Data Quality.
+    Strictly excludes any PII or identifier columns.
     """
     candidates: list[dict[str, Any]] = []
+    excluded_cols = get_excluded_pii_columns(dio)
 
     ingestion = dio.get("ingestion", {})
     n_rows = ingestion.get("n_rows", 0)
@@ -77,9 +80,11 @@ def generate_deterministic_insights(
     # 2. Strongest Correlation Insights
     top_corrs = correlations.get("top_correlations", [])
     if top_corrs:
-        for corr in top_corrs[:2]:
+        for corr in top_corrs:
             c1 = corr.get("col1")
             c2 = corr.get("col2")
+            if c1 in excluded_cols or c2 in excluded_cols:
+                continue
             p_val = corr.get("pearson")
             if p_val is not None and abs(p_val) >= 0.20:
                 direction = "positive" if p_val > 0 else "negative"
@@ -91,13 +96,15 @@ def generate_deterministic_insights(
                     "evidence": f"dio.eda.correlations.pearson.{c1}.{c2}",
                     "recommendation": f"Evaluate potential causal dependencies between '{c1}' and '{c2}' in operational workflows.",
                 })
+            if len([c for c in candidates if c["category"] == "correlation"]) >= 2:
+                break
 
     # 3. Numeric Distribution Insights (Mean, Median, Dispersion)
     numeric_stats = summary_stats.get("numeric", {})
     if numeric_stats:
-        # Pick top 2 numeric columns with highest variance/mean
+        # Pick top 2 numeric non-PII columns with highest variance/mean
         sorted_num = sorted(
-            numeric_stats.items(),
+            [item for item in numeric_stats.items() if item[0] not in excluded_cols],
             key=lambda item: item[1].get("std", 0.0) if isinstance(item[1], dict) else 0.0,
             reverse=True,
         )
@@ -118,7 +125,8 @@ def generate_deterministic_insights(
     # 4. Categorical Distribution Insights
     categorical_stats = summary_stats.get("categorical", {})
     if categorical_stats:
-        for col_name, stats in list(categorical_stats.items())[:2]:
+        valid_cats = [item for item in categorical_stats.items() if item[0] not in excluded_cols]
+        for col_name, stats in valid_cats[:2]:
             if isinstance(stats, dict):
                 u_cnt = stats.get("unique_count", 0)
                 top_cats = stats.get("top_categories", {})
