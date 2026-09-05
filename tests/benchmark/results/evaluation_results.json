@@ -1,6 +1,6 @@
 {
   "benchmark_version": "1.0",
-  "run_timestamp": "2026-09-05T07:06:35.519866+00:00",
+  "run_timestamp": "2026-09-05T20:18:58.737266+00:00",
   "datasets": [
     {
       "dataset": "retail_sales",
@@ -12,6 +12,18 @@
       "domain_accuracy": 1.0,
       "date_resolution_accuracy": 1.0,
       "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
       "cleaning_metrics": {
         "cleaning_accuracy": 1.0,
         "duplicates_removed": 0,
@@ -33,14 +45,17 @@
         "eda_errors": []
       },
       "ml_metrics": {
-        "ml_accuracy": 1.0,
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "SKIPPED_INSUFFICIENT_DATA",
         "ml_ran": false,
         "ml_applicable_expected": false,
         "target_matched": true,
         "task_type_matched": true,
-        "metrics_present": true,
-        "model_persisted": true,
+        "metrics_present": false,
+        "model_persisted": false,
+        "predictive_metrics": null,
         "ml_errors": [],
+        "ml_accuracy": 1.0,
         "ml_pipeline_compliance_score": 1.0,
         "model_performance": null
       },
@@ -50,7 +65,8 @@
         "unsupported_claim_count": 0,
         "fabricated_numeric_claim_count": 0,
         "total_insights_evaluated": 1,
-        "insight_errors": []
+        "insight_errors": [],
+        "grounding_accuracy": 1.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -61,22 +77,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 81.885,
-        "intelligence_runtime": 0.038,
-        "cleaning_runtime": 0.033,
-        "eda_runtime": 17.065,
-        "ml_runtime": 0.001,
-        "insight_runtime": 64.098,
-        "report_runtime": 0.611,
+        "total_runtime_seconds": 12.759,
+        "intelligence_runtime": 0.018,
+        "cleaning_runtime": 0.024,
+        "eda_runtime": 10.417,
+        "ml_runtime": 0.002,
+        "insight_runtime": 2.019,
+        "report_runtime": 0.262,
         "stage_timings": {
-          "validation": 0.033,
-          "intelligence": 0.038,
-          "cleaning": 0.033,
-          "eda": 17.065,
-          "ml": 0.001,
-          "insight": 64.098,
-          "report": 0.611,
-          "total_pipeline": 81.885
+          "validation": 0.013,
+          "intelligence": 0.018,
+          "cleaning": 0.024,
+          "eda": 10.417,
+          "ml": 0.002,
+          "insight": 2.019,
+          "report": 0.262,
+          "total_pipeline": 12.759
         }
       },
       "token_usage": {
@@ -130,6 +146,18 @@
       "domain_accuracy": 1.0,
       "date_resolution_accuracy": 1.0,
       "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 5,
+        "leakage_detected": true,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
       "cleaning_metrics": {
         "cleaning_accuracy": 1.0,
         "duplicates_removed": 0,
@@ -151,21 +179,24 @@
         "eda_errors": []
       },
       "ml_metrics": {
-        "ml_accuracy": 1.0,
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "SKIPPED_INSUFFICIENT_DATA",
         "ml_ran": false,
         "ml_applicable_expected": false,
         "target_matched": true,
         "task_type_matched": true,
-        "metrics_present": true,
-        "model_persisted": true,
+        "metrics_present": false,
+        "model_persisted": false,
+        "predictive_metrics": null,
         "ml_errors": [],
+        "ml_accuracy": 1.0,
         "ml_pipeline_compliance_score": 1.0,
         "model_performance": null
       },
       "insight_metrics": {
-        "insight_grounding_accuracy": 1.0,
-        "supported_claim_count": 1,
-        "unsupported_claim_count": 0,
+        "insight_grounding_accuracy": 0.0,
+        "supported_claim_count": 0,
+        "unsupported_claim_count": 1,
         "fabricated_numeric_claim_count": 1,
         "total_insights_evaluated": 1,
         "insight_errors": [
@@ -174,7 +205,8 @@
             "cited_number": 100.0,
             "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
           }
-        ]
+        ],
+        "grounding_accuracy": 0.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -185,22 +217,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 76.415,
-        "intelligence_runtime": 0.018,
-        "cleaning_runtime": 0.019,
-        "eda_runtime": 11.821,
+        "total_runtime_seconds": 12.668,
+        "intelligence_runtime": 0.015,
+        "cleaning_runtime": 0.022,
+        "eda_runtime": 10.381,
         "ml_runtime": 0.002,
-        "insight_runtime": 64.12,
-        "report_runtime": 0.417,
+        "insight_runtime": 2.016,
+        "report_runtime": 0.218,
         "stage_timings": {
-          "validation": 0.013,
-          "intelligence": 0.018,
-          "cleaning": 0.019,
-          "eda": 11.821,
+          "validation": 0.008,
+          "intelligence": 0.015,
+          "cleaning": 0.022,
+          "eda": 10.381,
           "ml": 0.002,
-          "insight": 64.12,
-          "report": 0.417,
-          "total_pipeline": 76.415
+          "insight": 2.016,
+          "report": 0.218,
+          "total_pipeline": 12.668
         }
       },
       "token_usage": {
@@ -240,6 +272,18 @@
       "domain_accuracy": 1.0,
       "date_resolution_accuracy": 1.0,
       "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
       "cleaning_metrics": {
         "cleaning_accuracy": 1.0,
         "duplicates_removed": 0,
@@ -261,14 +305,17 @@
         "eda_errors": []
       },
       "ml_metrics": {
-        "ml_accuracy": 1.0,
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "SKIPPED_INSUFFICIENT_DATA",
         "ml_ran": false,
         "ml_applicable_expected": false,
         "target_matched": true,
         "task_type_matched": true,
-        "metrics_present": true,
-        "model_persisted": true,
+        "metrics_present": false,
+        "model_persisted": false,
+        "predictive_metrics": null,
         "ml_errors": [],
+        "ml_accuracy": 1.0,
         "ml_pipeline_compliance_score": 1.0,
         "model_performance": null
       },
@@ -278,7 +325,8 @@
         "unsupported_claim_count": 0,
         "fabricated_numeric_claim_count": 0,
         "total_insights_evaluated": 1,
-        "insight_errors": []
+        "insight_errors": [],
+        "grounding_accuracy": 1.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -289,22 +337,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 75.005,
-        "intelligence_runtime": 0.007,
-        "cleaning_runtime": 0.01,
-        "eda_runtime": 10.457,
+        "total_runtime_seconds": 12.8,
+        "intelligence_runtime": 0.009,
+        "cleaning_runtime": 0.016,
+        "eda_runtime": 10.524,
         "ml_runtime": 0.001,
-        "insight_runtime": 64.143,
-        "report_runtime": 0.371,
+        "insight_runtime": 2.031,
+        "report_runtime": 0.208,
         "stage_timings": {
-          "validation": 0.01,
-          "intelligence": 0.007,
-          "cleaning": 0.01,
-          "eda": 10.457,
+          "validation": 0.006,
+          "intelligence": 0.009,
+          "cleaning": 0.016,
+          "eda": 10.524,
           "ml": 0.001,
-          "insight": 64.143,
-          "report": 0.371,
-          "total_pipeline": 75.005
+          "insight": 2.031,
+          "report": 0.208,
+          "total_pipeline": 12.8
         }
       },
       "token_usage": {
@@ -349,6 +397,18 @@
       "domain_accuracy": 1.0,
       "date_resolution_accuracy": 1.0,
       "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
       "cleaning_metrics": {
         "cleaning_accuracy": 1.0,
         "duplicates_removed": 1,
@@ -370,21 +430,24 @@
         "eda_errors": []
       },
       "ml_metrics": {
-        "ml_accuracy": 1.0,
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "SKIPPED_INSUFFICIENT_DATA",
         "ml_ran": false,
         "ml_applicable_expected": false,
         "target_matched": true,
         "task_type_matched": true,
-        "metrics_present": true,
-        "model_persisted": true,
+        "metrics_present": false,
+        "model_persisted": false,
+        "predictive_metrics": null,
         "ml_errors": [],
+        "ml_accuracy": 1.0,
         "ml_pipeline_compliance_score": 1.0,
         "model_performance": null
       },
       "insight_metrics": {
-        "insight_grounding_accuracy": 1.0,
-        "supported_claim_count": 1,
-        "unsupported_claim_count": 0,
+        "insight_grounding_accuracy": 0.0,
+        "supported_claim_count": 0,
+        "unsupported_claim_count": 1,
         "fabricated_numeric_claim_count": 1,
         "total_insights_evaluated": 1,
         "insight_errors": [
@@ -393,7 +456,8 @@
             "cited_number": 100.0,
             "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
           }
-        ]
+        ],
+        "grounding_accuracy": 0.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -404,22 +468,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 74.755,
+        "total_runtime_seconds": 11.124,
         "intelligence_runtime": 0.01,
-        "cleaning_runtime": 0.022,
-        "eda_runtime": 9.986,
+        "cleaning_runtime": 0.029,
+        "eda_runtime": 8.847,
         "ml_runtime": 0.002,
-        "insight_runtime": 64.079,
-        "report_runtime": 0.64,
+        "insight_runtime": 2.019,
+        "report_runtime": 0.203,
         "stage_timings": {
-          "validation": 0.01,
+          "validation": 0.006,
           "intelligence": 0.01,
-          "cleaning": 0.022,
-          "eda": 9.986,
+          "cleaning": 0.029,
+          "eda": 8.847,
           "ml": 0.002,
-          "insight": 64.079,
-          "report": 0.64,
-          "total_pipeline": 74.755
+          "insight": 2.019,
+          "report": 0.203,
+          "total_pipeline": 11.124
         }
       },
       "token_usage": {
@@ -486,6 +550,28 @@
       "domain_accuracy": 1.0,
       "date_resolution_accuracy": 1.0,
       "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 4,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 16,
+        "leakage_detected": true,
+        "pii_columns_detected": [
+          "credit_card",
+          "email",
+          "full_name",
+          "phone_number"
+        ],
+        "pii_columns_expected": [
+          "credit_card",
+          "email",
+          "full_name",
+          "phone_number"
+        ],
+        "pii_errors": []
+      },
       "cleaning_metrics": {
         "cleaning_accuracy": 1.0,
         "duplicates_removed": 0,
@@ -507,14 +593,17 @@
         "eda_errors": []
       },
       "ml_metrics": {
-        "ml_accuracy": 1.0,
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "SKIPPED_INSUFFICIENT_DATA",
         "ml_ran": false,
         "ml_applicable_expected": false,
         "target_matched": true,
         "task_type_matched": true,
-        "metrics_present": true,
-        "model_persisted": true,
+        "metrics_present": false,
+        "model_persisted": false,
+        "predictive_metrics": null,
         "ml_errors": [],
+        "ml_accuracy": 1.0,
         "ml_pipeline_compliance_score": 1.0,
         "model_performance": null
       },
@@ -524,7 +613,8 @@
         "unsupported_claim_count": 0,
         "fabricated_numeric_claim_count": 0,
         "total_insights_evaluated": 1,
-        "insight_errors": []
+        "insight_errors": [],
+        "grounding_accuracy": 1.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -535,22 +625,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 76.361,
-        "intelligence_runtime": 0.021,
-        "cleaning_runtime": 0.031,
-        "eda_runtime": 11.637,
+        "total_runtime_seconds": 7.665,
+        "intelligence_runtime": 0.014,
+        "cleaning_runtime": 0.016,
+        "eda_runtime": 5.448,
         "ml_runtime": 0.001,
-        "insight_runtime": 64.103,
-        "report_runtime": 0.55,
+        "insight_runtime": 2.012,
+        "report_runtime": 0.163,
         "stage_timings": {
-          "validation": 0.013,
-          "intelligence": 0.021,
-          "cleaning": 0.031,
-          "eda": 11.637,
+          "validation": 0.006,
+          "intelligence": 0.014,
+          "cleaning": 0.016,
+          "eda": 5.448,
           "ml": 0.001,
-          "insight": 64.103,
-          "report": 0.55,
-          "total_pipeline": 76.361
+          "insight": 2.012,
+          "report": 0.163,
+          "total_pipeline": 7.665
         }
       },
       "token_usage": {
@@ -584,6 +674,18 @@
       "domain_accuracy": 1.0,
       "date_resolution_accuracy": 1.0,
       "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
       "cleaning_metrics": {
         "cleaning_accuracy": 1.0,
         "duplicates_removed": 0,
@@ -620,31 +722,98 @@
         ]
       },
       "ml_metrics": {
-        "ml_accuracy": 1.0,
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "TRAINED",
         "ml_ran": true,
         "ml_applicable_expected": true,
         "target_matched": true,
         "task_type_matched": true,
         "metrics_present": true,
         "model_persisted": true,
-        "ml_errors": [],
-        "ml_pipeline_compliance_score": 1.0,
-        "model_performance": {
+        "predictive_metrics": {
           "selected_model": "random_forest",
-          "f1": 0.4,
-          "roc_auc": 0.4306,
+          "task_type": "classification",
+          "metrics": {
+            "accuracy": 0.5,
+            "precision": 0.5,
+            "recall": 0.3333,
+            "f1": 0.4,
+            "roc_auc": 0.4306,
+            "confusion_matrix": [
+              [
+                4,
+                2
+              ],
+              [
+                4,
+                2
+              ]
+            ]
+          },
+          "improved_over_baseline": true,
+          "selection_reason": "Selected random_forest with highest F1 score (0.4)",
           "accuracy": 0.5,
           "precision": 0.5,
           "recall": 0.3333,
+          "f1": 0.4,
+          "roc_auc": 0.4306,
+          "confusion_matrix": [
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              2
+            ]
+          ]
+        },
+        "ml_errors": [],
+        "ml_accuracy": 1.0,
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": {
+          "selected_model": "random_forest",
+          "task_type": "classification",
+          "metrics": {
+            "accuracy": 0.5,
+            "precision": 0.5,
+            "recall": 0.3333,
+            "f1": 0.4,
+            "roc_auc": 0.4306,
+            "confusion_matrix": [
+              [
+                4,
+                2
+              ],
+              [
+                4,
+                2
+              ]
+            ]
+          },
           "improved_over_baseline": true,
-          "baseline_f1": 0.0,
-          "selection_reason": "Selected random_forest with highest F1 score (0.4)"
+          "selection_reason": "Selected random_forest with highest F1 score (0.4)",
+          "accuracy": 0.5,
+          "precision": 0.5,
+          "recall": 0.3333,
+          "f1": 0.4,
+          "roc_auc": 0.4306,
+          "confusion_matrix": [
+            [
+              4,
+              2
+            ],
+            [
+              4,
+              2
+            ]
+          ]
         }
       },
       "insight_metrics": {
-        "insight_grounding_accuracy": 1.0,
-        "supported_claim_count": 3,
-        "unsupported_claim_count": 0,
+        "insight_grounding_accuracy": 0.2,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 2,
         "fabricated_numeric_claim_count": 2,
         "total_insights_evaluated": 3,
         "insight_errors": [
@@ -658,7 +827,8 @@
             "cited_number": 100.0,
             "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
           }
-        ]
+        ],
+        "grounding_accuracy": 0.2
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -669,22 +839,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 79.482,
-        "intelligence_runtime": 0.022,
-        "cleaning_runtime": 0.031,
-        "eda_runtime": 14.305,
-        "ml_runtime": 0.413,
-        "insight_runtime": 64.131,
-        "report_runtime": 0.566,
+        "total_runtime_seconds": 12.92,
+        "intelligence_runtime": 0.015,
+        "cleaning_runtime": 0.017,
+        "eda_runtime": 10.337,
+        "ml_runtime": 0.266,
+        "insight_runtime": 2.03,
+        "report_runtime": 0.237,
         "stage_timings": {
-          "validation": 0.008,
-          "intelligence": 0.022,
-          "cleaning": 0.031,
-          "eda": 14.305,
-          "ml": 0.413,
-          "insight": 64.131,
-          "report": 0.566,
-          "total_pipeline": 79.482
+          "validation": 0.013,
+          "intelligence": 0.015,
+          "cleaning": 0.017,
+          "eda": 10.337,
+          "ml": 0.266,
+          "insight": 2.03,
+          "report": 0.237,
+          "total_pipeline": 12.92
         }
       },
       "token_usage": {
@@ -779,29 +949,780 @@
           "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
         }
       ]
+    },
+    {
+      "dataset": "telco_churn_1k",
+      "domain": "generic",
+      "rows": 1000,
+      "columns": 10,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 0.3,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 0,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 1000,
+        "row_count_after": 1000,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 0.75,
+        "stats_verified_count": 1,
+        "stats_total_count": 2,
+        "charts_generated_count": 6,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": [
+          {
+            "column": "monthly_charges",
+            "stat": "min",
+            "actual": 18.46,
+            "expected": 18.25,
+            "error": "Value mismatch beyond tolerance (0.1825)"
+          }
+        ]
+      },
+      "ml_metrics": {
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "TRAINED",
+        "ml_ran": true,
+        "ml_applicable_expected": true,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "predictive_metrics": {
+          "selected_model": "random_forest",
+          "task_type": "classification",
+          "metrics": {
+            "accuracy": 0.715,
+            "precision": 0.4833,
+            "recall": 0.5273,
+            "f1": 0.5043,
+            "roc_auc": 0.71,
+            "confusion_matrix": [
+              [
+                114,
+                31
+              ],
+              [
+                26,
+                29
+              ]
+            ]
+          },
+          "improved_over_baseline": true,
+          "selection_reason": "Selected random_forest with highest F1 score (0.5043)",
+          "accuracy": 0.715,
+          "precision": 0.4833,
+          "recall": 0.5273,
+          "f1": 0.5043,
+          "roc_auc": 0.71,
+          "confusion_matrix": [
+            [
+              114,
+              31
+            ],
+            [
+              26,
+              29
+            ]
+          ]
+        },
+        "ml_errors": [],
+        "ml_accuracy": 1.0,
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": {
+          "selected_model": "random_forest",
+          "task_type": "classification",
+          "metrics": {
+            "accuracy": 0.715,
+            "precision": 0.4833,
+            "recall": 0.5273,
+            "f1": 0.5043,
+            "roc_auc": 0.71,
+            "confusion_matrix": [
+              [
+                114,
+                31
+              ],
+              [
+                26,
+                29
+              ]
+            ]
+          },
+          "improved_over_baseline": true,
+          "selection_reason": "Selected random_forest with highest F1 score (0.5043)",
+          "accuracy": 0.715,
+          "precision": 0.4833,
+          "recall": 0.5273,
+          "f1": 0.5043,
+          "roc_auc": 0.71,
+          "confusion_matrix": [
+            [
+              114,
+              31
+            ],
+            [
+              26,
+              29
+            ]
+          ]
+        }
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 0.5,
+        "supported_claim_count": 2,
+        "unsupported_claim_count": 1,
+        "fabricated_numeric_claim_count": 1,
+        "total_insights_evaluated": 3,
+        "insight_errors": [
+          {
+            "insight_index": 2,
+            "cited_number": 100.0,
+            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+          }
+        ],
+        "grounding_accuracy": 0.5
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 13.402,
+        "intelligence_runtime": 0.032,
+        "cleaning_runtime": 0.048,
+        "eda_runtime": 10.514,
+        "ml_runtime": 0.537,
+        "insight_runtime": 2.012,
+        "report_runtime": 0.243,
+        "stage_timings": {
+          "validation": 0.01,
+          "intelligence": 0.032,
+          "cleaning": 0.048,
+          "eda": 10.514,
+          "ml": 0.537,
+          "insight": 2.012,
+          "report": 0.243,
+          "total_pipeline": 13.402
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 1000,
+          "column_count": 10,
+          "quality_score": 91
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "column": "senior_citizen",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "binary",
+            "boolean",
+            "integer"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['binary', 'boolean', 'integer']"
+        },
+        {
+          "column": "tenure",
+          "predicted_label": "age",
+          "expected_labels": [
+            "quantity",
+            "tenure",
+            "integer"
+          ],
+          "confidence": 0.75,
+          "reason": "Predicted 'age' does not match expected ['quantity', 'tenure', 'integer']"
+        },
+        {
+          "column": "contract",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "category"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['category']"
+        },
+        {
+          "column": "paperless_billing",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "binary",
+            "boolean",
+            "category"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['binary', 'boolean', 'category']"
+        },
+        {
+          "column": "payment_method",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "category"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['category']"
+        },
+        {
+          "column": "monthly_charges",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "currency_amount",
+            "numeric"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['currency_amount', 'numeric']"
+        },
+        {
+          "column": "total_charges",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "currency_amount",
+            "numeric"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['currency_amount', 'numeric']"
+        },
+        {
+          "column": "monthly_charges",
+          "stat": "min",
+          "actual": 18.46,
+          "expected": 18.25,
+          "error": "Value mismatch beyond tolerance (0.1825)"
+        },
+        {
+          "insight_index": 2,
+          "cited_number": 100.0,
+          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+        }
+      ]
+    },
+    {
+      "dataset": "housing_regression_1k",
+      "domain": "generic",
+      "rows": 1000,
+      "columns": 9,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 0.3333,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 0,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 1000,
+        "row_count_after": 1000,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 1.0,
+        "stats_verified_count": 2,
+        "stats_total_count": 2,
+        "charts_generated_count": 6,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": []
+      },
+      "ml_metrics": {
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "TRAINED",
+        "ml_ran": true,
+        "ml_applicable_expected": true,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "predictive_metrics": {
+          "selected_model": "ridge_regression",
+          "task_type": "regression",
+          "metrics": {
+            "mae": 126657.3309,
+            "mse": 21016876757.9559,
+            "rmse": 144971.9861,
+            "r2": 0.0042
+          },
+          "improved_over_baseline": true,
+          "selection_reason": "Selected ridge_regression with lowest RMSE (144971.9861)",
+          "mae": 126657.3309,
+          "mse": 21016876757.9559,
+          "rmse": 144971.9861,
+          "r2": 0.0042
+        },
+        "ml_errors": [],
+        "ml_accuracy": 1.0,
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": {
+          "selected_model": "ridge_regression",
+          "task_type": "regression",
+          "metrics": {
+            "mae": 126657.3309,
+            "mse": 21016876757.9559,
+            "rmse": 144971.9861,
+            "r2": 0.0042
+          },
+          "improved_over_baseline": true,
+          "selection_reason": "Selected ridge_regression with lowest RMSE (144971.9861)",
+          "mae": 126657.3309,
+          "mse": 21016876757.9559,
+          "rmse": 144971.9861,
+          "r2": 0.0042
+        }
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 0.5,
+        "supported_claim_count": 2,
+        "unsupported_claim_count": 1,
+        "fabricated_numeric_claim_count": 1,
+        "total_insights_evaluated": 3,
+        "insight_errors": [
+          {
+            "insight_index": 1,
+            "cited_number": 675777.3,
+            "error": "Cited number 675777.3 is not grounded in DIO facts or summary statistics"
+          }
+        ],
+        "grounding_accuracy": 0.5
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 13.366,
+        "intelligence_runtime": 0.025,
+        "cleaning_runtime": 0.038,
+        "eda_runtime": 10.605,
+        "ml_runtime": 0.424,
+        "insight_runtime": 2.016,
+        "report_runtime": 0.246,
+        "stage_timings": {
+          "validation": 0.007,
+          "intelligence": 0.025,
+          "cleaning": 0.038,
+          "eda": 10.605,
+          "ml": 0.424,
+          "insight": 2.016,
+          "report": 0.246,
+          "total_pipeline": 13.366
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 1000,
+          "column_count": 9,
+          "quality_score": 95
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "column": "longitude",
+          "predicted_label": "geographic",
+          "expected_labels": [
+            "numeric",
+            "coordinate",
+            "float"
+          ],
+          "confidence": 0.9,
+          "reason": "Predicted 'geographic' does not match expected ['numeric', 'coordinate', 'float']"
+        },
+        {
+          "column": "latitude",
+          "predicted_label": "geographic",
+          "expected_labels": [
+            "numeric",
+            "coordinate",
+            "float"
+          ],
+          "confidence": 0.9,
+          "reason": "Predicted 'geographic' does not match expected ['numeric', 'coordinate', 'float']"
+        },
+        {
+          "column": "total_rooms",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "quantity",
+            "numeric",
+            "integer"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['quantity', 'numeric', 'integer']"
+        },
+        {
+          "column": "total_bedrooms",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "quantity",
+            "numeric",
+            "integer"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['quantity', 'numeric', 'integer']"
+        },
+        {
+          "column": "population",
+          "predicted_label": "geographic",
+          "expected_labels": [
+            "quantity",
+            "population",
+            "numeric",
+            "integer"
+          ],
+          "confidence": 0.9,
+          "reason": "Predicted 'geographic' does not match expected ['quantity', 'population', 'numeric', 'integer']"
+        },
+        {
+          "column": "households",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "quantity",
+            "numeric",
+            "integer"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['quantity', 'numeric', 'integer']"
+        },
+        {
+          "insight_index": 1,
+          "cited_number": 675777.3,
+          "error": "Cited number 675777.3 is not grounded in DIO facts or summary statistics"
+        }
+      ]
+    },
+    {
+      "dataset": "credit_default_1k",
+      "domain": "generic",
+      "rows": 1000,
+      "columns": 9,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 0.5556,
+      "domain_accuracy": 0.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "pii_metrics": {
+        "pii_true_positive": 0,
+        "pii_false_negative": 0,
+        "pii_false_positive": 0,
+        "pii_recall": 1.0,
+        "pii_precision": 1.0,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
+        "pii_columns_detected": [],
+        "pii_columns_expected": [],
+        "pii_errors": []
+      },
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 0,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 1000,
+        "row_count_after": 1000,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 1.0,
+        "stats_verified_count": 2,
+        "stats_total_count": 2,
+        "charts_generated_count": 6,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": []
+      },
+      "ml_metrics": {
+        "ml_behavior_compliance_score": 1.0,
+        "model_training_status": "TRAINED",
+        "ml_ran": true,
+        "ml_applicable_expected": true,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "predictive_metrics": {
+          "selected_model": "logistic_regression",
+          "task_type": "classification",
+          "metrics": {
+            "accuracy": 0.605,
+            "precision": 0.2593,
+            "recall": 0.525,
+            "f1": 0.3471,
+            "roc_auc": 0.5625,
+            "confusion_matrix": [
+              [
+                100,
+                60
+              ],
+              [
+                19,
+                21
+              ]
+            ]
+          },
+          "improved_over_baseline": true,
+          "selection_reason": "Selected logistic_regression with highest F1 score (0.3471)",
+          "accuracy": 0.605,
+          "precision": 0.2593,
+          "recall": 0.525,
+          "f1": 0.3471,
+          "roc_auc": 0.5625,
+          "confusion_matrix": [
+            [
+              100,
+              60
+            ],
+            [
+              19,
+              21
+            ]
+          ]
+        },
+        "ml_errors": [],
+        "ml_accuracy": 1.0,
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": {
+          "selected_model": "logistic_regression",
+          "task_type": "classification",
+          "metrics": {
+            "accuracy": 0.605,
+            "precision": 0.2593,
+            "recall": 0.525,
+            "f1": 0.3471,
+            "roc_auc": 0.5625,
+            "confusion_matrix": [
+              [
+                100,
+                60
+              ],
+              [
+                19,
+                21
+              ]
+            ]
+          },
+          "improved_over_baseline": true,
+          "selection_reason": "Selected logistic_regression with highest F1 score (0.3471)",
+          "accuracy": 0.605,
+          "precision": 0.2593,
+          "recall": 0.525,
+          "f1": 0.3471,
+          "roc_auc": 0.5625,
+          "confusion_matrix": [
+            [
+              100,
+              60
+            ],
+            [
+              19,
+              21
+            ]
+          ]
+        }
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 0.5,
+        "supported_claim_count": 2,
+        "unsupported_claim_count": 1,
+        "fabricated_numeric_claim_count": 1,
+        "total_insights_evaluated": 3,
+        "insight_errors": [
+          {
+            "insight_index": 1,
+            "cited_number": 16.8,
+            "error": "Cited number 16.8 is not grounded in DIO facts or summary statistics"
+          }
+        ],
+        "grounding_accuracy": 0.5
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 13.103,
+        "intelligence_runtime": 0.031,
+        "cleaning_runtime": 0.032,
+        "eda_runtime": 10.481,
+        "ml_runtime": 0.3,
+        "insight_runtime": 2.017,
+        "report_runtime": 0.229,
+        "stage_timings": {
+          "validation": 0.008,
+          "intelligence": 0.031,
+          "cleaning": 0.032,
+          "eda": 10.481,
+          "ml": 0.3,
+          "insight": 2.017,
+          "report": 0.229,
+          "total_pipeline": 13.103
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 1000,
+          "column_count": 9,
+          "quality_score": 95
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "column": "limit_bal",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "currency_amount",
+            "numeric"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['currency_amount', 'numeric']"
+        },
+        {
+          "column": "education",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "category",
+            "integer"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['category', 'integer']"
+        },
+        {
+          "column": "marriage",
+          "predicted_label": "age",
+          "expected_labels": [
+            "category",
+            "integer"
+          ],
+          "confidence": 0.9,
+          "reason": "Predicted 'age' does not match expected ['category', 'integer']"
+        },
+        {
+          "column": "default_payment",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "target_label",
+            "binary",
+            "integer"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['target_label', 'binary', 'integer']"
+        },
+        {
+          "insight_index": 1,
+          "cited_number": 16.8,
+          "error": "Cited number 16.8 is not grounded in DIO facts or summary statistics"
+        }
+      ]
     }
   ],
   "aggregate_metrics": {
-    "total_datasets": 6,
-    "successful_datasets": 6,
-    "mean_semantic_accuracy": 0.7161,
-    "mean_domain_accuracy": 1.0,
+    "total_datasets": 9,
+    "successful_datasets": 9,
+    "mean_semantic_accuracy": 0.6095,
+    "mean_domain_accuracy": 0.8889,
     "mean_date_accuracy": 1.0,
     "mean_pii_recall": 1.0,
     "mean_cleaning_accuracy": 1.0,
     "mean_eda_accuracy": 0.9167,
+    "mean_ml_behavior_compliance_score": 1.0,
+    "mean_ml_pipeline_compliance_score": 1.0,
     "mean_ml_accuracy": 1.0,
-    "mean_insight_accuracy": 1.0,
+    "mean_insight_accuracy": 0.5222,
     "mean_report_fidelity": 1.0,
-    "total_runtime_seconds": 463.903,
-    "total_pii_leakages": 0,
-    "mean_ml_pipeline_compliance_score": 1.0
+    "total_runtime_seconds": 109.807,
+    "total_pii_leakages": 21
   },
   "limitations": [
     "Baseline Comparison: ydata-profiling is not installed in the environment; recorded as YDATA_PROFILING_UNAVAILABLE per Section 15.",
     "Token Usage: Provider token consumption is tracked when active LLM calls execute; deterministic heuristic fallbacks report 'unavailable' rather than fabricating numbers.",
-    "ML Compliance vs Predictive Quality: 'ML Pipeline Compliance Score' evaluates operational process correctness (safe skipping on sample size guardrails, target detection, task typing, metric calculation, and artifact persistence) and does not measure predictive accuracy. Where ML executes (customer_churn_ml.csv), actual held-out model performance (Random Forest F1: 0.40, ROC-AUC: 0.43, Improved Over Baseline: True) is displayed alongside compliance checks.",
-    "ML Sample Size Guardrail: Production pipeline enforces config.yaml min_rows_for_ml: 30. Datasets with < 30 rows (retail, healthcare, finance, mixed_messy, ambiguous_dates_pii) correctly skip ML with status 'insufficient_data' (ML_003_INSUFFICIENT_DATA). Dataset customer_churn_ml (60 rows) exercises full ML training, metric evaluation, and model artifact persistence.",
+    "ML Compliance vs Predictive Quality: 'ML Behavior Compliance Score' evaluates operational process correctness (safe skipping on sample size guardrails, target detection, task typing, metric calculation, and artifact persistence) and does not measure predictive accuracy. Where ML executes, actual held-out model performance is displayed alongside compliance checks.",
+    "ML Sample Size Guardrail: Production pipeline enforces config.yaml min_rows_for_ml: 30. Datasets with < 30 rows correctly skip ML with status 'insufficient_data' (ML_003_INSUFFICIENT_DATA). Datasets >= 30 rows exercise full ML training, metric evaluation, and model artifact persistence.",
     "Independent Ground Truth: Ground truth semantic labels, cleaning outcomes, and statistical facts derived by independent human inspection without reverse-engineering pipeline rules."
   ]
 }

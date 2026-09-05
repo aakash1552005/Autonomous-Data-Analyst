@@ -73,10 +73,15 @@ class OllamaClient(LLMProvider):
             provider="ollama",
         )
 
+    _cached_availability: bool | None = None
+
     def is_available(self) -> bool:
-        """Helper to quickly check if Ollama server is reachable."""
+        """Helper to quickly check if Ollama server is reachable with session caching."""
+        if self._cached_availability is not None:
+            return self._cached_availability
         try:
-            r = requests.get(f"{self.host}/api/tags", timeout=3)
-            return r.status_code == 200
+            r = requests.get(f"{self.host}/api/tags", timeout=1)
+            self._cached_availability = (r.status_code == 200)
         except Exception:
-            return False
+            self._cached_availability = False
+        return self._cached_availability

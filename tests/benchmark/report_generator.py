@@ -51,23 +51,31 @@ class ReportGenerator:
             status_badge_class = "badge-success" if ds.pipeline_status in ("completed", "partial") else "badge-error"
             ml_ran = ds.ml_metrics.get("ml_ran", False)
             model_perf = ds.ml_metrics.get("model_performance")
+            comp_score = ds.ml_metrics.get("ml_behavior_compliance_score", ds.ml_metrics.get("ml_accuracy", 1.0))
             if ml_ran and model_perf:
-                f1_val = model_perf.get("f1", 0.0)
-                auc_val = model_perf.get("roc_auc", 0.0)
-                ml_compliance_val = "100.0% (Trained)"
+                if "f1" in model_perf and "roc_auc" in model_perf:
+                    f1_val = model_perf.get("f1", 0.0)
+                    auc_val = model_perf.get("roc_auc", 0.0)
+                    quality_str = f"F1: {f1_val:.2f} | AUC: {auc_val:.2f}"
+                elif "r2" in model_perf and "rmse" in model_perf:
+                    r2_val = model_perf.get("r2", 0.0)
+                    rmse_val = model_perf.get("rmse", 0.0)
+                    quality_str = f"R²: {r2_val:.2f} | RMSE: {rmse_val:.2f}"
+                else:
+                    quality_str = "Trained"
+                ml_compliance_val = f"{comp_score * 100:.1f}% (Trained)"
                 extra_ml_html = f"""
                     <div class="metric-item">
                         <span class="metric-label">Model Quality</span>
-                        <span class="metric-val" style="color:var(--accent);">F1: {f1_val:.2f} | AUC: {auc_val:.2f}</span>
-                    </div>
-                    <div class="metric-item">
-                        <span class="metric-label">Baseline Comparison</span>
-                        <span class="metric-val" style="color:var(--success);">Improved: True (+{f1_val:.2f})</span>
+                        <span class="metric-val" style="color:var(--accent);">{quality_str}</span>
                     </div>
                 """
             else:
-                ml_compliance_val = "100.0% (Skipped: &lt;30 rows)"
+                ml_compliance_val = f"{comp_score * 100:.1f}% (Skipped: &lt;30 rows)"
                 extra_ml_html = ""
+
+            leak_cnt = ds.pii_metrics.get("raw_pii_leakage_count", 0)
+            leak_color = "var(--error)" if leak_cnt > 0 else "var(--success)"
 
             dataset_cards_html += f"""
             <div class="card dataset-card">
@@ -93,6 +101,10 @@ class ReportGenerator:
                         <span class="metric-val">{ds.pii_recall * 100:.1f}%</span>
                     </div>
                     <div class="metric-item">
+                        <span class="metric-label">PII Leakages</span>
+                        <span class="metric-val" style="color:{leak_color};">{leak_cnt}</span>
+                    </div>
+                    <div class="metric-item">
                         <span class="metric-label">Cleaning Acc</span>
                         <span class="metric-val">{ds.cleaning_metrics.get('cleaning_accuracy', 1.0) * 100:.1f}%</span>
                     </div>
@@ -101,7 +113,7 @@ class ReportGenerator:
                         <span class="metric-val">{ds.eda_metrics.get('eda_accuracy', 1.0) * 100:.1f}%</span>
                     </div>
                     <div class="metric-item">
-                        <span class="metric-label">ML Pipeline Compliance</span>
+                        <span class="metric-label">ML Behavior Compliance</span>
                         <span class="metric-val">{ml_compliance_val}</span>
                     </div>
                     {extra_ml_html}
@@ -126,12 +138,23 @@ class ReportGenerator:
         for ds in suite_result.datasets:
             ml_ran = ds.ml_metrics.get("ml_ran", False)
             model_perf = ds.ml_metrics.get("model_performance")
+            comp_score = ds.ml_metrics.get("ml_behavior_compliance_score", ds.ml_metrics.get("ml_accuracy", 1.0))
             if ml_ran and model_perf:
-                f1_val = model_perf.get("f1", 0.0)
-                auc_val = model_perf.get("roc_auc", 0.0)
-                ml_cell_html = f'100.0% <span style="font-size:11px; color:var(--success); display:block;">(F1: {f1_val:.2f}, AUC: {auc_val:.2f}, Improved: True)</span>'
+                if "f1" in model_perf and "roc_auc" in model_perf:
+                    f1_val = model_perf.get("f1", 0.0)
+                    auc_val = model_perf.get("roc_auc", 0.0)
+                    ml_cell_html = f'{comp_score * 100:.1f}% <span style="font-size:11px; color:var(--success); display:block;">(F1: {f1_val:.2f}, AUC: {auc_val:.2f}, Trained)</span>'
+                elif "r2" in model_perf and "rmse" in model_perf:
+                    r2_val = model_perf.get("r2", 0.0)
+                    rmse_val = model_perf.get("rmse", 0.0)
+                    ml_cell_html = f'{comp_score * 100:.1f}% <span style="font-size:11px; color:var(--success); display:block;">(R²: {r2_val:.2f}, RMSE: {rmse_val:.2f}, Trained)</span>'
+                else:
+                    ml_cell_html = f'{comp_score * 100:.1f}% <span style="font-size:11px; color:var(--success); display:block;">(Trained)</span>'
             else:
-                ml_cell_html = '100.0% <span style="font-size:11px; color:var(--text-secondary); display:block;">(Skipped: &lt;30 rows)</span>'
+                ml_cell_html = f'{comp_score * 100:.1f}% <span style="font-size:11px; color:var(--text-secondary); display:block;">(Skipped: &lt;30 rows)</span>'
+
+            leak_cnt = ds.pii_metrics.get("raw_pii_leakage_count", 0)
+            leak_color = "var(--error)" if leak_cnt > 0 else "var(--success)"
 
             rows_html += f"""
             <tr>
@@ -142,6 +165,7 @@ class ReportGenerator:
                 <td>{ds.semantic_label_accuracy * 100:.1f}%</td>
                 <td>{ds.date_resolution_accuracy * 100:.1f}%</td>
                 <td>{ds.pii_recall * 100:.1f}%</td>
+                <td style="color:{leak_color}; font-weight:600;">{leak_cnt}</td>
                 <td>{ds.cleaning_metrics.get('cleaning_accuracy', 1.0) * 100:.1f}%</td>
                 <td>{ds.eda_metrics.get('eda_accuracy', 1.0) * 100:.1f}%</td>
                 <td>{ml_cell_html}</td>
@@ -153,6 +177,11 @@ class ReportGenerator:
 
         # Limitations list HTML
         limitations_html = "".join(f"<li>{lim}</li>" for lim in suite_result.limitations)
+
+        # Security & Privacy Audit Metrics
+        total_pii_leak = agg.get("total_pii_leakages", 0)
+        pii_leak_color = "var(--error)" if total_pii_leak > 0 else "var(--success)"
+        pii_leak_label = f"{total_pii_leak} (LEAKAGE DETECTED)" if total_pii_leak > 0 else "0 (ZERO)"
 
         html_content = f"""<!DOCTYPE html>
 <html lang="en">
@@ -307,24 +336,27 @@ class ReportGenerator:
         }}
         .metric-label {{
             font-size: 11px;
-            color: var(--text-secondary);
             text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
         }}
         .metric-val {{
-            font-size: 16px;
+            font-size: 14px;
             font-weight: 600;
+            color: var(--text-primary);
         }}
         .runtime-meta {{
-            display: flex;
-            gap: 24px;
-            font-size: 13px;
+            font-size: 12px;
             color: var(--text-secondary);
+            display: flex;
+            gap: 16px;
+            border-top: 1px solid var(--surface-border);
+            padding-top: 12px;
         }}
         table {{
             width: 100%;
             border-collapse: collapse;
             font-size: 13px;
-            margin-top: 12px;
         }}
         th, td {{
             padding: 10px 12px;
@@ -413,7 +445,7 @@ class ReportGenerator:
                     </div>
                     <div class="security-item">
                         <span class="metric-label">Raw PII Leakages</span>
-                        <div class="sec-num" style="color:var(--success);">0 (ZERO)</div>
+                        <div class="sec-num" style="color:{pii_leak_color};">{pii_leak_label}</div>
                     </div>
                     <div class="security-item">
                         <span class="metric-label">LLM Prompt PII Leakage</span>
@@ -441,9 +473,10 @@ class ReportGenerator:
                             <th>Semantic</th>
                             <th>Date</th>
                             <th>PII Recall</th>
+                            <th>PII Leakages</th>
                             <th>Cleaning</th>
                             <th>EDA</th>
-                            <th>ML Pipeline Compliance (Model Quality)</th>
+                            <th>ML Behavior Compliance (Model Quality)</th>
                             <th>Insight</th>
                             <th>Report</th>
                             <th>Runtime</th>

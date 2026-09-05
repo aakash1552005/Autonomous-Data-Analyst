@@ -20,9 +20,13 @@ def compute_correlations(
     Compute Pearson and Spearman correlation matrices and top correlated pairs.
     """
     col_type_map = {c["name"]: c.get("dtype_inferred", "string") for c in (columns_info or [])}
+    pii_cols = {c["name"] for c in (columns_info or []) if c.get("is_pii", False)}
+    identifier_cols = {c["name"] for c in (columns_info or []) if c.get("semantic_label") == "identifier"}
     numeric_cols: list[str] = []
 
     for col in df.columns:
+        if col in pii_cols or col in identifier_cols:
+            continue
         col_type = col_type_map.get(col, "string")
         if (col_type in ("int", "float") or pd.api.types.is_numeric_dtype(df[col])) and not pd.api.types.is_bool_dtype(df[col]):
             # Verify has non-null variation

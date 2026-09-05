@@ -117,15 +117,19 @@ class EDAEvaluator:
 
         charts_verified = (valid_charts_count >= ground_truth.eda.min_charts_expected)
 
-        # 3. Excluded PII / Identifier check: Confirm PII columns are not featured in chart artifacts or correlations
+        # 3. Excluded PII / Identifier check: Confirm PII columns and identifiers are not featured in chart artifacts or correlations
         pii_excluded = True
         correlations = eda_section.get("correlations", {})
+        corr_cols = set(correlations.get("numeric_columns_analyzed", []))
+        corr_cols.update(correlations.get("pearson", {}).keys())
+        corr_cols.update(correlations.get("spearman", {}).keys())
+
         for col_name, c_gt in ground_truth.columns.items():
-            if c_gt.is_pii:
-                if col_name in correlations:
+            if c_gt.is_pii or c_gt.is_identifier:
+                if col_name in corr_cols or col_name in correlations:
                     errors.append({
                         "column": col_name,
-                        "error": f"PII column '{col_name}' was not excluded from correlation analysis",
+                        "error": f"PII/Identifier column '{col_name}' was not excluded from correlation analysis",
                     })
                     pii_excluded = False
                 for cp in chart_paths:
@@ -133,7 +137,7 @@ class EDAEvaluator:
                     if f"_{col_name.lower()}." in cp_name or f"_{col_name.lower()}_" in cp_name:
                         errors.append({
                             "column": col_name,
-                            "error": f"PII column '{col_name}' was featured in chart artifact '{cp_name}'",
+                            "error": f"PII/Identifier column '{col_name}' was featured in chart artifact '{cp_name}'",
                         })
                         pii_excluded = False
 

@@ -622,6 +622,7 @@ def test_evaluation_json_schema_validation(tmp_path: Path):
                 domain_accuracy=1.0,
                 date_resolution_accuracy=1.0,
                 pii_recall=1.0,
+                pii_metrics={"raw_pii_leakage_count": 0, "leakage_detected": False},
                 cleaning_metrics={"cleaning_accuracy": 1.0},
                 eda_metrics={"eda_accuracy": 1.0},
                 ml_metrics={"ml_accuracy": 1.0},
@@ -676,6 +677,7 @@ def test_evaluation_html_generation_and_zero_pii(tmp_path: Path):
                 domain_accuracy=1.0,
                 date_resolution_accuracy=1.0,
                 pii_recall=1.0,
+                pii_metrics={"raw_pii_leakage_count": 0, "leakage_detected": False},
                 cleaning_metrics={"cleaning_accuracy": 1.0},
                 eda_metrics={"eda_accuracy": 1.0},
                 ml_metrics={"ml_accuracy": 1.0, "ml_ran": False},
@@ -766,3 +768,301 @@ def test_benchmark_cross_run_reproducibility():
     assert date1.date_resolution_accuracy == date2.date_resolution_accuracy
     assert pii1.pii_recall == pii2.pii_recall
     assert pii1.pii_precision == pii2.pii_precision
+
+
+# ==============================================================================
+# 6. PHASE 10.1 REMEDIATION REGRESSION TESTS
+# ==============================================================================
+
+def test_remediation_pii_aggregation_test_a_leak_detected():
+    """Test A: A dataset with one detected raw PII leak produces leakage_count=1 and suite reports total=1."""
+    res = DatasetBenchmarkResult(
+        dataset="test_leak_ds",
+        domain="generic",
+        rows=10,
+        columns=5,
+        pipeline_status="completed",
+        semantic_label_accuracy=1.0,
+        domain_accuracy=1.0,
+        date_resolution_accuracy=1.0,
+        pii_recall=1.0,
+        pii_metrics={"raw_pii_leakage_count": 1, "leakage_detected": True},
+        cleaning_metrics={"cleaning_accuracy": 1.0},
+        eda_metrics={"eda_accuracy": 1.0},
+        ml_metrics={"ml_behavior_compliance_score": 1.0},
+        insight_metrics={"insight_grounding_accuracy": 1.0},
+        report_metrics={"report_fidelity_accuracy": 1.0},
+        runtime={"total_runtime_seconds": 1.0},
+        token_usage={},
+        baseline_comparison={},
+    )
+    assert res.pii_metrics_leakage() == 1
+
+    # In suite aggregation:
+    total_leak = sum(r.pii_metrics_leakage() for r in [res])
+    assert total_leak == 1
+
+
+def test_remediation_pii_aggregation_test_b_zero_leak():
+    """Test B: A dataset with zero leaks produces 0."""
+    res = DatasetBenchmarkResult(
+        dataset="test_clean_ds",
+        domain="generic",
+        rows=10,
+        columns=5,
+        pipeline_status="completed",
+        semantic_label_accuracy=1.0,
+        domain_accuracy=1.0,
+        date_resolution_accuracy=1.0,
+        pii_recall=1.0,
+        pii_metrics={"raw_pii_leakage_count": 0, "leakage_detected": False},
+        cleaning_metrics={"cleaning_accuracy": 1.0},
+        eda_metrics={"eda_accuracy": 1.0},
+        ml_metrics={"ml_behavior_compliance_score": 1.0},
+        insight_metrics={"insight_grounding_accuracy": 1.0},
+        report_metrics={"report_fidelity_accuracy": 1.0},
+        runtime={"total_runtime_seconds": 1.0},
+        token_usage={},
+        baseline_comparison={},
+    )
+    assert res.pii_metrics_leakage() == 0
+
+
+def test_remediation_pii_aggregation_test_c_mixed_suite():
+    """Test C: Mixed suite with leaking and non-leaking datasets aggregates correctly."""
+    r1 = DatasetBenchmarkResult(
+        dataset="clean",
+        domain="generic",
+        rows=10,
+        columns=5,
+        pipeline_status="completed",
+        semantic_label_accuracy=1.0,
+        domain_accuracy=1.0,
+        date_resolution_accuracy=1.0,
+        pii_recall=1.0,
+        pii_metrics={"raw_pii_leakage_count": 0},
+        cleaning_metrics={},
+        eda_metrics={},
+        ml_metrics={},
+        insight_metrics={},
+        report_metrics={},
+        runtime={"total_runtime_seconds": 1.0},
+        token_usage={},
+        baseline_comparison={},
+    )
+    r2 = DatasetBenchmarkResult(
+        dataset="leaking",
+        domain="generic",
+        rows=10,
+        columns=5,
+        pipeline_status="completed",
+        semantic_label_accuracy=1.0,
+        domain_accuracy=1.0,
+        date_resolution_accuracy=1.0,
+        pii_recall=1.0,
+        pii_metrics={"raw_pii_leakage_count": 3},
+        cleaning_metrics={},
+        eda_metrics={},
+        ml_metrics={},
+        insight_metrics={},
+        report_metrics={},
+        runtime={"total_runtime_seconds": 1.0},
+        token_usage={},
+        baseline_comparison={},
+    )
+    assert sum(r.pii_metrics_leakage() for r in [r1, r2]) == 3
+
+
+def test_remediation_pii_aggregation_test_d_missing_metric_fails_loudly():
+    """Test D: A missing metric cannot silently become a false PASS; must raise ValueError."""
+    r_missing = DatasetBenchmarkResult(
+        dataset="missing_metrics",
+        domain="generic",
+        rows=10,
+        columns=5,
+        pipeline_status="completed",
+        semantic_label_accuracy=1.0,
+        domain_accuracy=1.0,
+        date_resolution_accuracy=1.0,
+        pii_recall=1.0,
+        pii_metrics={},  # Missing raw_pii_leakage_count!
+        cleaning_metrics={},
+        eda_metrics={},
+        ml_metrics={},
+        insight_metrics={},
+        report_metrics={},
+        runtime={"total_runtime_seconds": 1.0},
+        token_usage={},
+        baseline_comparison={},
+    )
+    with pytest.raises(ValueError, match="missing"):
+        r_missing.pii_metrics_leakage()
+
+
+def test_remediation_insight_grounding_tests_1_to_6():
+    """Test InsightEvaluator strictly penalizes fabricated numbers across all 6 required cases."""
+    gt = get_ground_truth("retail_sales")
+    evaluator = InsightEvaluator()
+
+    dio_base = DIO.create_empty("hash")
+    dio_base["ingestion"] = {"n_rows": 6, "n_columns": 9}
+    dio_base["eda"] = {"summary_stats": {"revenue": {"max": 408.0, "min": 15.50}}}
+
+    # Case 1: All claims supported -> 100%
+    dio1 = DIO.create_empty("h1")
+    dio1["ingestion"] = {"n_rows": 6, "n_columns": 9}
+    dio1["insights"] = [
+        {"text": "Total records are 6.", "evidence": [{"metric": "Rows", "value": 6}]},
+        {"text": "Total columns are 9.", "evidence": [{"metric": "Cols", "value": 9}]},
+    ]
+    res1 = evaluator.evaluate(dio1, gt)
+    assert res1.insight_grounding_accuracy == 1.0
+    assert res1.grounding_accuracy == 1.0
+    assert res1.supported_claim_count == 2
+    assert res1.unsupported_claim_count == 0
+    assert res1.fabricated_numeric_claim_count == 0
+
+    # Case 2: Unsupported claim -> score decreases
+    dio2 = DIO.create_empty("h2")
+    dio2["ingestion"] = {"n_rows": 6, "n_columns": 9}
+    dio2["insights"] = [
+        {"text": "Total records are 6.", "evidence": [{"metric": "Rows", "value": 6}]},
+        {"text": "No evidence provided for this statement.", "evidence": []},
+    ]
+    res2 = evaluator.evaluate(dio2, gt)
+    assert res2.insight_grounding_accuracy < 1.0
+    assert res2.supported_claim_count == 1
+    assert res2.unsupported_claim_count == 1
+
+    # Case 3: Fabricated numeric claim -> score decreases
+    dio3 = DIO.create_empty("h3")
+    dio3["ingestion"] = {"n_rows": 6, "n_columns": 9}
+    dio3["insights"] = [
+        {"text": "Total records are 6.", "evidence": [{"metric": "Rows", "value": 6}]},
+        {"text": "Revenue reached 777777.77 dollars.", "evidence": []},
+    ]
+    res3 = evaluator.evaluate(dio3, gt)
+    assert res3.insight_grounding_accuracy < 1.0
+    assert res3.fabricated_numeric_claim_count == 1
+
+    # Case 4: Supported + fabricated claim -> CANNOT report 100%
+    dio4 = DIO.create_empty("h4")
+    dio4["ingestion"] = {"n_rows": 6, "n_columns": 9}
+    dio4["insights"] = [
+        {"text": "Records are 6 with fake number 999999.0.", "evidence": [{"metric": "Rows", "value": 6}]},
+    ]
+    res4 = evaluator.evaluate(dio4, gt)
+    assert res4.insight_grounding_accuracy < 1.0, "Insight with fabricated numbers must not report 100%!"
+    assert res4.fabricated_numeric_claim_count == 1
+
+    # Case 5: Multiple fabricated numbers -> all are accounted for
+    dio5 = DIO.create_empty("h5")
+    dio5["ingestion"] = {"n_rows": 6, "n_columns": 9}
+    dio5["insights"] = [
+        {"text": "Fabricated 8888.0 and 9999.0 and 55555.0 numbers.", "evidence": []},
+    ]
+    res5 = evaluator.evaluate(dio5, gt)
+    assert res5.fabricated_numeric_claim_count == 3
+    assert res5.insight_grounding_accuracy < 0.5
+
+    # Case 6: Zero evaluated claims -> explicitly defined behavior
+    dio6 = DIO.create_empty("h6")
+    dio6["insights"] = []
+    res6 = evaluator.evaluate(dio6, gt)
+    assert res6.insight_grounding_accuracy == 1.0
+    assert res6.total_insights_evaluated == 0
+    assert res6.supported_claim_count == 0
+    assert res6.unsupported_claim_count == 0
+    assert res6.fabricated_numeric_claim_count == 0
+
+
+def test_remediation_ml_semantics_compliance_and_status():
+    """Test ML evaluation semantics: ml_behavior_compliance_score, SKIPPED_INSUFFICIENT_DATA vs TRAINED."""
+    evaluator = MLEvaluator()
+
+    # Case 1: Skipped model (< 30 rows)
+    gt_skip = get_ground_truth("retail_sales")
+    dio_skip = DIO.create_empty("skip")
+    dio_skip["ml"] = {"status": "skipped", "skip_reason": "6 rows < 30"}
+    res_skip = evaluator.evaluate(dio_skip, gt_skip)
+
+    assert res_skip.ml_behavior_compliance_score == 1.0
+    assert res_skip.model_training_status == "SKIPPED_INSUFFICIENT_DATA"
+    assert res_skip.metrics_present is False
+    assert res_skip.model_persisted is False
+    assert res_skip.predictive_metrics is None
+
+    # Case 2: Trained model (customer_churn_ml)
+    gt_churn = get_ground_truth("customer_churn_ml")
+    dio_churn = DIO.create_empty("churn")
+    with tempfile.NamedTemporaryFile(suffix=".pkl", delete=False) as f:
+        f.write(b"model_binary" * 50)
+        m_path = f.name
+
+    dio_churn["ml"] = {
+        "status": "trained",
+        "task_type": "classification",
+        "target_column": "churn",
+        "selected_model": "random_forest",
+        "metrics": {"accuracy": 0.85, "f1": 0.82, "roc_auc": 0.88},
+        "improved_over_baseline": True,
+        "selection_reason": "Best F1",
+    }
+    dio_churn["artifacts"] = {"model_pkl": m_path}
+
+    res_trained = evaluator.evaluate(dio_churn, gt_churn)
+    assert res_trained.ml_behavior_compliance_score == 1.0
+    assert res_trained.model_training_status == "TRAINED"
+    assert res_trained.metrics_present is True
+    assert res_trained.model_persisted is True
+    assert res_trained.predictive_metrics is not None
+    assert res_trained.predictive_metrics["f1"] == 0.82
+
+
+def test_remediation_eda_pii_exclusion():
+    """Test that EDA correlations exclude PII and identifier columns."""
+    from agents.eda.correlations import compute_correlations
+
+    df = pd.DataFrame({
+        "user_id": ["U1", "U2", "U3", "U4"],
+        "credit_card": [4532112233445566, 5412998877665544, 3782822463100051, 4024007188992233],
+        "full_name": ["Alice", "Bob", "Charlie", "David"],
+        "price": [10.0, 20.0, 30.0, 40.0],
+        "quantity": [1.0, 2.0, 3.0, 4.0],
+    })
+
+    columns_info = [
+        {"name": "user_id", "semantic_label": "identifier", "is_pii": False, "dtype_inferred": "string"},
+        {"name": "credit_card", "semantic_label": "credit_card", "is_pii": True, "dtype_inferred": "int"},
+        {"name": "full_name", "semantic_label": "person_name", "is_pii": True, "dtype_inferred": "string"},
+        {"name": "price", "semantic_label": "currency_amount", "is_pii": False, "dtype_inferred": "float"},
+        {"name": "quantity", "semantic_label": "quantity", "is_pii": False, "dtype_inferred": "float"},
+    ]
+
+    corr = compute_correlations(df, columns_info=columns_info)
+    analyzed = corr["numeric_columns_analyzed"]
+
+    assert "credit_card" not in analyzed, "PII column credit_card must be excluded from correlation analysis!"
+    assert "user_id" not in analyzed, "Identifier column user_id must be excluded from correlation analysis!"
+    assert "full_name" not in analyzed, "PII column full_name must be excluded from correlation analysis!"
+    assert "price" in analyzed
+    assert "quantity" in analyzed
+
+
+def test_remediation_tier_b_datasets_registered_and_ml_execution():
+    """Test Tier B realistic datasets exist (>= 1,000 rows) and train genuine ML models."""
+    from tests.benchmark.ground_truth import TIER_B_REGISTRY
+
+    assert len(TIER_B_REGISTRY) == 3
+    assert "telco_churn_1k" in TIER_B_REGISTRY
+    assert "housing_regression_1k" in TIER_B_REGISTRY
+    assert "credit_default_1k" in TIER_B_REGISTRY
+
+    sample_dir = Path("data/sample")
+    for ds_name, gt in TIER_B_REGISTRY.items():
+        csv_file = sample_dir / gt.file_name
+        assert csv_file.exists(), f"Tier B dataset file {csv_file} must exist!"
+        df = pd.read_csv(csv_file)
+        assert len(df) >= 1000, f"Tier B dataset {ds_name} must have >= 1,000 rows, got {len(df)}"
+        assert gt.ml.applicable is True
+

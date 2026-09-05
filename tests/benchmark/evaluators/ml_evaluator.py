@@ -31,19 +31,35 @@ from tests.benchmark.ground_truth import DatasetGroundTruth
 
 @dataclass
 class MLEvaluationResult:
-    ml_accuracy: float
+    ml_behavior_compliance_score: float
+    model_training_status: str
     ml_ran: bool
     ml_applicable_expected: bool
     target_matched: bool
     task_type_matched: bool
     metrics_present: bool
     model_persisted: bool
-    ml_pipeline_compliance_score: float = 1.0
-    model_performance: dict[str, Any] | None = None
+    predictive_metrics: dict[str, Any] | None = None
     ml_errors: list[dict[str, Any]] = field(default_factory=list)
 
+    @property
+    def ml_accuracy(self) -> float:
+        return self.ml_behavior_compliance_score
+
+    @property
+    def ml_pipeline_compliance_score(self) -> float:
+        return self.ml_behavior_compliance_score
+
+    @property
+    def model_performance(self) -> dict[str, Any] | None:
+        return self.predictive_metrics
+
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        d = asdict(self)
+        d["ml_accuracy"] = self.ml_behavior_compliance_score
+        d["ml_pipeline_compliance_score"] = self.ml_behavior_compliance_score
+        d["model_performance"] = self.predictive_metrics
+        return d
 
 
 class MLEvaluator:
@@ -72,15 +88,15 @@ class MLEvaluator:
                 })
 
             return MLEvaluationResult(
-                ml_accuracy=1.0 if skipped_safely else 0.0,
+                ml_behavior_compliance_score=1.0 if skipped_safely else 0.0,
+                model_training_status="SKIPPED_INSUFFICIENT_DATA" if skipped_safely else "FAILED",
                 ml_ran=ml_ran,
                 ml_applicable_expected=False,
                 target_matched=True,
                 task_type_matched=True,
-                metrics_present=True,
-                model_persisted=True,
-                ml_pipeline_compliance_score=1.0 if skipped_safely else 0.0,
-                model_performance=None,
+                metrics_present=False,  # Skipped ML does NOT receive metric credit
+                model_persisted=False,  # Skipped ML does NOT receive persistence credit
+                predictive_metrics=None,
                 ml_errors=errors,
             )
 
@@ -141,30 +157,30 @@ class MLEvaluator:
                 "error": "Model artifact (.pkl) missing or empty on disk",
             })
 
-        accuracy = round(points / total_points, 4)
+        compliance_score = round(points / total_points, 4)
 
-        model_performance = None
+        predictive_metrics = None
         if ml_ran:
-            model_performance = {
+            predictive_metrics = {
                 "selected_model": ml_section.get("selected_model"),
-                "f1": ml_section.get("metrics", {}).get("f1"),
-                "roc_auc": ml_section.get("metrics", {}).get("roc_auc"),
-                "accuracy": ml_section.get("metrics", {}).get("accuracy"),
-                "precision": ml_section.get("metrics", {}).get("precision"),
-                "recall": ml_section.get("metrics", {}).get("recall"),
+                "task_type": ml_section.get("task_type"),
+                "metrics": ml_section.get("metrics", {}),
                 "improved_over_baseline": ml_section.get("improved_over_baseline", False),
                 "selection_reason": ml_section.get("selection_reason", ""),
             }
+            # Flatten top-level metrics for backward compatibility
+            for k, v in ml_section.get("metrics", {}).items():
+                predictive_metrics[k] = v
 
         return MLEvaluationResult(
-            ml_accuracy=accuracy,
+            ml_behavior_compliance_score=compliance_score,
+            model_training_status="TRAINED" if ml_ran else "FAILED",
             ml_ran=ml_ran,
             ml_applicable_expected=True,
             target_matched=target_matched,
             task_type_matched=task_type_matched,
             metrics_present=metrics_present,
             model_persisted=model_persisted,
-            ml_pipeline_compliance_score=accuracy,
-            model_performance=model_performance,
+            predictive_metrics=predictive_metrics,
             ml_errors=errors,
         )

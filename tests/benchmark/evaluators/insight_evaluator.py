@@ -35,8 +35,14 @@ class InsightEvaluationResult:
     total_insights_evaluated: int
     insight_errors: list[dict[str, Any]] = field(default_factory=list)
 
+    @property
+    def grounding_accuracy(self) -> float:
+        return self.insight_grounding_accuracy
+
     def to_dict(self) -> dict[str, Any]:
-        return asdict(self)
+        d = asdict(self)
+        d["grounding_accuracy"] = self.insight_grounding_accuracy
+        return d
 
 
 class InsightEvaluator:
@@ -125,16 +131,14 @@ class InsightEvaluator:
                 except (ValueError, TypeError):
                     pass
 
-            # Check evidence facts if structured
-            if evidence:
-                supported_claims += 1
-            elif is_insight_grounded:
+            # A claim is supported ONLY IF it has evidence AND zero fabricated numbers
+            if evidence and is_insight_grounded:
                 supported_claims += 1
             else:
                 unsupported_claims += 1
 
-        total_claims = supported_claims + unsupported_claims
-        accuracy = round(supported_claims / total_claims, 4) if total_claims > 0 else 1.0
+        total_eval_points = supported_claims + unsupported_claims + fabricated_count
+        accuracy = round(supported_claims / total_eval_points, 4) if total_eval_points > 0 else 1.0
 
         return InsightEvaluationResult(
             insight_grounding_accuracy=accuracy,

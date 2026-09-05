@@ -93,10 +93,10 @@ class DatasetGroundTruth:
 
 
 # ==============================================================================
-# 6 BENCHMARK DATASETS REGISTRY
+# TIER A: 6 DETERMINISTIC / ADVERSARIAL FIXTURES
 # ==============================================================================
 
-BENCHMARK_REGISTRY: dict[str, DatasetGroundTruth] = {
+TIER_A_REGISTRY: dict[str, DatasetGroundTruth] = {
     # --------------------------------------------------------------------------
     # 1. Retail Sales Dataset (6 rows < 30 -> ML must skip)
     # --------------------------------------------------------------------------
@@ -403,6 +403,185 @@ BENCHMARK_REGISTRY: dict[str, DatasetGroundTruth] = {
         ),
         sensitive_raw_values=(),
     ),
+}
+
+
+# ==============================================================================
+# TIER B: REALISTIC ML / SCALING BENCHMARK FIXTURES (>= 1,000 ROWS)
+# ==============================================================================
+#
+# Explicit Dataset Metadata Record:
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+# Dataset Name          | Source                       | License       | Rows | Cols | Target          | Task Type      | Why Suitable                                                    | Expected ML Behavior
+# ----------------------|------------------------------|---------------|------|------|-----------------|----------------|-----------------------------------------------------------------|----------------------------------------------------------
+# telco_churn_1k        | IBM Telco Churn              | Apache 2.0    | 1000 | 10   | churn           | classification | Realistic mixed tabular churn with non-linear decision boundary | TRAINED; RF/Logistic; F1 > 0.40, ROC-AUC > 0.65
+# housing_regression_1k | California Housing (StatLib) | Public Domain | 1000 | 9    | target          | regression     | Multicollinear continuous outcome testing regression capability | TRAINED; Ridge/RF Regressor; R2 > 0.40, RMSE/MAE metrics
+# credit_default_1k     | UCI Credit Card Clients      | CC BY 4.0     | 1000 | 9    | default_payment | classification | Financial risk with identifier exclusion & class imbalance      | TRAINED; Logistic/RF; strips client_id, computes metrics
+# ----------------------------------------------------------------------------------------------------------------------------------------------------
+
+TIER_B_REGISTRY: dict[str, DatasetGroundTruth] = {
+    # --------------------------------------------------------------------------
+    # 1. Telco Customer Churn (1,000 rows, Binary Classification)
+    # Source: Derived from IBM Telco Churn (Apache 2.0 / Public Domain)
+    # Target: churn, Task: classification
+    # --------------------------------------------------------------------------
+    "telco_churn_1k": DatasetGroundTruth(
+        dataset_name="telco_churn_1k",
+        file_name="telco_churn_1k.csv",
+        expected_domain="generic",
+        min_domain_confidence=0.40,
+        columns={
+            "customer_id": ColumnGroundTruth(name="customer_id", expected_semantic_labels=("identifier",), is_identifier=True),
+            "gender": ColumnGroundTruth(name="gender", expected_semantic_labels=("category", "gender")),
+            "senior_citizen": ColumnGroundTruth(name="senior_citizen", expected_semantic_labels=("binary", "boolean", "integer")),
+            "tenure": ColumnGroundTruth(name="tenure", expected_semantic_labels=("quantity", "tenure", "integer")),
+            "contract": ColumnGroundTruth(name="contract", expected_semantic_labels=("category",)),
+            "paperless_billing": ColumnGroundTruth(name="paperless_billing", expected_semantic_labels=("binary", "boolean", "category")),
+            "payment_method": ColumnGroundTruth(name="payment_method", expected_semantic_labels=("category",)),
+            "monthly_charges": ColumnGroundTruth(name="monthly_charges", expected_semantic_labels=("currency_amount", "numeric")),
+            "total_charges": ColumnGroundTruth(name="total_charges", expected_semantic_labels=("currency_amount", "numeric")),
+            "churn": ColumnGroundTruth(name="churn", expected_semantic_labels=("target_label", "binary", "category"), is_target_candidate=True),
+        },
+        cleaning=CleaningGroundTruth(
+            expected_rows_before=1000,
+            expected_rows_after=1000,
+            expected_duplicates_removed=0,
+            expected_missing_before=0,
+            expected_missing_after=0,
+        ),
+        eda=EDAGroundTruth(
+            expected_row_count=1000,
+            expected_col_count=10,
+            numeric_columns=("tenure", "monthly_charges", "total_charges"),
+            categorical_columns=("gender", "contract", "payment_method", "paperless_billing", "churn"),
+            min_charts_expected=1,
+            statistical_facts={
+                "monthly_charges": {"min": 18.25, "max": 118.75},
+            },
+        ),
+        ml=MLGroundTruth(
+            applicable=True,
+            expected_target="churn",
+            expected_task_type="classification",
+            min_dataset_rows=30,
+            skip_reason="",
+        ),
+        insights=InsightGroundTruth(
+            required_evidence_metrics=("churn", "monthly_charges"),
+            verifiable_numeric_values=(1000.0, 10.0),
+        ),
+        sensitive_raw_values=(),
+    ),
+
+    # --------------------------------------------------------------------------
+    # 2. California Housing Regression (1,000 rows, Continuous Regression)
+    # Source: Derived from California Housing 1990 Census (Public Domain)
+    # Target: target (median house value), Task: regression
+    # --------------------------------------------------------------------------
+    "housing_regression_1k": DatasetGroundTruth(
+        dataset_name="housing_regression_1k",
+        file_name="housing_regression_1k.csv",
+        expected_domain="generic",
+        min_domain_confidence=0.40,
+        columns={
+            "longitude": ColumnGroundTruth(name="longitude", expected_semantic_labels=("numeric", "coordinate", "float")),
+            "latitude": ColumnGroundTruth(name="latitude", expected_semantic_labels=("numeric", "coordinate", "float")),
+            "housing_median_age": ColumnGroundTruth(name="housing_median_age", expected_semantic_labels=("quantity", "age", "numeric", "integer")),
+            "total_rooms": ColumnGroundTruth(name="total_rooms", expected_semantic_labels=("quantity", "numeric", "integer")),
+            "total_bedrooms": ColumnGroundTruth(name="total_bedrooms", expected_semantic_labels=("quantity", "numeric", "integer")),
+            "population": ColumnGroundTruth(name="population", expected_semantic_labels=("quantity", "population", "numeric", "integer")),
+            "households": ColumnGroundTruth(name="households", expected_semantic_labels=("quantity", "numeric", "integer")),
+            "median_income": ColumnGroundTruth(name="median_income", expected_semantic_labels=("numeric", "currency_amount", "float")),
+            "target": ColumnGroundTruth(name="target", expected_semantic_labels=("target_label", "target_value", "numeric"), is_target_candidate=True),
+        },
+        cleaning=CleaningGroundTruth(
+            expected_rows_before=1000,
+            expected_rows_after=1000,
+            expected_duplicates_removed=0,
+            expected_missing_before=0,
+            expected_missing_after=0,
+        ),
+        eda=EDAGroundTruth(
+            expected_row_count=1000,
+            expected_col_count=9,
+            numeric_columns=("longitude", "latitude", "housing_median_age", "total_rooms", "total_bedrooms", "population", "households", "median_income", "target"),
+            categorical_columns=(),
+            min_charts_expected=1,
+            statistical_facts={
+                "median_income": {"min": 0.5, "max": 15.0},
+            },
+        ),
+        ml=MLGroundTruth(
+            applicable=True,
+            expected_target="target",
+            expected_task_type="regression",
+            min_dataset_rows=30,
+            skip_reason="",
+        ),
+        insights=InsightGroundTruth(
+            required_evidence_metrics=("target", "median_income"),
+            verifiable_numeric_values=(1000.0, 9.0),
+        ),
+        sensitive_raw_values=(),
+    ),
+
+    # --------------------------------------------------------------------------
+    # 3. UCI Credit Default (1,000 rows, Binary Classification with Imbalance)
+    # Source: Derived from UCI Default of Credit Card Clients (CC BY 4.0 / Public Domain)
+    # Target: default_payment, Task: classification
+    # --------------------------------------------------------------------------
+    "credit_default_1k": DatasetGroundTruth(
+        dataset_name="credit_default_1k",
+        file_name="credit_default_1k.csv",
+        expected_domain="finance",
+        min_domain_confidence=0.40,
+        columns={
+            "client_id": ColumnGroundTruth(name="client_id", expected_semantic_labels=("identifier",), is_identifier=True),
+            "limit_bal": ColumnGroundTruth(name="limit_bal", expected_semantic_labels=("currency_amount", "numeric")),
+            "sex": ColumnGroundTruth(name="sex", expected_semantic_labels=("category", "binary", "gender")),
+            "education": ColumnGroundTruth(name="education", expected_semantic_labels=("category", "integer")),
+            "marriage": ColumnGroundTruth(name="marriage", expected_semantic_labels=("category", "integer")),
+            "age": ColumnGroundTruth(name="age", expected_semantic_labels=("age", "quantity", "integer")),
+            "bill_amt1": ColumnGroundTruth(name="bill_amt1", expected_semantic_labels=("currency_amount", "numeric")),
+            "pay_amt1": ColumnGroundTruth(name="pay_amt1", expected_semantic_labels=("currency_amount", "numeric")),
+            "default_payment": ColumnGroundTruth(name="default_payment", expected_semantic_labels=("target_label", "binary", "integer"), is_target_candidate=True),
+        },
+        cleaning=CleaningGroundTruth(
+            expected_rows_before=1000,
+            expected_rows_after=1000,
+            expected_duplicates_removed=0,
+            expected_missing_before=0,
+            expected_missing_after=0,
+        ),
+        eda=EDAGroundTruth(
+            expected_row_count=1000,
+            expected_col_count=9,
+            numeric_columns=("limit_bal", "age", "bill_amt1", "pay_amt1"),
+            categorical_columns=("sex", "education", "marriage", "default_payment"),
+            min_charts_expected=1,
+            statistical_facts={
+                "limit_bal": {"min": 10000.0, "max": 500000.0},
+            },
+        ),
+        ml=MLGroundTruth(
+            applicable=True,
+            expected_target="default_payment",
+            expected_task_type="classification",
+            min_dataset_rows=30,
+            skip_reason="",
+        ),
+        insights=InsightGroundTruth(
+            required_evidence_metrics=("default_payment", "limit_bal"),
+            verifiable_numeric_values=(1000.0, 9.0),
+        ),
+        sensitive_raw_values=(),
+    ),
+}
+
+# Unified Benchmark Registry: Combines Tier A (Fixtures) and Tier B (Realistic)
+BENCHMARK_REGISTRY: dict[str, DatasetGroundTruth] = {
+    **TIER_A_REGISTRY,
+    **TIER_B_REGISTRY,
 }
 
 

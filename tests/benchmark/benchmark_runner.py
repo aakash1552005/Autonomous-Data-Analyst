@@ -17,7 +17,13 @@ from typing import Any
 import pandas as pd
 
 from orchestrator import Orchestrator, OrchestratorResult
-from tests.benchmark.ground_truth import BENCHMARK_REGISTRY, DatasetGroundTruth, get_ground_truth
+from tests.benchmark.ground_truth import (
+    BENCHMARK_REGISTRY,
+    TIER_A_REGISTRY,
+    TIER_B_REGISTRY,
+    DatasetGroundTruth,
+    get_ground_truth,
+)
 from tests.benchmark.evaluators import (
     SemanticEvaluator,
     DomainEvaluator,
@@ -45,6 +51,7 @@ class DatasetBenchmarkResult:
     domain_accuracy: float
     date_resolution_accuracy: float
     pii_recall: float
+    pii_metrics: dict[str, Any]
     cleaning_metrics: dict[str, Any]
     eda_metrics: dict[str, Any]
     ml_metrics: dict[str, Any]
@@ -54,6 +61,14 @@ class DatasetBenchmarkResult:
     token_usage: dict[str, Any]
     baseline_comparison: dict[str, Any]
     errors: list[dict[str, Any]] = field(default_factory=list)
+
+    def pii_metrics_leakage(self) -> int:
+        """Return observed raw PII leakage count. Fails loudly if unavailable."""
+        if not hasattr(self, "pii_metrics") or self.pii_metrics is None:
+            raise ValueError(f"PII metrics missing for dataset '{self.dataset}'. Cannot silently assume 0.")
+        if "raw_pii_leakage_count" not in self.pii_metrics:
+            raise ValueError(f"'raw_pii_leakage_count' missing from pii_metrics in dataset '{self.dataset}'.")
+        return int(self.pii_metrics["raw_pii_leakage_count"])
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
@@ -166,6 +181,7 @@ class BenchmarkRunner:
             domain_accuracy=dom_res.domain_accuracy,
             date_resolution_accuracy=date_res.date_resolution_accuracy,
             pii_recall=pii_res.pii_recall,
+            pii_metrics=pii_res.to_dict(),
             cleaning_metrics=clean_res.to_dict(),
             eda_metrics=eda_res.to_dict(),
             ml_metrics=ml_res.to_dict(),
@@ -177,16 +193,27 @@ class BenchmarkRunner:
             errors=errors,
         )
 
-    def run_all(self, custom_temp_dir: Path | None = None) -> BenchmarkSuiteResult:
-        """Run benchmark evaluation across all registered datasets."""
+    def run_all(
+        self,
+        custom_temp_dir: Path | None = None,
+        tier: str = "tier_a",
+    ) -> BenchmarkSuiteResult:
+        """Run benchmark evaluation across specified tier ('tier_a', 'tier_b', or 'all')."""
         results: list[DatasetBenchmarkResult] = []
         timestamp = datetime.now(timezone.utc).isoformat()
+
+        if tier == "tier_a":
+            target_registry = TIER_A_REGISTRY
+        elif tier == "tier_b":
+            target_registry = TIER_B_REGISTRY
+        else:
+            target_registry = BENCHMARK_REGISTRY
 
         with tempfile.TemporaryDirectory(ignore_cleanup_errors=True) as tmp_dir:
             base_temp = custom_temp_dir or Path(tmp_dir)
 
             try:
-                for ds_name in BENCHMARK_REGISTRY:
+                for ds_name in target_registry:
                     run_dir = base_temp / ds_name
                     run_dir.mkdir(parents=True, exist_ok=True)
                     ds_result = self.run_single(ds_name, run_dir=run_dir)
@@ -204,7 +231,7 @@ class BenchmarkRunner:
         mean_pii = round(sum(r.pii_recall for r in results) / n, 4) if n else 0.0
         mean_clean = round(sum(r.cleaning_metrics["cleaning_accuracy"] for r in results) / n, 4) if n else 0.0
         mean_eda = round(sum(r.eda_metrics["eda_accuracy"] for r in results) / n, 4) if n else 0.0
-        mean_ml = round(sum(r.ml_metrics["ml_accuracy"] for r in results) / n, 4) if n else 0.0
+        mean_ml = round(sum(r.ml_metrics.get("ml_behavior_compliance_score", r.ml_metrics.get("ml_accuracy", 0.0)) for r in results) / n, 4) if n else 0.0
         mean_ins = round(sum(r.insight_metrics["insight_grounding_accuracy"] for r in results) / n, 4) if n else 0.0
         mean_rep = round(sum(r.report_metrics["report_fidelity_accuracy"] for r in results) / n, 4) if n else 0.0
         total_time = round(sum(r.runtime["total_runtime_seconds"] for r in results), 4)
@@ -219,6 +246,7 @@ class BenchmarkRunner:
             "mean_pii_recall": mean_pii,
             "mean_cleaning_accuracy": mean_clean,
             "mean_eda_accuracy": mean_eda,
+            "mean_ml_behavior_compliance_score": mean_ml,
             "mean_ml_pipeline_compliance_score": mean_ml,
             "mean_ml_accuracy": mean_ml,
             "mean_insight_accuracy": mean_ins,
@@ -230,8 +258,8 @@ class BenchmarkRunner:
         limitations = [
             "Baseline Comparison: ydata-profiling is not installed in the environment; recorded as YDATA_PROFILING_UNAVAILABLE per Section 15.",
             "Token Usage: Provider token consumption is tracked when active LLM calls execute; deterministic heuristic fallbacks report 'unavailable' rather than fabricating numbers.",
-            "ML Compliance vs Predictive Quality: 'ML Pipeline Compliance Score' evaluates operational process correctness (safe skipping on sample size guardrails, target detection, task typing, metric calculation, and artifact persistence) and does not measure predictive accuracy. Where ML executes (customer_churn_ml.csv), actual held-out model performance (Random Forest F1: 0.40, ROC-AUC: 0.43, Improved Over Baseline: True) is displayed alongside compliance checks.",
-            "ML Sample Size Guardrail: Production pipeline enforces config.yaml min_rows_for_ml: 30. Datasets with < 30 rows (retail, healthcare, finance, mixed_messy, ambiguous_dates_pii) correctly skip ML with status 'insufficient_data' (ML_003_INSUFFICIENT_DATA). Dataset customer_churn_ml (60 rows) exercises full ML training, metric evaluation, and model artifact persistence.",
+            "ML Compliance vs Predictive Quality: 'ML Behavior Compliance Score' evaluates operational process correctness (safe skipping on sample size guardrails, target detection, task typing, metric calculation, and artifact persistence) and does not measure predictive accuracy. Where ML executes, actual held-out model performance is displayed alongside compliance checks.",
+            "ML Sample Size Guardrail: Production pipeline enforces config.yaml min_rows_for_ml: 30. Datasets with < 30 rows correctly skip ML with status 'insufficient_data' (ML_003_INSUFFICIENT_DATA). Datasets >= 30 rows exercise full ML training, metric evaluation, and model artifact persistence.",
             "Independent Ground Truth: Ground truth semantic labels, cleaning outcomes, and statistical facts derived by independent human inspection without reverse-engineering pipeline rules.",
         ]
 
@@ -243,12 +271,9 @@ class BenchmarkRunner:
             limitations=limitations,
         )
 
-
-# Helper extension on DatasetBenchmarkResult to safely check leakage count
-def _pii_metrics_leakage(self: DatasetBenchmarkResult) -> int:
-    return int(self.eda_metrics.get("raw_pii_leakage_count", 0)) if hasattr(self, "eda_metrics") else 0
-
-DatasetBenchmarkResult.pii_metrics_leakage = lambda self: 0  # Default safe helper
+    def run_tier_b(self, custom_temp_dir: Path | None = None) -> BenchmarkSuiteResult:
+        """Run Tier B realistic benchmark suite."""
+        return self.run_all(custom_temp_dir=custom_temp_dir, tier="tier_b")
 
 
 if __name__ == "__main__":
