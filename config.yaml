@@ -35,3 +35,7 @@ insights:
   temperature: 0.2
   max_tokens: 800
 
+pipeline:
+  runs_dir: runs
+  save_dio_json: true
+  log_level: INFO

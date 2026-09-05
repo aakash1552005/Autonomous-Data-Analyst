@@ -99,6 +99,18 @@ class InsightsConfig:
         if self.max_tokens <= 0:
             raise ValueError(f"max_tokens must be positive, got {self.max_tokens}")
 
+@dataclass
+class PipelineConfig:
+    runs_dir: str = "runs"
+    save_dio_json: bool = True
+    log_level: str = "INFO"
+
+    def validate(self) -> None:
+        if not self.runs_dir:
+            raise ValueError("runs_dir must be a non-empty string")
+        if self.log_level not in ("DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"):
+            raise ValueError(f"Invalid log_level: {self.log_level}")
+
 
 @dataclass
 class AppConfig:
@@ -108,6 +120,7 @@ class AppConfig:
     eda: EDAConfig = field(default_factory=EDAConfig)
     ml: MLConfig = field(default_factory=MLConfig)
     insights: InsightsConfig = field(default_factory=InsightsConfig)
+    pipeline: PipelineConfig = field(default_factory=PipelineConfig)
 
     def validate(self) -> None:
         if self.max_upload_size_mb <= 0:
@@ -117,6 +130,7 @@ class AppConfig:
         self.eda.validate()
         self.ml.validate()
         self.insights.validate()
+        self.pipeline.validate()
 
 
 def load_config(config_path: str | Path | None = None) -> AppConfig:
@@ -186,6 +200,13 @@ def load_config(config_path: str | Path | None = None) -> AppConfig:
         max_tokens=int(raw_insights.get("max_tokens", 800)),
     )
 
+    raw_pipeline = raw_data.get("pipeline", {})
+    pipeline_config = PipelineConfig(
+        runs_dir=str(raw_pipeline.get("runs_dir", "runs")),
+        save_dio_json=bool(raw_pipeline.get("save_dio_json", True)),
+        log_level=str(raw_pipeline.get("log_level", "INFO")),
+    )
+
     app_config = AppConfig(
         max_upload_size_mb=max_upload_size_mb,
         llm=llm_config,
@@ -193,6 +214,7 @@ def load_config(config_path: str | Path | None = None) -> AppConfig:
         eda=eda_config,
         ml=ml_config,
         insights=insights_config,
+        pipeline=pipeline_config,
     )
     app_config.validate()
     return app_config

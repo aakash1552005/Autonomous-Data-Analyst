@@ -109,40 +109,143 @@ pip install -r requirements.txt
 ollama pull llama3.1:8b
 ```
 
-### Run
+### Run Application
+
+Launch the executive Streamlit user interface:
 
 ```bash
 streamlit run app.py
-```
-
-### Docker (alternative)
-
-```bash
-docker compose up --build
 ```
 
 Then open `http://localhost:8501` in your browser.
 
 ---
 
-## Security
+## Pipeline Workflow (Phase 9)
 
-- PII is detected before any LLM interaction and **never** sent to an LLM
-- No arbitrary LLM-generated code or SQL is executed
-- All file uploads are validated before processing
-- API keys are loaded from environment variables, never committed
-- Cleaning operations are reversible; removed rows are preserved
+The system orchestrates a 7-stage analytical pipeline coordinated by `orchestrator.py`:
+
+```text
+Upload (.csv / .xlsx)
+  │
+  ▼
+[Stage 1: Validation & Ingestion] (FATAL)
+  ├── Security file inspection, size validation, CSV/Excel parsing
+  └── Dataset Intelligence Object (DIO) initialization & run directory setup
+  │
+  ▼
+[Stage 2: Dataset Intelligence] (RECOVERABLE)
+  ├── Structural schema profiling & type inference
+  ├── Date normalization / preservation of ambiguous formats
+  ├── PII detection & semantic labeling
+  └── Domain classification & data quality assessment
+  │
+  ▼
+[Stage 3: Data Cleaning] (FATAL)
+  ├── Deterministic duplicate row isolation (sidecar preservation)
+  ├── Inferred type coercion & date normalization
+  ├── Numeric & categorical missing value imputation
+  └── Non-destructive outlier flagging
+  │
+  ▼
+[Stage 4: Exploratory Data Analysis & Viz] (RECOVERABLE)
+  ├── Descriptive statistical profiles & skewness calculation
+  ├── Correlation matrix analysis
+  └── Publication-grade visual chart artifacts (PNG)
+  │
+  ▼
+[Stage 5: Machine Learning Modeling] (RECOVERABLE)
+  ├── Automatic target variable recommendation & problem typing
+  ├── Train/test validation with stratified/k-fold CV
+  ├── Model candidate evaluation (Linear/Logistic, Tree, Random Forest, XGBoost)
+  └── Feature importance extraction & verification checks (or safe skipping)
+  │
+  ▼
+[Stage 6: Executive Insights] (RECOVERABLE)
+  ├── Multi-source evidence compilation
+  ├── LLM narrative synthesis with deterministic fallback
+  └── Hallucination guard: 100% numerical grounding verification
+  │
+  ▼
+[Stage 7: Deliverable Generation] (RECOVERABLE)
+  ├── Executive PDF Report (ReportLab) with executive summary, metrics, charts, insights
+  └── Executive Presentation Deck (.pptx) with structured slide hierarchy
+```
+
+### Failure Classification & Status Semantics
+
+The pipeline strictly categorizes stage outcomes to ensure robustness:
+
+- **FATAL Stages** (`Validation`, `Cleaning`): If an unrecoverable error occurs (e.g. unsupported file type, corrupt file, zero rows, or cleaning failure), the pipeline immediately halts, records the failure, and returns overall status `failed`.
+- **RECOVERABLE Stages** (`Intelligence`, `EDA`, `ML`, `Insight`, `Report`): If an unexpected exception occurs, the failure is explicitly recorded in DIO `errors` and stage telemetry without swallowing. Safe downstream stages continue, and the overall pipeline status is marked `partial`.
+- **Completed**: Only runs where all stages succeed without fatal or recoverable failures receive status `completed`.
 
 ---
 
-## Limitations
+## Configuration & Customization
 
-- V1 supports CSV and XLSX only (JSON, Parquet, SQL planned for V2)
-- ML is limited to classification and regression (no forecasting, clustering, or RL)
-- No SHAP/LIME — uses built-in feature importances
-- No cross-session memory or knowledge graphs
-- Maximum upload size: 200 MB
-- LLM token budget: 20,000 tokens per dataset run
+The pipeline is configured via `config.yaml` with environment variable overrides:
+
+```yaml
+max_upload_size_mb: 200
+
+llm:
+  provider: ollama             # ollama | openai
+  model: llama3.1:8b
+  host: http://127.0.0.1:11434
+  timeout_seconds: 60
+
+security:
+  max_llm_tokens_per_run: 20000
+
+eda:
+  max_charts: 6
+  correlation_threshold: 0.3
+
+ml:
+  max_training_time_seconds: 60
+  cv_folds: 5
+
+insights:
+  min_insights: 3
+  max_insights: 6
+  grounding_tolerance: 0.05
+  temperature: 0.2
+  max_tokens: 800
+
+pipeline:
+  runs_dir: runs
+  save_dio_json: true
+  log_level: INFO
+```
+
+---
+
+## Generated Artifacts & Deliverables
+
+Every analysis run produces an isolated run directory (`runs/{timestamp}_{dataset_name}/`) containing:
+
+| Artifact | Format | Description |
+|---|---|---|
+| `cleaned_data.csv` | CSV | Reversibly cleaned dataset with types coerced and missing values imputed |
+| `removed_rows.csv` | CSV | Duplicate rows safely extracted into a sidecar (if duplicates existed) |
+| `charts/*.png` | PNG | Publication-grade charts generated during EDA |
+| `best_model.joblib` | Binary | Serialized scikit-learn/XGBoost model pipeline (when ML target exists) |
+| `report.pdf` | PDF | Executive multi-page analytical report with charts and grounded insights |
+| `presentation.pptx` | PPTX | Executive presentation slide deck |
+| `dio.json` | JSON | Complete Dataset Intelligence Object state capturing all analytical findings |
+| `pipeline.log` | Text | Execution log recording stage durations, events, and warnings |
+
+---
+
+## Security & PII Protection
+
+- PII is detected before any LLM interaction and **never** sent to an LLM.
+- Streamlit data previews redact all identified PII columns.
+- LLM prompt payloads are strictly filtered and masked using `mask_value_str`.
+- All file uploads are validated for security, MIME types, and path traversal guards.
+- API keys are loaded strictly from environment variables and redacted from logs.
+- Cleaning operations are non-destructive and fully reversible.
 
 ---
 
