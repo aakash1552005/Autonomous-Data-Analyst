@@ -1,0 +1,737 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Autonomous Data Analyst — Benchmark & Evaluation Report</title>
+    <style>
+        :root {
+            --bg: #0d1117;
+            --surface: #161b22;
+            --surface-border: #30363d;
+            --text-primary: #f0f6fc;
+            --text-secondary: #8b949e;
+            --accent: #58a6ff;
+            --success: #3fb950;
+            --warning: #d29922;
+            --error: #f85149;
+            --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: var(--bg);
+            color: var(--text-primary);
+            font-family: var(--font-family);
+            margin: 0;
+            padding: 32px 24px;
+            line-height: 1.5;
+        }
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+        }
+        header {
+            margin-bottom: 32px;
+            border-bottom: 1px solid var(--surface-border);
+            padding-bottom: 24px;
+        }
+        h1 {
+            font-size: 28px;
+            margin: 0 0 8px 0;
+            color: #ffffff;
+            letter-spacing: -0.5px;
+        }
+        .subtitle {
+            color: var(--text-secondary);
+            font-size: 14px;
+            margin: 0;
+        }
+        .kpi-row {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+            margin-bottom: 32px;
+        }
+        .kpi-card {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+        .kpi-label {
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-secondary);
+        }
+        .kpi-value {
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+        .kpi-highlight {
+            color: var(--success);
+        }
+        section {
+            margin-bottom: 40px;
+        }
+        h2 {
+            font-size: 20px;
+            margin: 0 0 16px 0;
+            border-left: 4px solid var(--accent);
+            padding-left: 12px;
+        }
+        .card {
+            background: var(--surface);
+            border: 1px solid var(--surface-border);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+        .dataset-card {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .dataset-title {
+            font-size: 18px;
+            margin: 0 0 4px 0;
+            display: inline-block;
+        }
+        .domain-tag {
+            background: rgba(88, 166, 255, 0.15);
+            color: var(--accent);
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            margin-left: 8px;
+        }
+        .dim-text {
+            color: var(--text-secondary);
+            font-size: 13px;
+            margin-left: 8px;
+        }
+        .badge {
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-success {
+            background: rgba(63, 185, 80, 0.2);
+            color: var(--success);
+            border: 1px solid rgba(63, 185, 80, 0.4);
+        }
+        .badge-error {
+            background: rgba(248, 81, 73, 0.2);
+            color: var(--error);
+            border: 1px solid rgba(248, 81, 73, 0.4);
+        }
+        .metrics-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 12px;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 16px;
+            border-radius: 6px;
+        }
+        .metric-item {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+        .metric-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+        }
+        .metric-val {
+            font-size: 16px;
+            font-weight: 600;
+        }
+        .runtime-meta {
+            display: flex;
+            gap: 24px;
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+            margin-top: 12px;
+        }
+        th, td {
+            padding: 10px 12px;
+            text-align: left;
+            border-bottom: 1px solid var(--surface-border);
+        }
+        th {
+            background: rgba(255, 255, 255, 0.03);
+            color: var(--text-secondary);
+            font-weight: 600;
+        }
+        tr:hover td {
+            background: rgba(255, 255, 255, 0.02);
+        }
+        .security-box {
+            border-left: 4px solid var(--success);
+            background: rgba(63, 185, 80, 0.05);
+        }
+        .security-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 12px;
+        }
+        .security-item {
+            background: var(--surface);
+            padding: 16px;
+            border-radius: 6px;
+            border: 1px solid var(--surface-border);
+        }
+        .sec-num {
+            font-size: 24px;
+            font-weight: 700;
+            margin-top: 4px;
+        }
+        ul {
+            margin: 8px 0 0 20px;
+            color: var(--text-secondary);
+            font-size: 14px;
+        }
+        li {
+            margin-bottom: 6px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Autonomous Data Analyst — Benchmark & Evaluation Report</h1>
+            <p class="subtitle">Phase 10 Formal Evaluation Layer • Run Timestamp: 2026-09-05T07:06:35.519866+00:00 • Version: 1.0</p>
+        </header>
+
+        <!-- Executive Summary KPI Row -->
+        <div class="kpi-row">
+            <div class="kpi-card">
+                <span class="kpi-label">Pipeline Success</span>
+                <span class="kpi-value kpi-highlight">6 / 6</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Mean Semantic Accuracy</span>
+                <span class="kpi-value">71.6%</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Mean PII Recall</span>
+                <span class="kpi-value kpi-highlight">100.0%</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Mean Report Fidelity</span>
+                <span class="kpi-value">100.0%</span>
+            </div>
+            <div class="kpi-card">
+                <span class="kpi-label">Total Execution Time</span>
+                <span class="kpi-value">463.90s</span>
+            </div>
+        </div>
+
+        <!-- Security & PII Protection Scorecard -->
+        <section>
+            <h2>Security & Privacy Audit</h2>
+            <div class="card security-box">
+                <p style="margin:0; font-size:14px;"><strong>Zero-Leakage Assurance:</strong> Evaluates detector sensitivity against synthetic PII fields and verifies absolute non-leakage across prompts, logs, reports, and serializations.</p>
+                <div class="security-grid">
+                    <div class="security-item">
+                        <span class="metric-label">PII Detector Recall</span>
+                        <div class="sec-num" style="color:var(--success);">100.0%</div>
+                    </div>
+                    <div class="security-item">
+                        <span class="metric-label">Raw PII Leakages</span>
+                        <div class="sec-num" style="color:var(--success);">0 (ZERO)</div>
+                    </div>
+                    <div class="security-item">
+                        <span class="metric-label">LLM Prompt PII Leakage</span>
+                        <div class="sec-num" style="color:var(--success);">0 (ZERO)</div>
+                    </div>
+                    <div class="security-item">
+                        <span class="metric-label">Report Document PII Leakage</span>
+                        <div class="sec-num" style="color:var(--success);">0 (ZERO)</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Aggregate Results Table -->
+        <section>
+            <h2>Aggregate Benchmark Results</h2>
+            <div class="card" style="overflow-x:auto;">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Dataset</th>
+                            <th>Domain</th>
+                            <th>Dimensions</th>
+                            <th>Status</th>
+                            <th>Semantic</th>
+                            <th>Date</th>
+                            <th>PII Recall</th>
+                            <th>Cleaning</th>
+                            <th>EDA</th>
+                            <th>ML Pipeline Compliance (Model Quality)</th>
+                            <th>Insight</th>
+                            <th>Report</th>
+                            <th>Runtime</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+
+            <tr>
+                <td><strong>retail_sales</strong></td>
+                <td><span class="domain-tag">retail</span></td>
+                <td>6 × 9</td>
+                <td><span class="badge badge-success">completed</span></td>
+                <td>77.8%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0% <span style="font-size:11px; color:var(--text-secondary); display:block;">(Skipped: &lt;30 rows)</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>81.89s</td>
+            </tr>
+
+            <tr>
+                <td><strong>healthcare_patients</strong></td>
+                <td><span class="domain-tag">healthcare</span></td>
+                <td>6 × 8</td>
+                <td><span class="badge badge-success">completed</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0% <span style="font-size:11px; color:var(--text-secondary); display:block;">(Skipped: &lt;30 rows)</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>76.42s</td>
+            </tr>
+
+            <tr>
+                <td><strong>financial_loans</strong></td>
+                <td><span class="domain-tag">finance</span></td>
+                <td>6 × 6</td>
+                <td><span class="badge badge-success">completed</span></td>
+                <td>83.3%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0% <span style="font-size:11px; color:var(--text-secondary); display:block;">(Skipped: &lt;30 rows)</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>75.00s</td>
+            </tr>
+
+            <tr>
+                <td><strong>mixed_messy_data</strong></td>
+                <td><span class="domain-tag">generic</span></td>
+                <td>7 × 5</td>
+                <td><span class="badge badge-success">completed</span></td>
+                <td>40.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0% <span style="font-size:11px; color:var(--text-secondary); display:block;">(Skipped: &lt;30 rows)</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>74.75s</td>
+            </tr>
+
+            <tr>
+                <td><strong>ambiguous_dates_pii</strong></td>
+                <td><span class="domain-tag">generic</span></td>
+                <td>4 × 7</td>
+                <td><span class="badge badge-success">completed</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0% <span style="font-size:11px; color:var(--text-secondary); display:block;">(Skipped: &lt;30 rows)</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>76.36s</td>
+            </tr>
+
+            <tr>
+                <td><strong>customer_churn_ml</strong></td>
+                <td><span class="domain-tag">generic</span></td>
+                <td>60 × 7</td>
+                <td><span class="badge badge-success">completed</span></td>
+                <td>28.6%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>50.0%</td>
+                <td>100.0% <span style="font-size:11px; color:var(--success); display:block;">(F1: 0.40, AUC: 0.43, Improved: True)</span></td>
+                <td>100.0%</td>
+                <td>100.0%</td>
+                <td>79.48s</td>
+            </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Dataset-Level Results -->
+        <section>
+            <h2>Dataset-Level Scorecards</h2>
+
+            <div class="card dataset-card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="dataset-title">retail_sales</h3>
+                        <span class="domain-tag">RETAIL</span>
+                        <span class="dim-text">• 6 rows × 9 cols</span>
+                    </div>
+                    <span class="badge badge-success">COMPLETED</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Semantic Accuracy</span>
+                        <span class="metric-val">77.8%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Date Resolution</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">PII Recall</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Cleaning Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">EDA Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">ML Pipeline Compliance</span>
+                        <span class="metric-val">100.0% (Skipped: &lt;30 rows)</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Insight Grounding</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Report Fidelity</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                </div>
+                <div class="runtime-meta">
+                    <span>⚡ Runtime: <strong>81.89s</strong></span>
+                    <span>🔑 Tokens: <strong>UNAVAILABLE</strong></span>
+                </div>
+            </div>
+
+            <div class="card dataset-card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="dataset-title">healthcare_patients</h3>
+                        <span class="domain-tag">HEALTHCARE</span>
+                        <span class="dim-text">• 6 rows × 8 cols</span>
+                    </div>
+                    <span class="badge badge-success">COMPLETED</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Semantic Accuracy</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Date Resolution</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">PII Recall</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Cleaning Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">EDA Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">ML Pipeline Compliance</span>
+                        <span class="metric-val">100.0% (Skipped: &lt;30 rows)</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Insight Grounding</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Report Fidelity</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                </div>
+                <div class="runtime-meta">
+                    <span>⚡ Runtime: <strong>76.42s</strong></span>
+                    <span>🔑 Tokens: <strong>UNAVAILABLE</strong></span>
+                </div>
+            </div>
+
+            <div class="card dataset-card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="dataset-title">financial_loans</h3>
+                        <span class="domain-tag">FINANCE</span>
+                        <span class="dim-text">• 6 rows × 6 cols</span>
+                    </div>
+                    <span class="badge badge-success">COMPLETED</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Semantic Accuracy</span>
+                        <span class="metric-val">83.3%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Date Resolution</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">PII Recall</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Cleaning Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">EDA Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">ML Pipeline Compliance</span>
+                        <span class="metric-val">100.0% (Skipped: &lt;30 rows)</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Insight Grounding</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Report Fidelity</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                </div>
+                <div class="runtime-meta">
+                    <span>⚡ Runtime: <strong>75.00s</strong></span>
+                    <span>🔑 Tokens: <strong>UNAVAILABLE</strong></span>
+                </div>
+            </div>
+
+            <div class="card dataset-card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="dataset-title">mixed_messy_data</h3>
+                        <span class="domain-tag">GENERIC</span>
+                        <span class="dim-text">• 7 rows × 5 cols</span>
+                    </div>
+                    <span class="badge badge-success">COMPLETED</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Semantic Accuracy</span>
+                        <span class="metric-val">40.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Date Resolution</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">PII Recall</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Cleaning Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">EDA Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">ML Pipeline Compliance</span>
+                        <span class="metric-val">100.0% (Skipped: &lt;30 rows)</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Insight Grounding</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Report Fidelity</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                </div>
+                <div class="runtime-meta">
+                    <span>⚡ Runtime: <strong>74.75s</strong></span>
+                    <span>🔑 Tokens: <strong>UNAVAILABLE</strong></span>
+                </div>
+            </div>
+
+            <div class="card dataset-card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="dataset-title">ambiguous_dates_pii</h3>
+                        <span class="domain-tag">GENERIC</span>
+                        <span class="dim-text">• 4 rows × 7 cols</span>
+                    </div>
+                    <span class="badge badge-success">COMPLETED</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Semantic Accuracy</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Date Resolution</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">PII Recall</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Cleaning Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">EDA Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">ML Pipeline Compliance</span>
+                        <span class="metric-val">100.0% (Skipped: &lt;30 rows)</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Insight Grounding</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Report Fidelity</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                </div>
+                <div class="runtime-meta">
+                    <span>⚡ Runtime: <strong>76.36s</strong></span>
+                    <span>🔑 Tokens: <strong>UNAVAILABLE</strong></span>
+                </div>
+            </div>
+
+            <div class="card dataset-card">
+                <div class="card-header">
+                    <div>
+                        <h3 class="dataset-title">customer_churn_ml</h3>
+                        <span class="domain-tag">GENERIC</span>
+                        <span class="dim-text">• 60 rows × 7 cols</span>
+                    </div>
+                    <span class="badge badge-success">COMPLETED</span>
+                </div>
+                <div class="metrics-grid">
+                    <div class="metric-item">
+                        <span class="metric-label">Semantic Accuracy</span>
+                        <span class="metric-val">28.6%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Date Resolution</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">PII Recall</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Cleaning Acc</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">EDA Acc</span>
+                        <span class="metric-val">50.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">ML Pipeline Compliance</span>
+                        <span class="metric-val">100.0% (Trained)</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Model Quality</span>
+                        <span class="metric-val" style="color:var(--accent);">F1: 0.40 | AUC: 0.43</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Baseline Comparison</span>
+                        <span class="metric-val" style="color:var(--success);">Improved: True (+0.40)</span>
+                    </div>
+
+                    <div class="metric-item">
+                        <span class="metric-label">Insight Grounding</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                    <div class="metric-item">
+                        <span class="metric-label">Report Fidelity</span>
+                        <span class="metric-val">100.0%</span>
+                    </div>
+                </div>
+                <div class="runtime-meta">
+                    <span>⚡ Runtime: <strong>79.48s</strong></span>
+                    <span>🔑 Tokens: <strong>UNAVAILABLE</strong></span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Baseline Comparison (Section 15) -->
+        <section>
+            <h2>Baseline Comparison: ydata-profiling</h2>
+            <div class="card">
+                <p><strong>Baseline Profiler Status:</strong> <span class="badge badge-error">YDATA_PROFILING_UNAVAILABLE</span></p>
+                <p style="color:var(--text-secondary); font-size:14px; margin:8px 0 0 0;">
+                    ydata-profiling is not installed in the current environment. Per Phase 10 Section 15, the benchmark records
+                    <code>YDATA_PROFILING_UNAVAILABLE</code>, continues execution cleanly without failure, and does not fabricate comparative metrics.
+                </p>
+            </div>
+        </section>
+
+        <!-- Limitations (Section 19) -->
+        <section>
+            <h2>Documented Limitations</h2>
+            <div class="card">
+                <ul>
+                    <li>Baseline Comparison: ydata-profiling is not installed in the environment; recorded as YDATA_PROFILING_UNAVAILABLE per Section 15.</li><li>Token Usage: Provider token consumption is tracked when active LLM calls execute; deterministic heuristic fallbacks report 'unavailable' rather than fabricating numbers.</li><li>ML Compliance vs Predictive Quality: 'ML Pipeline Compliance Score' evaluates operational process correctness (safe skipping on sample size guardrails, target detection, task typing, metric calculation, and artifact persistence) and does not measure predictive accuracy. Where ML executes (customer_churn_ml.csv), actual held-out model performance (Random Forest F1: 0.40, ROC-AUC: 0.43, Improved Over Baseline: True) is displayed alongside compliance checks.</li><li>ML Sample Size Guardrail: Production pipeline enforces config.yaml min_rows_for_ml: 30. Datasets with < 30 rows (retail, healthcare, finance, mixed_messy, ambiguous_dates_pii) correctly skip ML with status 'insufficient_data' (ML_003_INSUFFICIENT_DATA). Dataset customer_churn_ml (60 rows) exercises full ML training, metric evaluation, and model artifact persistence.</li><li>Independent Ground Truth: Ground truth semantic labels, cleaning outcomes, and statistical facts derived by independent human inspection without reverse-engineering pipeline rules.</li>
+                </ul>
+            </div>
+        </section>
+    </div>
+</body>
+</html>

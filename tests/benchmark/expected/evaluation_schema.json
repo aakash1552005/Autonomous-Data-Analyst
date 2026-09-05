@@ -1,0 +1,90 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "AutonomousDataAnalystEvaluationResults",
+  "type": "object",
+  "required": [
+    "benchmark_version",
+    "run_timestamp",
+    "datasets",
+    "aggregate_metrics",
+    "limitations"
+  ],
+  "properties": {
+    "benchmark_version": {
+      "type": "string"
+    },
+    "run_timestamp": {
+      "type": "string"
+    },
+    "datasets": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": [
+          "dataset",
+          "domain",
+          "rows",
+          "columns",
+          "pipeline_status",
+          "semantic_label_accuracy",
+          "domain_accuracy",
+          "date_resolution_accuracy",
+          "pii_recall",
+          "cleaning_metrics",
+          "eda_metrics",
+          "ml_metrics",
+          "insight_metrics",
+          "report_metrics",
+          "runtime",
+          "token_usage",
+          "baseline_comparison",
+          "errors"
+        ],
+        "properties": {
+          "dataset": { "type": "string" },
+          "domain": { "type": "string" },
+          "rows": { "type": "integer" },
+          "columns": { "type": "integer" },
+          "pipeline_status": { "type": "string" },
+          "semantic_label_accuracy": { "type": "number" },
+          "domain_accuracy": { "type": "number" },
+          "date_resolution_accuracy": { "type": "number" },
+          "pii_recall": { "type": "number" },
+          "cleaning_metrics": { "type": "object" },
+          "eda_metrics": { "type": "object" },
+          "ml_metrics": { "type": "object" },
+          "insight_metrics": { "type": "object" },
+          "report_metrics": { "type": "object" },
+          "runtime": { "type": "object" },
+          "token_usage": { "type": "object" },
+          "baseline_comparison": { "type": "object" },
+          "errors": { "type": "array" }
+        }
+      }
+    },
+    "aggregate_metrics": {
+      "type": "object",
+      "required": [
+        "total_datasets",
+        "successful_datasets",
+        "mean_semantic_accuracy",
+        "mean_domain_accuracy",
+        "mean_date_accuracy",
+        "mean_pii_recall",
+        "mean_cleaning_accuracy",
+        "mean_eda_accuracy",
+        "mean_ml_accuracy",
+        "mean_insight_accuracy",
+        "mean_report_fidelity",
+        "total_runtime_seconds",
+        "total_pii_leakages"
+      ]
+    },
+    "limitations": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    }
+  }
+}

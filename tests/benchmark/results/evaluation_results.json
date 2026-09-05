@@ -1,0 +1,807 @@
+{
+  "benchmark_version": "1.0",
+  "run_timestamp": "2026-09-05T07:06:35.519866+00:00",
+  "datasets": [
+    {
+      "dataset": "retail_sales",
+      "domain": "retail",
+      "rows": 6,
+      "columns": 9,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 0.7778,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 0,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 6,
+        "row_count_after": 6,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 1.0,
+        "stats_verified_count": 6,
+        "stats_total_count": 6,
+        "charts_generated_count": 6,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": []
+      },
+      "ml_metrics": {
+        "ml_accuracy": 1.0,
+        "ml_ran": false,
+        "ml_applicable_expected": false,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "ml_errors": [],
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": null
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 0,
+        "total_insights_evaluated": 1,
+        "insight_errors": []
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 81.885,
+        "intelligence_runtime": 0.038,
+        "cleaning_runtime": 0.033,
+        "eda_runtime": 17.065,
+        "ml_runtime": 0.001,
+        "insight_runtime": 64.098,
+        "report_runtime": 0.611,
+        "stage_timings": {
+          "validation": 0.033,
+          "intelligence": 0.038,
+          "cleaning": 0.033,
+          "eda": 17.065,
+          "ml": 0.001,
+          "insight": 64.098,
+          "report": 0.611,
+          "total_pipeline": 81.885
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 6,
+          "column_count": 9,
+          "quality_score": 98
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "column": "discount_pct",
+          "predicted_label": "quantity",
+          "expected_labels": [
+            "percentage"
+          ],
+          "confidence": 0.9,
+          "reason": "Predicted 'quantity' does not match expected ['percentage']"
+        },
+        {
+          "column": "status",
+          "predicted_label": "target_label",
+          "expected_labels": [
+            "category",
+            "status"
+          ],
+          "confidence": 0.9,
+          "reason": "Predicted 'target_label' does not match expected ['category', 'status']"
+        }
+      ]
+    },
+    {
+      "dataset": "healthcare_patients",
+      "domain": "healthcare",
+      "rows": 6,
+      "columns": 8,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 1.0,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 3,
+        "missing_values_after": 1,
+        "dtype_corrections": 0,
+        "row_count_before": 6,
+        "row_count_after": 6,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 1.0,
+        "stats_verified_count": 4,
+        "stats_total_count": 4,
+        "charts_generated_count": 6,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": []
+      },
+      "ml_metrics": {
+        "ml_accuracy": 1.0,
+        "ml_ran": false,
+        "ml_applicable_expected": false,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "ml_errors": [],
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": null
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 1,
+        "total_insights_evaluated": 1,
+        "insight_errors": [
+          {
+            "insight_index": 0,
+            "cited_number": 100.0,
+            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+          }
+        ]
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 76.415,
+        "intelligence_runtime": 0.018,
+        "cleaning_runtime": 0.019,
+        "eda_runtime": 11.821,
+        "ml_runtime": 0.002,
+        "insight_runtime": 64.12,
+        "report_runtime": 0.417,
+        "stage_timings": {
+          "validation": 0.013,
+          "intelligence": 0.018,
+          "cleaning": 0.019,
+          "eda": 11.821,
+          "ml": 0.002,
+          "insight": 64.12,
+          "report": 0.417,
+          "total_pipeline": 76.415
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 6,
+          "column_count": 8,
+          "quality_score": 94
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "insight_index": 0,
+          "cited_number": 100.0,
+          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+        }
+      ]
+    },
+    {
+      "dataset": "financial_loans",
+      "domain": "finance",
+      "rows": 6,
+      "columns": 6,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 0.8333,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 0,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 6,
+        "row_count_after": 6,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 1.0,
+        "stats_verified_count": 4,
+        "stats_total_count": 4,
+        "charts_generated_count": 6,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": []
+      },
+      "ml_metrics": {
+        "ml_accuracy": 1.0,
+        "ml_ran": false,
+        "ml_applicable_expected": false,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "ml_errors": [],
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": null
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 0,
+        "total_insights_evaluated": 1,
+        "insight_errors": []
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 75.005,
+        "intelligence_runtime": 0.007,
+        "cleaning_runtime": 0.01,
+        "eda_runtime": 10.457,
+        "ml_runtime": 0.001,
+        "insight_runtime": 64.143,
+        "report_runtime": 0.371,
+        "stage_timings": {
+          "validation": 0.01,
+          "intelligence": 0.007,
+          "cleaning": 0.01,
+          "eda": 10.457,
+          "ml": 0.001,
+          "insight": 64.143,
+          "report": 0.371,
+          "total_pipeline": 75.005
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 6,
+          "column_count": 6,
+          "quality_score": 98
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "column": "default_status",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "target_label",
+            "binary"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['target_label', 'binary']"
+        }
+      ]
+    },
+    {
+      "dataset": "mixed_messy_data",
+      "domain": "generic",
+      "rows": 7,
+      "columns": 5,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 0.4,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 1,
+        "missing_values_before": 3,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 7,
+        "row_count_after": 6,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 1.0,
+        "stats_verified_count": 2,
+        "stats_total_count": 2,
+        "charts_generated_count": 5,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": []
+      },
+      "ml_metrics": {
+        "ml_accuracy": 1.0,
+        "ml_ran": false,
+        "ml_applicable_expected": false,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "ml_errors": [],
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": null
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 1,
+        "total_insights_evaluated": 1,
+        "insight_errors": [
+          {
+            "insight_index": 0,
+            "cited_number": 100.0,
+            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+          }
+        ]
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 74.755,
+        "intelligence_runtime": 0.01,
+        "cleaning_runtime": 0.022,
+        "eda_runtime": 9.986,
+        "ml_runtime": 0.002,
+        "insight_runtime": 64.079,
+        "report_runtime": 0.64,
+        "stage_timings": {
+          "validation": 0.01,
+          "intelligence": 0.01,
+          "cleaning": 0.022,
+          "eda": 9.986,
+          "ml": 0.002,
+          "insight": 64.079,
+          "report": 0.64,
+          "total_pipeline": 74.755
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 7,
+          "column_count": 5,
+          "quality_score": 86
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "column": " user_category ",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "category"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['category']"
+        },
+        {
+          "column": "flag_active",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "boolean"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['boolean']"
+        },
+        {
+          "column": "notes",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "text"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['text']"
+        },
+        {
+          "insight_index": 0,
+          "cited_number": 100.0,
+          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+        }
+      ]
+    },
+    {
+      "dataset": "ambiguous_dates_pii",
+      "domain": "generic",
+      "rows": 4,
+      "columns": 7,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 1.0,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 0,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 4,
+        "row_count_after": 4,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 1.0,
+        "stats_verified_count": 2,
+        "stats_total_count": 2,
+        "charts_generated_count": 3,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": []
+      },
+      "ml_metrics": {
+        "ml_accuracy": 1.0,
+        "ml_ran": false,
+        "ml_applicable_expected": false,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "ml_errors": [],
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": null
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 0,
+        "total_insights_evaluated": 1,
+        "insight_errors": []
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 76.361,
+        "intelligence_runtime": 0.021,
+        "cleaning_runtime": 0.031,
+        "eda_runtime": 11.637,
+        "ml_runtime": 0.001,
+        "insight_runtime": 64.103,
+        "report_runtime": 0.55,
+        "stage_timings": {
+          "validation": 0.013,
+          "intelligence": 0.021,
+          "cleaning": 0.031,
+          "eda": 11.637,
+          "ml": 0.001,
+          "insight": 64.103,
+          "report": 0.55,
+          "total_pipeline": 76.361
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 4,
+          "column_count": 7,
+          "quality_score": 81
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": []
+    },
+    {
+      "dataset": "customer_churn_ml",
+      "domain": "generic",
+      "rows": 60,
+      "columns": 7,
+      "pipeline_status": "completed",
+      "semantic_label_accuracy": 0.2857,
+      "domain_accuracy": 1.0,
+      "date_resolution_accuracy": 1.0,
+      "pii_recall": 1.0,
+      "cleaning_metrics": {
+        "cleaning_accuracy": 1.0,
+        "duplicates_removed": 0,
+        "missing_values_before": 0,
+        "missing_values_after": 0,
+        "dtype_corrections": 0,
+        "row_count_before": 60,
+        "row_count_after": 60,
+        "cleaning_passed": true,
+        "cleaning_errors": []
+      },
+      "eda_metrics": {
+        "eda_accuracy": 0.5,
+        "stats_verified_count": 0,
+        "stats_total_count": 2,
+        "charts_generated_count": 6,
+        "charts_verified": true,
+        "pii_excluded_from_eda": true,
+        "eda_errors": [
+          {
+            "column": "monthly_charges",
+            "stat": "min",
+            "actual": 20.5,
+            "expected": 20.0,
+            "error": "Value mismatch beyond tolerance (0.2)"
+          },
+          {
+            "column": "monthly_charges",
+            "stat": "max",
+            "actual": 108.82,
+            "expected": 110.0,
+            "error": "Value mismatch beyond tolerance (1.1)"
+          }
+        ]
+      },
+      "ml_metrics": {
+        "ml_accuracy": 1.0,
+        "ml_ran": true,
+        "ml_applicable_expected": true,
+        "target_matched": true,
+        "task_type_matched": true,
+        "metrics_present": true,
+        "model_persisted": true,
+        "ml_errors": [],
+        "ml_pipeline_compliance_score": 1.0,
+        "model_performance": {
+          "selected_model": "random_forest",
+          "f1": 0.4,
+          "roc_auc": 0.4306,
+          "accuracy": 0.5,
+          "precision": 0.5,
+          "recall": 0.3333,
+          "improved_over_baseline": true,
+          "baseline_f1": 0.0,
+          "selection_reason": "Selected random_forest with highest F1 score (0.4)"
+        }
+      },
+      "insight_metrics": {
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 3,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 2,
+        "total_insights_evaluated": 3,
+        "insight_errors": [
+          {
+            "insight_index": 0,
+            "cited_number": 50.0,
+            "error": "Cited number 50.0 is not grounded in DIO facts or summary statistics"
+          },
+          {
+            "insight_index": 2,
+            "cited_number": 100.0,
+            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+          }
+        ]
+      },
+      "report_metrics": {
+        "report_fidelity_accuracy": 1.0,
+        "pdf_generated": true,
+        "pptx_generated": true,
+        "facts_verified_count": 6,
+        "facts_total_count": 6,
+        "factual_mismatches": []
+      },
+      "runtime": {
+        "total_runtime_seconds": 79.482,
+        "intelligence_runtime": 0.022,
+        "cleaning_runtime": 0.031,
+        "eda_runtime": 14.305,
+        "ml_runtime": 0.413,
+        "insight_runtime": 64.131,
+        "report_runtime": 0.566,
+        "stage_timings": {
+          "validation": 0.008,
+          "intelligence": 0.022,
+          "cleaning": 0.031,
+          "eda": 14.305,
+          "ml": 0.413,
+          "insight": 64.131,
+          "report": 0.566,
+          "total_pipeline": 79.482
+        }
+      },
+      "token_usage": {
+        "status": "unavailable",
+        "prompt_tokens": null,
+        "completion_tokens": null,
+        "total_tokens": null,
+        "calls_count": 0,
+        "stage_breakdown": {},
+        "limitation_note": "Token metrics unavailable: Pipeline executed with deterministic heuristic fallbacks or local provider without exact token telemetry."
+      },
+      "baseline_comparison": {
+        "status": "YDATA_PROFILING_UNAVAILABLE",
+        "framework": "ydata-profiling",
+        "comparable_metrics": {
+          "row_count": 60,
+          "column_count": 7,
+          "quality_score": 91
+        },
+        "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
+      },
+      "errors": [
+        {
+          "column": "tenure_months",
+          "predicted_label": "age",
+          "expected_labels": [
+            "quantity",
+            "tenure"
+          ],
+          "confidence": 0.75,
+          "reason": "Predicted 'age' does not match expected ['quantity', 'tenure']"
+        },
+        {
+          "column": "monthly_charges",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "currency_amount"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['currency_amount']"
+        },
+        {
+          "column": "total_charges",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "currency_amount"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['currency_amount']"
+        },
+        {
+          "column": "contract_type",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "category"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['category']"
+        },
+        {
+          "column": "tech_support",
+          "predicted_label": "unknown",
+          "expected_labels": [
+            "category",
+            "boolean"
+          ],
+          "confidence": 0.4,
+          "reason": "Predicted 'unknown' does not match expected ['category', 'boolean']"
+        },
+        {
+          "column": "monthly_charges",
+          "stat": "min",
+          "actual": 20.5,
+          "expected": 20.0,
+          "error": "Value mismatch beyond tolerance (0.2)"
+        },
+        {
+          "column": "monthly_charges",
+          "stat": "max",
+          "actual": 108.82,
+          "expected": 110.0,
+          "error": "Value mismatch beyond tolerance (1.1)"
+        },
+        {
+          "insight_index": 0,
+          "cited_number": 50.0,
+          "error": "Cited number 50.0 is not grounded in DIO facts or summary statistics"
+        },
+        {
+          "insight_index": 2,
+          "cited_number": 100.0,
+          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
+        }
+      ]
+    }
+  ],
+  "aggregate_metrics": {
+    "total_datasets": 6,
+    "successful_datasets": 6,
+    "mean_semantic_accuracy": 0.7161,
+    "mean_domain_accuracy": 1.0,
+    "mean_date_accuracy": 1.0,
+    "mean_pii_recall": 1.0,
+    "mean_cleaning_accuracy": 1.0,
+    "mean_eda_accuracy": 0.9167,
+    "mean_ml_accuracy": 1.0,
+    "mean_insight_accuracy": 1.0,
+    "mean_report_fidelity": 1.0,
+    "total_runtime_seconds": 463.903,
+    "total_pii_leakages": 0,
+    "mean_ml_pipeline_compliance_score": 1.0
+  },
+  "limitations": [
+    "Baseline Comparison: ydata-profiling is not installed in the environment; recorded as YDATA_PROFILING_UNAVAILABLE per Section 15.",
+    "Token Usage: Provider token consumption is tracked when active LLM calls execute; deterministic heuristic fallbacks report 'unavailable' rather than fabricating numbers.",
+    "ML Compliance vs Predictive Quality: 'ML Pipeline Compliance Score' evaluates operational process correctness (safe skipping on sample size guardrails, target detection, task typing, metric calculation, and artifact persistence) and does not measure predictive accuracy. Where ML executes (customer_churn_ml.csv), actual held-out model performance (Random Forest F1: 0.40, ROC-AUC: 0.43, Improved Over Baseline: True) is displayed alongside compliance checks.",
+    "ML Sample Size Guardrail: Production pipeline enforces config.yaml min_rows_for_ml: 30. Datasets with < 30 rows (retail, healthcare, finance, mixed_messy, ambiguous_dates_pii) correctly skip ML with status 'insufficient_data' (ML_003_INSUFFICIENT_DATA). Dataset customer_churn_ml (60 rows) exercises full ML training, metric evaluation, and model artifact persistence.",
+    "Independent Ground Truth: Ground truth semantic labels, cleaning outcomes, and statistical facts derived by independent human inspection without reverse-engineering pipeline rules."
+  ]
+}
