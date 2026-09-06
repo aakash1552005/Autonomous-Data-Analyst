@@ -145,7 +145,7 @@ def generate_deterministic_insights(
     if n_rows > 0 and n_cols > 0:
         candidates.append({
             "category": "quality",
-            "text": f"Analyzed dataset of {n_rows} rows and {n_cols} columns with an overall data quality score of {q_score} out of 100.",
+            "text": f"Analyzed dataset of {n_rows} rows and {n_cols} columns with an overall data quality score of {q_score}/100.",
             "confidence": 1.0,
             "evidence": "dio.quality.score",
             "recommendation": "Maintain standardized data ingestion pipelines to preserve data quality and prevent schema drift.",

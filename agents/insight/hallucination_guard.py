@@ -21,8 +21,12 @@ def extract_numbers_from_text(text: str) -> list[float]:
     """
     Extract all numerical values (floats, ints, percentages) from a text string.
     Normalizes percentages and thousands separators.
+    Ignores fixed metric scale denominators (e.g. '/100' or 'out of 100') to avoid
+    evaluating the scale boundary as a factual dataset claim.
     """
-    matches = NUMBER_REGEX.findall(text)
+    # Strip fixed metric scale bounds before extracting numbers
+    cleaned_text = re.sub(r"(?:/|\bout of\s+)\s*100\b", "", text)
+    matches = NUMBER_REGEX.findall(cleaned_text)
     extracted: list[float] = []
 
     for m in matches:

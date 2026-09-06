@@ -39,3 +39,17 @@ pipeline:
   runs_dir: runs
   save_dio_json: true
   log_level: INFO
+
+chat:
+  enabled: true
+  max_context_tokens: 1200
+  temperature: 0.1
+  allow_deterministic_aggregations: true
+  safe_operations:
+    - mean
+    - sum
+    - count
+    - min
+    - max
+    - value_counts
+    - groupby_mean

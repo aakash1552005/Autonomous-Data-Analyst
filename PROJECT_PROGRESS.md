@@ -175,11 +175,38 @@
 | `cleaning_log`, `artifacts.cleaned_csv`, `artifacts.removed_rows_csv` | Cleaning Agent (Phase 4) | Complete & Verified |
 | `eda`, `artifacts.chart_paths` | EDA Agent (Phase 5) | Complete & Verified |
 | `ml`, `artifacts.model_pkl` | ML Agent (Phase 6) | Complete & Audited |
-| `insights` | Insight Agent (Phase 7) | **Complete & Audited** |
-| `reports` | Report Agent (Phase 9) | UNTOUCHED (Empty) |
+| `insights` | Insight Agent (Phase 7) | Complete & Audited |
+| `reports` | Report Agent (Phase 9) | Complete & Verified |
 | `progress`, `errors`, `agent_metrics`, `decision_log` | Shared Pipeline State / Provenance | Updated per agent |
 
 ---
 
-## Next Phase
-- **Phase 8 — Hypothesis & Statistical Testing Agent**: Formulate and test domain-relevant hypotheses deterministically using parametric/non-parametric tests (t-tests, ANOVA, Chi-Square, Mann-Whitney U, Kruskal-Wallis) with strict assumption checking and effect sizes.
+## Phase 8 — Hypothesis & Statistical Testing Agent
+**Status**: COMPLETE ✅
+
+---
+
+## Phase 9 — Report Generation Agent
+**Status**: COMPLETE ✅
+
+---
+
+## Phase 10 & 10.1 — Benchmark & Evaluation Framework
+**Status**: COMPLETE & REMEDIATED ✅
+- Full 9-dataset benchmark evaluation framework with mathematical rigor and honest metrics.
+- Documented in `PHASE10_1_REMEDIATION_REPORT.md`.
+
+---
+
+## Phase 11 — Chat Agent, PII Leakage Elimination, Insight Grounding Correction & Security Hardening
+**Status**: COMPLETE & VERIFIED ✅
+
+### Implementation Summary
+- **PII Leakage Elimination:** Categorical raw value omission for sensitive columns (`is_pii: True` / `semantic_label: "identifier"`) in `agents/eda/summary_stats.py`. Benchmark raw PII leakages reduced from 21 to **0 (ZERO)**.
+- **Insight Grounding Correction:** Scale denominator disambiguation (`{score}/100`) eliminating false-positive penalty while preserving strict detection of fabricated numeric claims. Grounding accuracy increased from 52.22% to **83.33%**.
+- **Agent 7 (Chat Agent):** Dual-tier architecture in `agents/chat/` with 7 deterministic operations (`mean`, `sum`, `count`, `min`, `max`, `value_counts`, `groupby_mean`), structural PII shielding before any DataFrame access, and bounded DIO context retrieval.
+- **Streamlit Interactive Q&A Tab (Tab 8):** Multi-turn chat interface in `app.py` with session history, safe non-PII suggested questions, and zero pipeline re-execution.
+- **Security & Regression Testing:** `test_chat_agent.py`, `test_chat_adversarial.py`, and `test_phase11_pii_e2e_security.py`.
+- **Regression Suite:** 354 passed, 1 pre-existing offline Ollama skip, 0 failed, 0 errors. Full 9-dataset benchmark verified twice with exact determinism.
+- Documented in `PHASE11_COMPLETION_REPORT.md`.
+

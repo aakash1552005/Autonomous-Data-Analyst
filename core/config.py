@@ -113,6 +113,25 @@ class PipelineConfig:
 
 
 @dataclass
+class ChatConfig:
+    enabled: bool = True
+    max_context_tokens: int = 1200
+    temperature: float = 0.1
+    allow_deterministic_aggregations: bool = True
+    safe_operations: list[str] = field(default_factory=lambda: [
+        "mean", "sum", "count", "min", "max", "value_counts", "groupby_mean"
+    ])
+
+    def validate(self) -> None:
+        if self.max_context_tokens <= 0:
+            raise ValueError(f"max_context_tokens must be positive, got {self.max_context_tokens}")
+        if not (0.0 <= self.temperature <= 2.0):
+            raise ValueError(f"temperature must be between 0.0 and 2.0, got {self.temperature}")
+        if not self.safe_operations:
+            raise ValueError("safe_operations list cannot be empty")
+
+
+@dataclass
 class AppConfig:
     max_upload_size_mb: int = 200
     llm: LLMConfig = field(default_factory=LLMConfig)
@@ -121,6 +140,7 @@ class AppConfig:
     ml: MLConfig = field(default_factory=MLConfig)
     insights: InsightsConfig = field(default_factory=InsightsConfig)
     pipeline: PipelineConfig = field(default_factory=PipelineConfig)
+    chat: ChatConfig = field(default_factory=ChatConfig)
 
     def validate(self) -> None:
         if self.max_upload_size_mb <= 0:
@@ -131,6 +151,7 @@ class AppConfig:
         self.ml.validate()
         self.insights.validate()
         self.pipeline.validate()
+        self.chat.validate()
 
 
 def load_config(config_path: str | Path | None = None) -> AppConfig:
@@ -207,6 +228,18 @@ def load_config(config_path: str | Path | None = None) -> AppConfig:
         log_level=str(raw_pipeline.get("log_level", "INFO")),
     )
 
+    raw_chat = raw_data.get("chat", {})
+    safe_ops = raw_chat.get("safe_operations")
+    if not isinstance(safe_ops, list):
+        safe_ops = ["mean", "sum", "count", "min", "max", "value_counts", "groupby_mean"]
+    chat_config = ChatConfig(
+        enabled=bool(raw_chat.get("enabled", True)),
+        max_context_tokens=int(os.getenv("CHAT_MAX_CONTEXT_TOKENS", raw_chat.get("max_context_tokens", 1200))),
+        temperature=float(raw_chat.get("temperature", 0.1)),
+        allow_deterministic_aggregations=bool(raw_chat.get("allow_deterministic_aggregations", True)),
+        safe_operations=safe_ops,
+    )
+
     app_config = AppConfig(
         max_upload_size_mb=max_upload_size_mb,
         llm=llm_config,
@@ -215,6 +248,7 @@ def load_config(config_path: str | Path | None = None) -> AppConfig:
         ml=ml_config,
         insights=insights_config,
         pipeline=pipeline_config,
+        chat=chat_config,
     )
     app_config.validate()
     return app_config

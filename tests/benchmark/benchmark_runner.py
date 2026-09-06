@@ -196,7 +196,7 @@ class BenchmarkRunner:
     def run_all(
         self,
         custom_temp_dir: Path | None = None,
-        tier: str = "tier_a",
+        tier: str = "all",
     ) -> BenchmarkSuiteResult:
         """Run benchmark evaluation across specified tier ('tier_a', 'tier_b', or 'all')."""
         results: list[DatasetBenchmarkResult] = []

@@ -1,6 +1,6 @@
 {
   "benchmark_version": "1.0",
-  "run_timestamp": "2026-09-05T20:18:58.737266+00:00",
+  "run_timestamp": "2026-09-06T13:43:59.344237+00:00",
   "datasets": [
     {
       "dataset": "retail_sales",
@@ -77,22 +77,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 12.759,
-        "intelligence_runtime": 0.018,
-        "cleaning_runtime": 0.024,
-        "eda_runtime": 10.417,
+        "total_runtime_seconds": 19.982,
+        "intelligence_runtime": 0.024,
+        "cleaning_runtime": 0.037,
+        "eda_runtime": 17.512,
         "ml_runtime": 0.002,
-        "insight_runtime": 2.019,
-        "report_runtime": 0.262,
+        "insight_runtime": 2.018,
+        "report_runtime": 0.366,
         "stage_timings": {
-          "validation": 0.013,
-          "intelligence": 0.018,
-          "cleaning": 0.024,
-          "eda": 10.417,
+          "validation": 0.015,
+          "intelligence": 0.024,
+          "cleaning": 0.037,
+          "eda": 17.512,
           "ml": 0.002,
-          "insight": 2.019,
-          "report": 0.262,
-          "total_pipeline": 12.759
+          "insight": 2.018,
+          "report": 0.366,
+          "total_pipeline": 19.982
         }
       },
       "token_usage": {
@@ -152,8 +152,8 @@
         "pii_false_positive": 0,
         "pii_recall": 1.0,
         "pii_precision": 1.0,
-        "raw_pii_leakage_count": 5,
-        "leakage_detected": true,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
         "pii_columns_detected": [],
         "pii_columns_expected": [],
         "pii_errors": []
@@ -194,19 +194,13 @@
         "model_performance": null
       },
       "insight_metrics": {
-        "insight_grounding_accuracy": 0.0,
-        "supported_claim_count": 0,
-        "unsupported_claim_count": 1,
-        "fabricated_numeric_claim_count": 1,
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 0,
         "total_insights_evaluated": 1,
-        "insight_errors": [
-          {
-            "insight_index": 0,
-            "cited_number": 100.0,
-            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
-          }
-        ],
-        "grounding_accuracy": 0.0
+        "insight_errors": [],
+        "grounding_accuracy": 1.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -217,22 +211,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 12.668,
-        "intelligence_runtime": 0.015,
-        "cleaning_runtime": 0.022,
-        "eda_runtime": 10.381,
-        "ml_runtime": 0.002,
-        "insight_runtime": 2.016,
-        "report_runtime": 0.218,
+        "total_runtime_seconds": 18.342,
+        "intelligence_runtime": 0.03,
+        "cleaning_runtime": 0.035,
+        "eda_runtime": 15.851,
+        "ml_runtime": 0.003,
+        "insight_runtime": 2.021,
+        "report_runtime": 0.387,
         "stage_timings": {
-          "validation": 0.008,
-          "intelligence": 0.015,
-          "cleaning": 0.022,
-          "eda": 10.381,
-          "ml": 0.002,
-          "insight": 2.016,
-          "report": 0.218,
-          "total_pipeline": 12.668
+          "validation": 0.009,
+          "intelligence": 0.03,
+          "cleaning": 0.035,
+          "eda": 15.851,
+          "ml": 0.003,
+          "insight": 2.021,
+          "report": 0.387,
+          "total_pipeline": 18.342
         }
       },
       "token_usage": {
@@ -254,13 +248,7 @@
         },
         "limitation_note": "ydata-profiling is not installed in the runtime environment. Per Section 15, benchmark comparison records YDATA_PROFILING_UNAVAILABLE and continues cleanly without modifying dependencies."
       },
-      "errors": [
-        {
-          "insight_index": 0,
-          "cited_number": 100.0,
-          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
-        }
-      ]
+      "errors": []
     },
     {
       "dataset": "financial_loans",
@@ -337,22 +325,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 12.8,
-        "intelligence_runtime": 0.009,
-        "cleaning_runtime": 0.016,
-        "eda_runtime": 10.524,
-        "ml_runtime": 0.001,
-        "insight_runtime": 2.031,
-        "report_runtime": 0.208,
+        "total_runtime_seconds": 20.214,
+        "intelligence_runtime": 0.018,
+        "cleaning_runtime": 0.029,
+        "eda_runtime": 17.567,
+        "ml_runtime": 0.002,
+        "insight_runtime": 2.008,
+        "report_runtime": 0.574,
         "stage_timings": {
-          "validation": 0.006,
-          "intelligence": 0.009,
-          "cleaning": 0.016,
-          "eda": 10.524,
-          "ml": 0.001,
-          "insight": 2.031,
-          "report": 0.208,
-          "total_pipeline": 12.8
+          "validation": 0.008,
+          "intelligence": 0.018,
+          "cleaning": 0.029,
+          "eda": 17.567,
+          "ml": 0.002,
+          "insight": 2.008,
+          "report": 0.574,
+          "total_pipeline": 20.214
         }
       },
       "token_usage": {
@@ -445,19 +433,13 @@
         "model_performance": null
       },
       "insight_metrics": {
-        "insight_grounding_accuracy": 0.0,
-        "supported_claim_count": 0,
-        "unsupported_claim_count": 1,
-        "fabricated_numeric_claim_count": 1,
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 1,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 0,
         "total_insights_evaluated": 1,
-        "insight_errors": [
-          {
-            "insight_index": 0,
-            "cited_number": 100.0,
-            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
-          }
-        ],
-        "grounding_accuracy": 0.0
+        "insight_errors": [],
+        "grounding_accuracy": 1.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -468,22 +450,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 11.124,
-        "intelligence_runtime": 0.01,
-        "cleaning_runtime": 0.029,
-        "eda_runtime": 8.847,
-        "ml_runtime": 0.002,
-        "insight_runtime": 2.019,
-        "report_runtime": 0.203,
+        "total_runtime_seconds": 16.172,
+        "intelligence_runtime": 0.018,
+        "cleaning_runtime": 0.036,
+        "eda_runtime": 13.786,
+        "ml_runtime": 0.003,
+        "insight_runtime": 2.022,
+        "report_runtime": 0.294,
         "stage_timings": {
-          "validation": 0.006,
-          "intelligence": 0.01,
-          "cleaning": 0.029,
-          "eda": 8.847,
-          "ml": 0.002,
-          "insight": 2.019,
-          "report": 0.203,
-          "total_pipeline": 11.124
+          "validation": 0.008,
+          "intelligence": 0.018,
+          "cleaning": 0.036,
+          "eda": 13.786,
+          "ml": 0.003,
+          "insight": 2.022,
+          "report": 0.294,
+          "total_pipeline": 16.172
         }
       },
       "token_usage": {
@@ -532,11 +514,6 @@
           ],
           "confidence": 0.4,
           "reason": "Predicted 'unknown' does not match expected ['text']"
-        },
-        {
-          "insight_index": 0,
-          "cited_number": 100.0,
-          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
         }
       ]
     },
@@ -556,8 +533,8 @@
         "pii_false_positive": 0,
         "pii_recall": 1.0,
         "pii_precision": 1.0,
-        "raw_pii_leakage_count": 16,
-        "leakage_detected": true,
+        "raw_pii_leakage_count": 0,
+        "leakage_detected": false,
         "pii_columns_detected": [
           "credit_card",
           "email",
@@ -625,22 +602,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 7.665,
-        "intelligence_runtime": 0.014,
-        "cleaning_runtime": 0.016,
-        "eda_runtime": 5.448,
-        "ml_runtime": 0.001,
-        "insight_runtime": 2.012,
-        "report_runtime": 0.163,
+        "total_runtime_seconds": 11.143,
+        "intelligence_runtime": 0.02,
+        "cleaning_runtime": 0.028,
+        "eda_runtime": 8.804,
+        "ml_runtime": 0.002,
+        "insight_runtime": 2.021,
+        "report_runtime": 0.254,
         "stage_timings": {
-          "validation": 0.006,
-          "intelligence": 0.014,
-          "cleaning": 0.016,
-          "eda": 5.448,
-          "ml": 0.001,
-          "insight": 2.012,
-          "report": 0.163,
-          "total_pipeline": 7.665
+          "validation": 0.009,
+          "intelligence": 0.02,
+          "cleaning": 0.028,
+          "eda": 8.804,
+          "ml": 0.002,
+          "insight": 2.021,
+          "report": 0.254,
+          "total_pipeline": 11.143
         }
       },
       "token_usage": {
@@ -811,24 +788,19 @@
         }
       },
       "insight_metrics": {
-        "insight_grounding_accuracy": 0.2,
-        "supported_claim_count": 1,
-        "unsupported_claim_count": 2,
-        "fabricated_numeric_claim_count": 2,
+        "insight_grounding_accuracy": 0.5,
+        "supported_claim_count": 2,
+        "unsupported_claim_count": 1,
+        "fabricated_numeric_claim_count": 1,
         "total_insights_evaluated": 3,
         "insight_errors": [
           {
             "insight_index": 0,
             "cited_number": 50.0,
             "error": "Cited number 50.0 is not grounded in DIO facts or summary statistics"
-          },
-          {
-            "insight_index": 2,
-            "cited_number": 100.0,
-            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
           }
         ],
-        "grounding_accuracy": 0.2
+        "grounding_accuracy": 0.5
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -839,22 +811,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 12.92,
-        "intelligence_runtime": 0.015,
-        "cleaning_runtime": 0.017,
-        "eda_runtime": 10.337,
-        "ml_runtime": 0.266,
-        "insight_runtime": 2.03,
-        "report_runtime": 0.237,
+        "total_runtime_seconds": 17.25,
+        "intelligence_runtime": 0.032,
+        "cleaning_runtime": 0.031,
+        "eda_runtime": 14.42,
+        "ml_runtime": 0.396,
+        "insight_runtime": 2.01,
+        "report_runtime": 0.346,
         "stage_timings": {
-          "validation": 0.013,
-          "intelligence": 0.015,
-          "cleaning": 0.017,
-          "eda": 10.337,
-          "ml": 0.266,
-          "insight": 2.03,
-          "report": 0.237,
-          "total_pipeline": 12.92
+          "validation": 0.008,
+          "intelligence": 0.032,
+          "cleaning": 0.031,
+          "eda": 14.42,
+          "ml": 0.396,
+          "insight": 2.01,
+          "report": 0.346,
+          "total_pipeline": 17.25
         }
       },
       "token_usage": {
@@ -942,11 +914,6 @@
           "insight_index": 0,
           "cited_number": 50.0,
           "error": "Cited number 50.0 is not grounded in DIO facts or summary statistics"
-        },
-        {
-          "insight_index": 2,
-          "cited_number": 100.0,
-          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
         }
       ]
     },
@@ -1090,19 +1057,13 @@
         }
       },
       "insight_metrics": {
-        "insight_grounding_accuracy": 0.5,
-        "supported_claim_count": 2,
-        "unsupported_claim_count": 1,
-        "fabricated_numeric_claim_count": 1,
+        "insight_grounding_accuracy": 1.0,
+        "supported_claim_count": 3,
+        "unsupported_claim_count": 0,
+        "fabricated_numeric_claim_count": 0,
         "total_insights_evaluated": 3,
-        "insight_errors": [
-          {
-            "insight_index": 2,
-            "cited_number": 100.0,
-            "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
-          }
-        ],
-        "grounding_accuracy": 0.5
+        "insight_errors": [],
+        "grounding_accuracy": 1.0
       },
       "report_metrics": {
         "report_fidelity_accuracy": 1.0,
@@ -1113,22 +1074,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 13.402,
-        "intelligence_runtime": 0.032,
-        "cleaning_runtime": 0.048,
-        "eda_runtime": 10.514,
-        "ml_runtime": 0.537,
-        "insight_runtime": 2.012,
-        "report_runtime": 0.243,
+        "total_runtime_seconds": 18.678,
+        "intelligence_runtime": 0.048,
+        "cleaning_runtime": 0.065,
+        "eda_runtime": 14.506,
+        "ml_runtime": 1.671,
+        "insight_runtime": 2.011,
+        "report_runtime": 0.359,
         "stage_timings": {
-          "validation": 0.01,
-          "intelligence": 0.032,
-          "cleaning": 0.048,
-          "eda": 10.514,
-          "ml": 0.537,
-          "insight": 2.012,
-          "report": 0.243,
-          "total_pipeline": 13.402
+          "validation": 0.011,
+          "intelligence": 0.048,
+          "cleaning": 0.065,
+          "eda": 14.506,
+          "ml": 1.671,
+          "insight": 2.011,
+          "report": 0.359,
+          "total_pipeline": 18.678
         }
       },
       "token_usage": {
@@ -1228,11 +1189,6 @@
           "actual": 18.46,
           "expected": 18.25,
           "error": "Value mismatch beyond tolerance (0.1825)"
-        },
-        {
-          "insight_index": 2,
-          "cited_number": 100.0,
-          "error": "Cited number 100.0 is not grounded in DIO facts or summary statistics"
         }
       ]
     },
@@ -1347,22 +1303,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 13.366,
-        "intelligence_runtime": 0.025,
-        "cleaning_runtime": 0.038,
-        "eda_runtime": 10.605,
-        "ml_runtime": 0.424,
-        "insight_runtime": 2.016,
-        "report_runtime": 0.246,
+        "total_runtime_seconds": 20.769,
+        "intelligence_runtime": 0.049,
+        "cleaning_runtime": 0.049,
+        "eda_runtime": 17.394,
+        "ml_runtime": 0.862,
+        "insight_runtime": 2.012,
+        "report_runtime": 0.385,
         "stage_timings": {
-          "validation": 0.007,
-          "intelligence": 0.025,
-          "cleaning": 0.038,
-          "eda": 10.605,
-          "ml": 0.424,
-          "insight": 2.016,
-          "report": 0.246,
-          "total_pipeline": 13.366
+          "validation": 0.01,
+          "intelligence": 0.049,
+          "cleaning": 0.049,
+          "eda": 17.394,
+          "ml": 0.862,
+          "insight": 2.012,
+          "report": 0.385,
+          "total_pipeline": 20.769
         }
       },
       "token_usage": {
@@ -1614,22 +1570,22 @@
         "factual_mismatches": []
       },
       "runtime": {
-        "total_runtime_seconds": 13.103,
-        "intelligence_runtime": 0.031,
-        "cleaning_runtime": 0.032,
-        "eda_runtime": 10.481,
-        "ml_runtime": 0.3,
-        "insight_runtime": 2.017,
-        "report_runtime": 0.229,
+        "total_runtime_seconds": 19.05,
+        "intelligence_runtime": 0.038,
+        "cleaning_runtime": 0.055,
+        "eda_runtime": 16.064,
+        "ml_runtime": 0.501,
+        "insight_runtime": 2.019,
+        "report_runtime": 0.356,
         "stage_timings": {
-          "validation": 0.008,
-          "intelligence": 0.031,
-          "cleaning": 0.032,
-          "eda": 10.481,
-          "ml": 0.3,
-          "insight": 2.017,
-          "report": 0.229,
-          "total_pipeline": 13.103
+          "validation": 0.009,
+          "intelligence": 0.038,
+          "cleaning": 0.055,
+          "eda": 16.064,
+          "ml": 0.501,
+          "insight": 2.019,
+          "report": 0.356,
+          "total_pipeline": 19.05
         }
       },
       "token_usage": {
@@ -1713,10 +1669,10 @@
     "mean_ml_behavior_compliance_score": 1.0,
     "mean_ml_pipeline_compliance_score": 1.0,
     "mean_ml_accuracy": 1.0,
-    "mean_insight_accuracy": 0.5222,
+    "mean_insight_accuracy": 0.8333,
     "mean_report_fidelity": 1.0,
-    "total_runtime_seconds": 109.807,
-    "total_pii_leakages": 21
+    "total_runtime_seconds": 161.6,
+    "total_pii_leakages": 0
   },
   "limitations": [
     "Baseline Comparison: ydata-profiling is not installed in the environment; recorded as YDATA_PROFILING_UNAVAILABLE per Section 15.",

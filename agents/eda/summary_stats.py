@@ -65,9 +65,15 @@ def compute_numeric_summary(series: pd.Series, col_name: str) -> dict[str, Any]:
     }
 
 
-def compute_categorical_summary(series: pd.Series, col_name: str) -> dict[str, Any]:
+def compute_categorical_summary(
+    series: pd.Series,
+    col_name: str,
+    is_sensitive: bool = False,
+) -> dict[str, Any]:
     """
     Compute distribution and frequency metrics for a categorical/string/bool Series.
+    If is_sensitive is True (PII or identifier), raw values (top_category, top_categories)
+    are strictly omitted to prevent data leakage.
     """
     valid_vals = series.dropna().astype(str).str.strip()
     valid_vals = valid_vals[valid_vals != ""]
@@ -75,35 +81,30 @@ def compute_categorical_summary(series: pd.Series, col_name: str) -> dict[str, A
     null_count = int(series.isna().sum())
     null_pct = round((null_count / n_total * 100.0) if n_total > 0 else 0.0, 2)
 
-    if len(valid_vals) == 0:
-        return {
-            "column": col_name,
-            "type": "categorical",
-            "count": 0,
-            "unique_count": 0,
-            "null_count": null_count,
-            "null_pct": null_pct,
-            "top_category": None,
-            "top_category_freq": 0,
-            "top_categories": {},
-        }
-
-    val_counts = valid_vals.value_counts()
-    top_cat = str(val_counts.index[0])
-    top_freq = int(val_counts.iloc[0])
-    top_5 = {str(k): int(v) for k, v in val_counts.head(5).items()}
-
-    return {
+    summary: dict[str, Any] = {
         "column": col_name,
         "type": "categorical",
         "count": int(len(valid_vals)),
-        "unique_count": int(valid_vals.nunique()),
+        "unique_count": int(valid_vals.nunique()) if len(valid_vals) > 0 else 0,
         "null_count": null_count,
         "null_pct": null_pct,
-        "top_category": top_cat,
-        "top_category_freq": top_freq,
-        "top_categories": top_5,
     }
+
+    if not is_sensitive:
+        if len(valid_vals) == 0:
+            summary["top_category"] = None
+            summary["top_category_freq"] = 0
+            summary["top_categories"] = {}
+        else:
+            val_counts = valid_vals.value_counts()
+            top_cat = str(val_counts.index[0])
+            top_freq = int(val_counts.iloc[0])
+            top_5 = {str(k): int(v) for k, v in val_counts.head(5).items()}
+            summary["top_category"] = top_cat
+            summary["top_category_freq"] = top_freq
+            summary["top_categories"] = top_5
+
+    return summary
 
 
 def compute_dataset_summary_stats(
@@ -114,15 +115,18 @@ def compute_dataset_summary_stats(
     Compute summary statistics across all columns in DataFrame.
     """
     col_type_map = {c["name"]: c.get("dtype_inferred", "string") for c in (columns_info or [])}
+    pii_cols = {c["name"] for c in (columns_info or []) if c.get("is_pii", False)}
+    identifier_cols = {c["name"] for c in (columns_info or []) if c.get("semantic_label") == "identifier"}
     summaries: dict[str, Any] = {}
 
     for col in df.columns:
         col_type = col_type_map.get(col, "string")
         series = df[col]
+        is_sensitive = (col in pii_cols) or (col in identifier_cols)
 
         if (col_type in ("int", "float") or pd.api.types.is_numeric_dtype(series)) and not pd.api.types.is_bool_dtype(series):
             summaries[col] = compute_numeric_summary(series, col)
         else:
-            summaries[col] = compute_categorical_summary(series, col)
+            summaries[col] = compute_categorical_summary(series, col, is_sensitive=is_sensitive)
 
     return summaries

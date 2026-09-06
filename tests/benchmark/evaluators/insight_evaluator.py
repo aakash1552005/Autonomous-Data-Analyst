@@ -106,7 +106,10 @@ class InsightEvaluator:
         for idx, insight in enumerate(insights):
             text = str(insight.get("text", "") if isinstance(insight, dict) else getattr(insight, "text", ""))
             evidence = insight.get("evidence", []) if isinstance(insight, dict) else getattr(insight, "evidence", [])
-            numbers_found = NUMBER_REGEX.findall(text)
+            # Strip fixed metric scale bounds (e.g. '/100' or 'out of 100') to avoid
+            # treating the scale denominator as a factual dataset claim.
+            cleaned_text = re.sub(r"(?:/|\bout of\s+)\s*100\b", "", text)
+            numbers_found = NUMBER_REGEX.findall(cleaned_text)
 
             is_insight_grounded = True
 

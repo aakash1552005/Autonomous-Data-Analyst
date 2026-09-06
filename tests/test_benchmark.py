@@ -1066,3 +1066,55 @@ def test_remediation_tier_b_datasets_registered_and_ml_execution():
         assert len(df) >= 1000, f"Tier B dataset {ds_name} must have >= 1,000 rows, got {len(df)}"
         assert gt.ml.applicable is True
 
+
+def test_phase11_eda_summary_stats_pii_omission():
+    """Test that summary_stats strictly omits top_category and top_categories on sensitive columns."""
+    from agents.eda.summary_stats import compute_dataset_summary_stats
+
+    df = pd.DataFrame({
+        "customer_name": ["Alice", "Bob", "Charlie"],
+        "account_id": ["ACC1", "ACC2", "ACC3"],
+        "category": ["A", "B", "A"],
+    })
+    columns_info = [
+        {"name": "customer_name", "is_pii": True, "semantic_label": "person_name", "dtype_inferred": "string"},
+        {"name": "account_id", "is_pii": False, "semantic_label": "identifier", "dtype_inferred": "string"},
+        {"name": "category", "is_pii": False, "semantic_label": "category", "dtype_inferred": "string"},
+    ]
+
+    stats = compute_dataset_summary_stats(df, columns_info=columns_info)
+
+    # PII column: top_category and top_categories must be omitted
+    assert "top_category" not in stats["customer_name"]
+    assert "top_categories" not in stats["customer_name"]
+
+    # Identifier column: top_category and top_categories must be omitted
+    assert "top_category" not in stats["account_id"]
+    assert "top_categories" not in stats["account_id"]
+
+    # Non-sensitive category column: top_category present
+    assert stats["category"]["top_category"] == "A"
+    assert stats["category"]["top_categories"] == {"A": 2, "B": 1}
+
+
+def test_phase11_insight_grounding_score_scale_denominator():
+    """Test that the fixed score scale denominator (e.g. /100 or out of 100) is not penalized as fabricated."""
+    gt = get_ground_truth("retail_sales")
+    evaluator = InsightEvaluator()
+
+    dio = DIO.create_empty("test_scale")
+    dio["ingestion"] = {"n_rows": 6, "n_columns": 9}
+    dio["quality"] = {"score": 98.0}
+    dio["insights"] = [
+        {
+            "text": "Analyzed dataset of 6 rows and 9 columns with an overall data quality score of 98.0/100.",
+            "evidence": [{"metric": "quality.score", "value": 98.0}],
+        },
+    ]
+
+    res = evaluator.evaluate(dio, gt)
+    assert res.insight_grounding_accuracy == 1.0
+    assert res.fabricated_numeric_claim_count == 0
+    assert res.supported_claim_count == 1
+    assert res.unsupported_claim_count == 0
+

@@ -23,6 +23,7 @@ import streamlit as st
 from core.config import AppConfig, load_config
 from core.dio import DIO
 from orchestrator import Orchestrator, OrchestratorResult, PIPELINE_STAGES
+from agents.chat import ChatAgent
 from utils.mask_for_llm import mask_value_str
 
 
@@ -189,6 +190,7 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
         "Machine Learning",
         "Executive Insights",
         "Deliverables & Exports",
+        "Interactive Q&A",
     ])
 
     # -------------------------------------------------------------
@@ -471,6 +473,99 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
                         mime="text/plain",
                         use_container_width=True,
                     )
+
+    # -------------------------------------------------------------
+    # TAB 8: Interactive Q&A / Chat Agent
+    # -------------------------------------------------------------
+    if len(tabs) > 7:
+        with tabs[7]:
+            st.subheader("Interactive Q&A & Conversational Dataset Exploration")
+            st.markdown(
+                "Ask questions about the dataset, summary statistics, ML models, or executive findings. "
+                "All queries are processed through a deterministic security boundary with strict PII protection."
+            )
+
+            if "chat_history" not in st.session_state:
+                st.session_state["chat_history"] = []
+
+            chat_agent = ChatAgent(config=load_config())
+
+            # Suggested Questions (Strictly from non-PII and non-identifier columns)
+            safe_numeric_cols = []
+            safe_cat_cols = []
+            for col_info in dio.get("columns", []):
+                if not col_info.get("is_pii") and col_info.get("semantic_label") != "identifier":
+                    c_name = col_info.get("name")
+                    c_dtype = col_info.get("dtype_inferred", "")
+                    if c_dtype in ("int", "float") or (result.df is not None and pd.api.types.is_numeric_dtype(result.df[c_name])):
+                        safe_numeric_cols.append(c_name)
+                    else:
+                        safe_cat_cols.append(c_name)
+
+            suggested_queries = [
+                "What is the overall data quality score and key issues?",
+                "What were the key findings and executive insights?",
+                "What was the machine learning model training outcome?",
+            ]
+            if safe_numeric_cols:
+                suggested_queries.append(f"What is the average {safe_numeric_cols[0]}?")
+                suggested_queries.append(f"What is the maximum {safe_numeric_cols[0]}?")
+            if safe_cat_cols:
+                suggested_queries.append(f"What is the distribution of {safe_cat_cols[0]}?")
+
+            st.markdown("**Suggested Safe Questions:**")
+            cols_sq = st.columns(min(len(suggested_queries), 4))
+            selected_query = None
+            for i, q_text in enumerate(suggested_queries[:4]):
+                with cols_sq[i]:
+                    if st.button(q_text, key=f"sq_btn_{i}", use_container_width=True):
+                        selected_query = q_text
+
+            # Render Conversation History
+            for msg in st.session_state["chat_history"]:
+                if msg["role"] == "user":
+                    with st.chat_message("user"):
+                        st.write(msg["content"])
+                else:
+                    with st.chat_message("assistant"):
+                        if msg.get("status") == "refusal":
+                            st.warning(msg["content"])
+                        elif msg.get("status") == "error":
+                            st.error(msg["content"])
+                        else:
+                            st.write(msg["content"])
+                        if msg.get("tier"):
+                            tier_label = "⚡ Tier 1 (Deterministic Pandas)" if msg["tier"] == 1 else "🧠 Tier 2 (DIO Context Retrieval)"
+                            st.caption(f"Resolved via {tier_label}")
+
+            # Chat Input Form (preventing full page refresh or pipeline rerun)
+            user_input = st.chat_input("Ask a question about this dataset...")
+            query_to_run = selected_query or user_input
+
+            if query_to_run:
+                st.session_state["chat_history"].append({
+                    "role": "user",
+                    "content": query_to_run,
+                })
+                answer_dict = chat_agent.run_query(
+                    query=query_to_run,
+                    df=result.df,
+                    dio=dio,
+                )
+                st.session_state["chat_history"].append({
+                    "role": "assistant",
+                    "content": answer_dict["response"],
+                    "tier": answer_dict.get("tier"),
+                    "status": answer_dict.get("status"),
+                    "operation": answer_dict.get("operation"),
+                })
+                st.rerun()
+
+            # Clear Chat History Button
+            if st.session_state["chat_history"]:
+                if st.button("🗑️ Clear Chat History", key="clear_chat_btn"):
+                    st.session_state["chat_history"] = []
+                    st.rerun()
 
 
 def main() -> None:
