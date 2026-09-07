@@ -31,7 +31,7 @@ from llm.base import LLMProvider, TokenGovernor
 from llm.ollama_client import OllamaClient
 from llm.openai_client import OpenAIClient
 from agents.chat.query_classifier import classify_query
-from agents.chat.whitelist_executor import execute_whitelisted_operation
+from agents.chat.whitelist_executor import execute_whitelisted_operation, is_column_sensitive
 from agents.chat.context_retriever import build_chat_context
 
 logger = logging.getLogger(__name__)
@@ -42,7 +42,7 @@ INJECTION_PATTERNS = [
     r"\bignore\s+(?:the\s+)?safety\s+rules\b",
     r"\b(?:system\s+prompt|hidden\s+prompt)\b",
     r"\b(?:print\s*\(\s*df|show\s+(?:all\s+)?(?:patient|customer|client)?\s*(?:names|emails|phone|ssn|credit\s*card))\b",
-    r"(?:\bexec\s*\(|\beval\s*\(|\bimport\s+os|\bos\.system|\bsubprocess|__import__)",
+    r"(?:\bexec\s*\(|\beval\s*\(|\bimport\s+os|\bos\.system|\bsubprocess|__import__|pd\.eval|pandas\.eval|\.query\s*\(|\bselect\s+.+\s+from\b|\bdrop\s+table\b|\binsert\s+into\b|\bdelete\s+from\b)",
     r"\b(?:give\s+me|reveal|dump)\s+(?:the\s+)?(?:prompt|instructions|secret)\b",
 ]
 
@@ -165,6 +165,19 @@ class ChatAgent(BaseAgent):
                         "status": exec_result.status,
                         "sources": ["pandas_whitelisted_aggregation"],
                     }
+
+            # Sensitive Column Guard: Unclassified queries targeting protected columns are refused
+            for col_name in columns:
+                if is_column_sensitive(col_name, columns_info):
+                    pattern = rf"(?:\b|['\"]){re.escape(col_name.lower())}(?:\b|['\"])"
+                    if re.search(pattern, q_lower):
+                        return {
+                            "response": f"Refusal: Access to column '{col_name}' is restricted because it contains sensitive personal data or identifier records.",
+                            "tier": 1,
+                            "operation": None,
+                            "status": "refusal",
+                            "sources": ["security_shield"],
+                        }
 
             # 4. Tier 2 — Bounded DIO Retrieval & Question Answering
             chat_context = build_chat_context(

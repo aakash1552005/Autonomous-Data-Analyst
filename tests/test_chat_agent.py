@@ -94,7 +94,7 @@ def sample_chat_dataset():
     return df, dio
 
 
-def test_classifier_all_seven_operations(sample_chat_dataset):
+def test_classifier_all_eleven_operations(sample_chat_dataset):
     df, dio = sample_chat_dataset
     columns = [c["name"] for c in dio["columns"]]
 
@@ -138,8 +138,29 @@ def test_classifier_all_seven_operations(sample_chat_dataset):
     assert q7.column == "revenue"
     assert q7.group_column == "region"
 
+    # 8. median
+    q8 = classify_query("what is the median revenue", columns)
+    assert q8.operation == "median"
+    assert q8.column == "revenue"
 
-def test_executor_seven_operations_exact_math(sample_chat_dataset):
+    # 9. std
+    q9 = classify_query("what is the standard deviation of revenue", columns)
+    assert q9.operation == "std"
+    assert q9.column == "revenue"
+
+    # 10. variance
+    q10 = classify_query("what is the variance of revenue", columns)
+    assert q10.operation == "variance"
+    assert q10.column == "revenue"
+
+    # 11. groupby_sum
+    q11 = classify_query("total revenue by region", columns)
+    assert q11.operation == "groupby_sum"
+    assert q11.column == "revenue"
+    assert q11.group_column == "region"
+
+
+def test_executor_eleven_operations_exact_math(sample_chat_dataset):
     df, dio = sample_chat_dataset
     columns_info = dio["columns"]
 
@@ -183,6 +204,30 @@ def test_executor_seven_operations_exact_math(sample_chat_dataset):
     res_gb = execute_whitelisted_operation(df, columns_info, "groupby_mean", "revenue", group_column="region")
     assert res_gb.success is True
     assert res_gb.data == {"North": 150.0, "South": 350.0}
+
+    # 8. median
+    res_median = execute_whitelisted_operation(df, columns_info, "median", "revenue")
+    assert res_median.success is True
+    assert res_median.numeric_value == 250.0
+    assert "250.0" in res_median.result_text
+
+    # 9. std
+    res_std = execute_whitelisted_operation(df, columns_info, "std", "revenue")
+    assert res_std.success is True
+    assert res_std.numeric_value == 129.0994
+    assert "129.0994" in res_std.result_text
+
+    # 10. variance
+    res_var = execute_whitelisted_operation(df, columns_info, "variance", "revenue")
+    assert res_var.success is True
+    assert res_var.numeric_value == 16666.6667
+    assert "16666.6667" in res_var.result_text
+
+    # 11. groupby_sum
+    res_gb_sum = execute_whitelisted_operation(df, columns_info, "groupby_sum", "revenue", group_column="region")
+    assert res_gb_sum.success is True
+    assert res_gb_sum.data == {"North": 300.0, "South": 700.0}
+    assert "Total of 'revenue' grouped by 'region'" in res_gb_sum.result_text
 
 
 def test_nonexistent_column_returns_unavailable(sample_chat_dataset):

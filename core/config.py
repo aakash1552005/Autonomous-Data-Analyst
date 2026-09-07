@@ -119,7 +119,8 @@ class ChatConfig:
     temperature: float = 0.1
     allow_deterministic_aggregations: bool = True
     safe_operations: list[str] = field(default_factory=lambda: [
-        "mean", "sum", "count", "min", "max", "value_counts", "groupby_mean"
+        "mean", "sum", "count", "min", "max", "value_counts", "groupby_mean",
+        "median", "std", "variance", "groupby_sum",
     ])
 
     def validate(self) -> None:

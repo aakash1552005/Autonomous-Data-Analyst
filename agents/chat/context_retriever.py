@@ -20,6 +20,7 @@ from __future__ import annotations
 
 from typing import Any
 from utils.mask_for_llm import mask_value_str
+from agents.chat.whitelist_executor import is_column_sensitive
 
 
 # Permitted DIO sections for contextual question answering
@@ -69,11 +70,13 @@ def build_chat_context(dio: dict[str, Any], max_context_tokens: int = 1200) -> s
     # 4. Non-PII EDA Summary Statistics
     eda = dio.get("eda", {})
     summary_stats = eda.get("summary_stats", {})
-    # Identify excluded sensitive columns
+    # Identify excluded sensitive columns via structural shield
+    columns_info = dio.get("columns", [])
     excluded_cols = set()
-    for col_info in dio.get("columns", []):
-        if col_info.get("is_pii") or col_info.get("semantic_label") == "identifier":
-            excluded_cols.add(col_info.get("name"))
+    for col_info in columns_info:
+        c_name = col_info.get("name")
+        if c_name and is_column_sensitive(c_name, columns_info):
+            excluded_cols.add(c_name)
 
     stat_lines: list[str] = []
     for col_name, stats in summary_stats.items():

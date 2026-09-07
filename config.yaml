@@ -53,3 +53,7 @@ chat:
     - max
     - value_counts
     - groupby_mean
+    - median
+    - std
+    - variance
+    - groupby_sum

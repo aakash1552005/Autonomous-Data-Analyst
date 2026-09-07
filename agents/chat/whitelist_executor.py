@@ -16,6 +16,7 @@ Zero arbitrary execution:
 from __future__ import annotations
 
 from dataclasses import dataclass
+import re
 from typing import Any
 import numpy as np
 import pandas as pd
@@ -33,7 +34,7 @@ class ExecutionResult:
     data: dict[str, Any] | None = None
 
 
-# Whitelist of permitted operations
+# Whitelist of permitted operations (V1.1 Increment 2: exactly 11 operations)
 ALLOWED_OPERATIONS = {
     "mean",
     "sum",
@@ -42,23 +43,81 @@ ALLOWED_OPERATIONS = {
     "max",
     "value_counts",
     "groupby_mean",
+    "median",
+    "std",
+    "variance",
+    "groupby_sum",
 }
 
+# Semantic labels that are classified as protected PII or identifiers
+SENSITIVE_SEMANTIC_LABELS = {
+    "identifier",
+    "name",
+    "person_name",
+    "email",
+    "phone",
+    "ssn_national_id",
+    "national_id",
+    "credit_card",
+    "address",
+    "date_of_birth",
+}
 
-def _is_column_sensitive(col_name: str, columns_info: list[dict[str, Any]]) -> bool:
+# Structural fallback patterns for PII and identifiers
+IDENTIFIER_COL_REGEX = re.compile(
+    r"(?i)(^(id|uuid|guid|_id|id_|key|code|sku|order_id|customer_id|patient_id|user_id|emp_id|employee_id|transaction_id)$|"
+    r"(_id$|^id_|account_num|account_no|acc_num|acc_no|tracking_num|client_id))"
+)
+NAME_COL_REGEX = re.compile(
+    r"(?i)^(full_?name|first_?name|last_?name|customer_?name|patient_?name|employee_?name|user_?name|client_?name|fname|lname|name)$"
+)
+EMAIL_COL_REGEX = re.compile(r"(?i)(email|e_mail|mail_address|mail)")
+PHONE_COL_REGEX = re.compile(r"(?i)(phone|mobile|cell|telephone|contact_num|contact_no|fax)")
+SSN_COL_REGEX = re.compile(r"(?i)(ssn|social_security|national_id|aadhaar|pan_card|tax_id|passport)")
+CC_COL_REGEX = re.compile(r"(?i)(credit_card|card_num|cc_num|debit_card|card_no|account_number)")
+ADDRESS_COL_REGEX = re.compile(r"(?i)(address|street|addr|street_address|home_address|postal_code|zip_code|zipcode)")
+DOB_COL_REGEX = re.compile(r"(?i)(dob|birth|birthday|date_of_birth)")
+
+SENSITIVE_NAME_PATTERNS = [
+    IDENTIFIER_COL_REGEX,
+    NAME_COL_REGEX,
+    EMAIL_COL_REGEX,
+    PHONE_COL_REGEX,
+    SSN_COL_REGEX,
+    CC_COL_REGEX,
+    ADDRESS_COL_REGEX,
+    DOB_COL_REGEX,
+]
+
+
+def is_column_sensitive(col_name: str, columns_info: list[dict[str, Any]]) -> bool:
     """
     Check if a column is flagged as PII, an identifier, or a sensitive entity in the trusted schema.
+    Also applies a structural pattern check as a defense-in-depth shield.
     """
+    clean_col = str(col_name).strip()
+
+    # 1. Trusted schema metadata inspection
     for col_info in columns_info:
-        if col_info.get("name") == col_name:
+        if col_info.get("name") == clean_col:
             if col_info.get("is_pii") is True:
                 return True
-            if col_info.get("semantic_label") == "identifier":
+            if col_info.get("semantic_label") in SENSITIVE_SEMANTIC_LABELS:
                 return True
             pii_type = col_info.get("pii_type")
             if pii_type and str(pii_type).lower() not in ("none", "", "null"):
                 return True
+
+    # 2. Structural pattern inspection on column name (defense-in-depth)
+    for pat in SENSITIVE_NAME_PATTERNS:
+        if pat.search(clean_col):
+            return True
+
     return False
+
+
+# Backward-compatible alias
+_is_column_sensitive = is_column_sensitive
 
 
 def execute_whitelisted_operation(
@@ -124,7 +183,7 @@ def execute_whitelisted_operation(
         )
 
     # 5. Group Column Validation and PII Shield (for GroupBy)
-    if operation == "groupby_mean":
+    if operation in ("groupby_mean", "groupby_sum"):
         if not group_column or group_column not in df.columns:
             return ExecutionResult(
                 success=False,
@@ -145,7 +204,7 @@ def execute_whitelisted_operation(
     # 6. Hardcoded Whitelisted Execution Paths ONLY
     series = df[column]
 
-    if len(series) == 0 and operation in ("mean", "sum", "min", "max"):
+    if len(series) == 0 and operation in ("mean", "sum", "min", "max", "median", "std", "variance"):
         return ExecutionResult(
             success=True,
             result_text=f"Column '{column}' contains zero valid numeric entries.",
@@ -332,6 +391,130 @@ def execute_whitelisted_operation(
             column=column,
             status="success",
             data={str(k): float(v) for k, v in gb_means.items()},
+        )
+
+    elif operation == "median":
+        if not pd.api.types.is_numeric_dtype(series):
+            return ExecutionResult(
+                success=False,
+                result_text=f"Column '{column}' is non-numeric; median calculation cannot be performed.",
+                operation=operation,
+                column=column,
+                status="error",
+            )
+        valid_series = pd.to_numeric(series, errors="coerce").dropna()
+        if len(valid_series) == 0:
+            return ExecutionResult(
+                success=True,
+                result_text=f"Column '{column}' contains zero valid numeric entries.",
+                operation=operation,
+                column=column,
+                status="success",
+                numeric_value=None,
+            )
+        res_val = round(float(valid_series.median()), 4)
+        return ExecutionResult(
+            success=True,
+            result_text=f"The median of '{column}' is {res_val}.",
+            operation=operation,
+            column=column,
+            status="success",
+            numeric_value=res_val,
+        )
+
+    elif operation == "std":
+        if not pd.api.types.is_numeric_dtype(series):
+            return ExecutionResult(
+                success=False,
+                result_text=f"Column '{column}' is non-numeric; standard deviation cannot be performed.",
+                operation=operation,
+                column=column,
+                status="error",
+            )
+        valid_series = pd.to_numeric(series, errors="coerce").dropna()
+        if len(valid_series) == 0:
+            return ExecutionResult(
+                success=True,
+                result_text=f"Column '{column}' contains zero valid numeric entries.",
+                operation=operation,
+                column=column,
+                status="success",
+                numeric_value=None,
+            )
+        res_val = round(float(valid_series.std()), 4) if len(valid_series) > 1 else 0.0
+        return ExecutionResult(
+            success=True,
+            result_text=f"The standard deviation of '{column}' is {res_val}.",
+            operation=operation,
+            column=column,
+            status="success",
+            numeric_value=res_val,
+        )
+
+    elif operation == "variance":
+        if not pd.api.types.is_numeric_dtype(series):
+            return ExecutionResult(
+                success=False,
+                result_text=f"Column '{column}' is non-numeric; variance calculation cannot be performed.",
+                operation=operation,
+                column=column,
+                status="error",
+            )
+        valid_series = pd.to_numeric(series, errors="coerce").dropna()
+        if len(valid_series) == 0:
+            return ExecutionResult(
+                success=True,
+                result_text=f"Column '{column}' contains zero valid numeric entries.",
+                operation=operation,
+                column=column,
+                status="success",
+                numeric_value=None,
+            )
+        res_val = round(float(valid_series.var()), 4) if len(valid_series) > 1 else 0.0
+        return ExecutionResult(
+            success=True,
+            result_text=f"The variance of '{column}' is {res_val}.",
+            operation=operation,
+            column=column,
+            status="success",
+            numeric_value=res_val,
+        )
+
+    elif operation == "groupby_sum":
+        assert group_column is not None
+        if not pd.api.types.is_numeric_dtype(series):
+            return ExecutionResult(
+                success=False,
+                result_text=f"Column '{column}' is non-numeric; grouped sum cannot be calculated.",
+                operation=operation,
+                column=column,
+                status="error",
+            )
+        # Safe groupby
+        temp_df = pd.DataFrame({
+            "grp": df[group_column].dropna().astype(str),
+            "num": pd.to_numeric(df[column], errors="coerce"),
+        }).dropna()
+
+        if len(temp_df) == 0:
+            return ExecutionResult(
+                success=True,
+                result_text=f"Zero valid records found for grouping '{column}' by '{group_column}'.",
+                operation=operation,
+                column=column,
+                status="success",
+            )
+
+        gb_sums = temp_df.groupby("grp")["num"].sum().round(4).head(10).to_dict()
+        items_str = "\n".join([f"- **{cat}**: {val}" for cat, val in gb_sums.items()])
+        result_text = f"Total of '{column}' grouped by '{group_column}' (top categories):\n{items_str}"
+        return ExecutionResult(
+            success=True,
+            result_text=result_text,
+            operation=operation,
+            column=column,
+            status="success",
+            data={str(k): float(v) for k, v in gb_sums.items()},
         )
 
     return ExecutionResult(

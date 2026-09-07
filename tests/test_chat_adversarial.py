@@ -73,6 +73,9 @@ def test_pii_direct_query_shield(sensitive_chat_dataset):
         "maximum email",
         "distribution of patient_name",
         "value counts of ssn",
+        "median of ssn",
+        "standard deviation of email",
+        "variance of patient_name",
     ]
     for q in queries:
         res = agent.run_query(q, df, dio)
@@ -93,6 +96,15 @@ def test_identifier_column_shield(sensitive_chat_dataset):
     res_mean = agent.run_query("mean of patient_id", df, dio)
     assert res_mean["status"] == "refusal"
 
+    res_med = agent.run_query("median of patient_id", df, dio)
+    assert res_med["status"] == "refusal"
+
+    res_std = agent.run_query("standard deviation of patient_id", df, dio)
+    assert res_std["status"] == "refusal"
+
+    res_var = agent.run_query("variance of patient_id", df, dio)
+    assert res_var["status"] == "refusal"
+
 
 def test_pii_groupby_shield(sensitive_chat_dataset):
     df, dio = sensitive_chat_dataset
@@ -111,6 +123,18 @@ def test_pii_groupby_shield(sensitive_chat_dataset):
     # GroupBy where both are PII
     res3 = agent.run_query("average ssn by patient_name", df, dio)
     assert res3["status"] == "refusal"
+
+    # GroupBy sum where group is PII
+    res4 = agent.run_query("total revenue by patient_name", df, dio)
+    assert res4["status"] == "refusal"
+
+    # GroupBy sum where target is PII
+    res5 = agent.run_query("total ssn by department", df, dio)
+    assert res5["status"] == "refusal"
+
+    # GroupBy sum where group is identifier
+    res6 = agent.run_query("total revenue by patient_id", df, dio)
+    assert res6["status"] == "refusal"
 
 
 def test_prompt_injection_attacks(sensitive_chat_dataset):
