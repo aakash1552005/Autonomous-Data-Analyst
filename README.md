@@ -84,6 +84,8 @@ The system operates as a pipeline of specialized agents, each with a single resp
 
 ### Installation
 
+#### Option 1: Standard Package Installation (PEP 517 / Editable)
+
 ```bash
 # Clone the repository
 git clone <repository-url>
@@ -98,8 +100,40 @@ python -m venv .venv
 # macOS/Linux
 source .venv/bin/activate
 
-# Install dependencies
+# Install package in editable mode with core dependencies
+pip install -e .
+
+# Optional: Install with testing extras
+pip install -e ".[test]"
+```
+
+#### Option 2: Requirements File
+
+```bash
 pip install -r requirements.txt
+```
+
+### Windows One-Command Startup
+
+For Windows environments, automated launchers verify the Python environment, install missing dependencies idempotently, and launch the dashboard:
+
+```cmd
+:: Command Prompt / Batch Launcher
+run.bat
+
+:: Non-interactive environment check
+run.bat --check-only
+```
+
+```powershell
+# PowerShell Launcher
+.\run.ps1
+
+# If script execution is restricted by PowerShell execution policy:
+powershell -ExecutionPolicy Bypass -File .\run.ps1
+
+# Non-interactive environment check
+.\run.ps1 -CheckOnly
 ```
 
 ### Ollama Setup
@@ -111,7 +145,7 @@ ollama pull llama3.1:8b
 
 ### Run Application
 
-Launch the executive Streamlit user interface:
+Launch the executive Streamlit user interface manually:
 
 ```bash
 streamlit run app.py

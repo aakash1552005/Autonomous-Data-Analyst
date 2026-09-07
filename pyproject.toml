@@ -1,0 +1,61 @@
+[build-system]
+requires = ["setuptools>=61.0"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "autonomous-data-analyst"
+version = "1.1.0.dev0"
+description = "Autonomous Data Analyst — Multi-Agent Analytical Pipeline"
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+    { name = "Aakash S S" }
+]
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Operating System :: OS Independent",
+    "Topic :: Scientific/Engineering :: Information Analysis",
+]
+dependencies = [
+    "pandas",
+    "numpy",
+    "openpyxl",
+    "python-dateutil",
+    "scikit-learn",
+    "xgboost",
+    "joblib",
+    "plotly",
+    "kaleido",
+    "reportlab",
+    "python-pptx",
+    "streamlit",
+    "pyyaml",
+    "python-dotenv",
+    "requests",
+]
+
+[project.optional-dependencies]
+test = [
+    "pytest",
+    "pytest-cov",
+]
+
+# Note on console scripts:
+# The primary user interface is a Streamlit web application ('app.py').
+# Streamlit applications must be launched via the Streamlit runtime (e.g., 'streamlit run app.py'
+# or using 'run.bat' / 'run.ps1'). Directly invoking 'app:main' via a console script is unsupported
+# by Streamlit's script-execution model. Standalone CLI orchestration will be evaluated for future phases.
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["agents*", "core*", "llm*", "security*", "sources*", "utils*"]
+exclude = ["tests*", "runs*", "data*", "test_charts*", "test_debug_charts*"]
+
+[tool.setuptools]
+py-modules = ["app", "orchestrator"]
