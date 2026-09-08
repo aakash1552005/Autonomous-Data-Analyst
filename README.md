@@ -5,20 +5,20 @@
 ### **Enterprise-Grade Autonomous Multi-Agent Tabular Intelligence, Production AutoML, Grounded Business Insights & Automated Workflows**
 
 <p align="center">
-  <a href="https://share.streamlit.io/deploy?repository=aakash1552005/Autonomous-Data-Analyst&branch=master&mainModule=app.py">
-    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Deploy on Streamlit Cloud" height="34">
+  <a href="https://autonomous--data--analyst.streamlit.app/" target="_blank">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Open%20Cloud%20App-00D4AA?style=for-the-badge&logo=streamlit&logoColor=white" alt="Open Live Cloud Demo" height="36">
   </a>
-  &nbsp;
-  <a href="http://localhost:8501">
-    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Open%20Local%20App-00D4AA?style=for-the-badge&logo=streamlit&logoColor=white" alt="Open Local Live Demo" height="34">
+  &nbsp;&nbsp;
+  <a href="https://autonomous--data--analyst.streamlit.app/" target="_blank">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Streamlit Cloud App" height="36">
   </a>
-  &nbsp;
+  &nbsp;&nbsp;
   <a href="http://127.0.0.1:5000/health">
-    <img src="https://img.shields.io/badge/⚡%20REST%20API-Port%205000-0288D1?style=for-the-badge&logo=flask&logoColor=white" alt="Flask REST API" height="34">
+    <img src="https://img.shields.io/badge/⚡%20REST%20API-Port%205000-0288D1?style=for-the-badge&logo=flask&logoColor=white" alt="Flask REST API" height="36">
   </a>
-  &nbsp;
+  &nbsp;&nbsp;
   <a href="http://localhost:5678">
-    <img src="https://img.shields.io/badge/🔄%20n8n%20Workflows-Port%205678-FF6D5A?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n Automation Engine" height="34">
+    <img src="https://img.shields.io/badge/🔄%20n8n%20Workflows-Port%205678-FF6D5A?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n Automation Engine" height="36">
   </a>
 </p>
 
@@ -52,14 +52,14 @@
 
 ## 🎮 Live Interactive Demo
 
-You can try Autonomous Data Analyst right now either on your local machine or in the cloud:
+You can interact with Autonomous Data Analyst directly via the live cloud application or locally:
 
-| Interface | Access URL | Description |
-|---|---|---|
-| **Streamlit Interactive UI** | [http://localhost:8501](http://localhost:8501) | Full 8-tab analytical dashboard, charts, report downloads, and conversational Q&A. |
-| **Flask REST API Service** | [http://127.0.0.1:5000/health](http://127.0.0.1:5000/health) | Headless programmatic execution, async run management, artifact streaming. |
-| **n8n Automation Engine** | [http://localhost:5678](http://localhost:5678) | Visual workflow orchestrator for webhooks, cron benchmarks, and incident alerts. |
-| **Streamlit Cloud 1-Click** | [![Deploy on Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=aakash1552005/Autonomous-Data-Analyst&branch=master&mainModule=app.py) | Deploy ADA for free to the public web connected to your GitHub repository. |
+| Interface | Access URL | Status | Description |
+|---|---|:---:|---|
+| 🌐 **Streamlit Cloud Live App** | [https://autonomous--data--analyst.streamlit.app/](https://autonomous--data--analyst.streamlit.app/) | 🟢 **Live** | Public cloud deployment accessible anywhere worldwide (no installation required). |
+| 💻 **Local Streamlit Dashboard** | [http://localhost:8501](http://localhost:8501) | 🟢 **Local** | Local development and offline air-gapped execution. |
+| ⚡ **Flask REST API Service** | [http://127.0.0.1:5000/health](http://127.0.0.1:5000/health) | 🟢 **Local** | Headless programmatic pipeline execution and artifact streaming. |
+| 🔄 **n8n Automation Engine** | [http://localhost:5678](http://localhost:5678) | 🟢 **Local** | Visual workflow orchestrator for webhooks, cron benchmarks, and incident alerts. |
 
 ### Quick 1-Click Testing (No File Upload Required)
 Don't have a dataset ready? Select one of the pre-loaded benchmark datasets from the sidebar dropdown in Streamlit:
