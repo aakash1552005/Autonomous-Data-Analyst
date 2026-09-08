@@ -6,30 +6,18 @@
 
 <p align="center">
   <a href="https://autonomous--data--analyst.streamlit.app/" target="_blank">
-    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Open%20Cloud%20App-00D4AA?style=for-the-badge&logo=streamlit&logoColor=white" alt="Open Live Cloud Demo" height="36">
-  </a>
-  &nbsp;&nbsp;
-  <a href="https://autonomous--data--analyst.streamlit.app/" target="_blank">
-    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Streamlit Cloud App" height="36">
-  </a>
-  &nbsp;&nbsp;
-  <a href="http://127.0.0.1:5000/health">
-    <img src="https://img.shields.io/badge/⚡%20REST%20API-Port%205000-0288D1?style=for-the-badge&logo=flask&logoColor=white" alt="Flask REST API" height="36">
-  </a>
-  &nbsp;&nbsp;
-  <a href="http://localhost:5678">
-    <img src="https://img.shields.io/badge/🔄%20n8n%20Workflows-Port%205678-FF6D5A?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n Automation Engine" height="36">
+    <img src="https://img.shields.io/badge/🚀%20LIVE%20DEMO-Open%20Cloud%20App-00D4AA?style=for-the-badge&logo=streamlit&logoColor=white" alt="Open Live Demo" height="38">
   </a>
 </p>
 
 [![Release](https://img.shields.io/badge/release-v1.1.0-blue.svg?style=flat-square&logo=github)](https://github.com/aakash1552005/Autonomous-Data-Analyst/releases/tag/v1.1.0)
-[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-3776AB.svg?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
+[![Python Version](https://img.shields.io/badge/python-3.10%2B-3776AB.svg?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
 [![Tests Passing](https://img.shields.io/badge/tests-590%20passed%20%7C%200%20failed-brightgreen.svg?style=flat-square&logo=pytest)](tests/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
 [![Architecture: Multi--Agent](https://img.shields.io/badge/Architecture-7--Agent%20Pipeline-orange.svg?style=flat-square)](ARCHITECTURE.md)
 [![Security: Zero Code Exec](https://img.shields.io/badge/Security-Zero%20Arbitrary%20Code%20Exec-red.svg?style=flat-square)](SECURITY.md)
 [![Privacy: PII Shield](https://img.shields.io/badge/Privacy-Pre--LLM%20PII%20Shield-green.svg?style=flat-square)](SECURITY.md)
-[![Automation: n8n + REST](https://img.shields.io/badge/Integration-Flask%20REST%20%2B%20n8n-blueviolet.svg?style=flat-square&logo=n8n)](n8n/)
+[![Automation: n8n Automations](https://img.shields.io/badge/Automation-n8n%20Automations-FF6D5A.svg?style=flat-square&logo=n8n)](n8n/)
 
 <br/>
 
@@ -54,12 +42,12 @@
 
 You can interact with Autonomous Data Analyst directly via the live cloud application or locally:
 
-| Interface | Access URL | Status | Description |
+| Interface | Access Point | Status | Description |
 |---|---|:---:|---|
-| 🌐 **Streamlit Cloud Live App** | [https://autonomous--data--analyst.streamlit.app/](https://autonomous--data--analyst.streamlit.app/) | 🟢 **Live** | Public cloud deployment accessible anywhere worldwide (no installation required). |
-| 💻 **Local Streamlit Dashboard** | [http://localhost:8501](http://localhost:8501) | 🟢 **Local** | Local development and offline air-gapped execution. |
-| ⚡ **Flask REST API Service** | [http://127.0.0.1:5000/health](http://127.0.0.1:5000/health) | 🟢 **Local** | Headless programmatic pipeline execution and artifact streaming. |
-| 🔄 **n8n Automation Engine** | [http://localhost:5678](http://localhost:5678) | 🟢 **Local** | Visual workflow orchestrator for webhooks, cron benchmarks, and incident alerts. |
+| 🌐 **Streamlit Cloud Live App** | [https://autonomous--data--analyst.streamlit.app/](https://autonomous--data--analyst.streamlit.app/) | 🟢 **Live 24/7** | Public cloud deployment accessible anywhere worldwide (no installation required). |
+| 💻 **Local Streamlit Dashboard** | Run `streamlit run app.py` | 🟢 **Local** | Local development and offline air-gapped execution on port `8501`. |
+| ⚡ **Flask REST API Service** | Run `python api.py` | 🟢 **Local** | Headless programmatic pipeline execution and artifact streaming on port `5000`. |
+| 🔄 **n8n Automations** | Workflows in [`n8n/workflows/`](n8n/workflows/) | 🟢 **Automated** | 6 pre-built workflow templates for webhooks, cron benchmarks, and incident alerts. |
 
 ### Quick 1-Click Testing (No File Upload Required)
 Don't have a dataset ready? Select one of the pre-loaded benchmark datasets from the sidebar dropdown in Streamlit:
@@ -261,114 +249,63 @@ ADA includes 6 pre-built production workflows in the [`n8n/workflows/`](n8n/work
 
 ---
 
-## 🚢 Production Deployment Guide
+## 🚢 Deployment & Running Guide
 
-ADA supports flexible deployment options from local multi-service stacks to cloud containers.
+ADA supports both instant cloud access and local development setups.
 
-### Option 1: 1-Click Cloud Deployment (Streamlit Community Cloud)
+### Option 1: Official Live Cloud Web Application (Free 24/7)
 
-Deploy ADA directly from your GitHub repository to Streamlit's free hosting in 3 steps:
+The application is deployed live in production on Streamlit Community Cloud:
 
-1. Click the button below:
-   [![Deploy on Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=aakash1552005/Autonomous-Data-Analyst&branch=master&mainModule=app.py)
-2. In the deployment dialog, verify:
-   - **Repository**: `aakash1552005/Autonomous-Data-Analyst`
-   - **Branch**: `master`
-   - **Main file path**: `app.py`
-3. Click **Deploy!** — Streamlit Cloud will automatically build dependencies from `requirements.txt` and provide a public URL accessible to anyone worldwide.
+👉 **[https://autonomous--data--analyst.streamlit.app/](https://autonomous--data--analyst.streamlit.app/)**
+
+*Access the full 8-tab interactive dashboard, upload CSV/Excel files, run 1-click benchmarks, view 9 publication-grade charts, and download PDF/PPTX reports directly in your browser without any local setup.*
 
 ---
 
-### Option 2: Docker Compose (All-in-One Multi-Container Stack)
+### Option 2: Local Developer Setup (Windows / macOS / Linux)
 
-Deploy ADA with Streamlit, Flask REST API, and n8n running in isolated containers simultaneously:
+Run ADA locally in an isolated Python environment:
 
-```yaml
-version: '3.8'
+#### Windows One-Click Launchers:
+```cmd
+:: Using Windows Batch:
+run.bat
 
-services:
-  ada-api:
-    build: .
-    command: python api.py
-    ports:
-      - "5000:5000"
-    volumes:
-      - ./runs:/app/runs
-      - ./data:/app/data
-    restart: unless-stopped
-
-  ada-ui:
-    build: .
-    command: streamlit run app.py --server.port 8501 --server.address 0.0.0.0
-    ports:
-      - "8501:8501"
-    volumes:
-      - ./runs:/app/runs
-      - ./data:/app/data
-    restart: unless-stopped
-
-  n8n:
-    image: docker.n8n.io/n8nio/n8n
-    ports:
-      - "5678:5678"
-    environment:
-      - N8N_BASIC_AUTH_ACTIVE=true
-      - N8N_BASIC_AUTH_USER=admin
-      - N8N_BASIC_AUTH_PASSWORD=changeme123
-      - N8N_HOST=localhost
-      - N8N_PORT=5678
-      - N8N_PROTOCOL=http
-    volumes:
-      - n8n_data:/home/node/.n8n
-    restart: unless-stopped
-
-volumes:
-  n8n_data:
+:: Or using PowerShell:
+.\run.ps1
 ```
 
-Launch the entire stack with:
+#### Standard CLI (Linux / macOS / Windows):
 ```bash
-docker-compose up -d
-```
-
----
-
-### Option 3: Turnkey 1-Command Linux Cloud VM (AWS EC2 / DigitalOcean / GCP / Hetzner)
-
-For any fresh Ubuntu 20.04 / 22.04 / 24.04 or Debian Cloud VM, launch the entire 3-service stack with the automated provisioning script:
-
-```bash
-git clone https://github.com/aakash1552005/Autonomous-Data-Analyst.git
-cd Autonomous-Data-Analyst
-chmod +x deploy.sh && ./deploy.sh
-```
-
-**What `deploy.sh` handles automatically:**
-1. Installs Docker Engine & Docker Compose plugin.
-2. Configures UFW firewall rules to allow ports `8501`, `5000`, `5678`, `80`, `443`, and `22`.
-3. Sets up `.env` and runtime directories (`runs`, `data`).
-4. Builds and launches all 3 services via `docker compose up -d --build`.
-5. Verifies service health and prints your public URLs.
-
-#### Manual Alternative (Without Docker):
-```bash
-# Update and install system dependencies
-sudo apt-get update && sudo apt-get install -y python3-venv git
-
-# Clone repository
+# 1. Clone repository
 git clone https://github.com/aakash1552005/Autonomous-Data-Analyst.git
 cd Autonomous-Data-Analyst
 
-# Set up Python virtual environment
+# 2. Create and activate virtual environment
 python3 -m venv .venv
-source .venv/bin/activate
+source .venv/bin/activate  # On Windows: .\.venv\Scripts\activate
+
+# 3. Install in editable mode
 pip install --upgrade pip
 pip install -e .
 
-# Launch services in background:
-python api.py &
-streamlit run app.py --server.port 8501 --server.address 0.0.0.0 &
+# 4. Launch interactive dashboard
+streamlit run app.py
 ```
+
+---
+
+### Option 3: Headless REST API & n8n Automations
+
+For automated data pipelines and external integrations:
+
+```bash
+# Start the Flask REST API service (Port 5000)
+python api.py
+```
+
+*The API exposes endpoints for automated file analysis (`POST /analyze`), status tracking (`GET /runs/<id>`), and natural language chat (`POST /chat`). Import the 6 pre-built workflow templates from [`n8n/workflows/`](n8n/workflows/) into your n8n instance to trigger pipelines on file drops or scheduled cron jobs.*
 
 ---
 

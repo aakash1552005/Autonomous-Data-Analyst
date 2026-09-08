@@ -103,8 +103,6 @@ class TestProjectStructure:
         ".env.example",
         ".gitignore",
         "README.md",
-        "Dockerfile",
-        "docker-compose.yml",
     ]
 
     @pytest.mark.parametrize("directory", REQUIRED_DIRS)
