@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "dataset_id": "3af915a2-fbf2-4910-9ac7-c0f338838aab",
+  "dataset_id": "c679ef0a-5c45-4b9d-a7ab-e8e80e04da96",
   "dataset_hash": "da4eaaf65dd1476882f81f233118dcdf1e4bf5f6aa20b372bac01bf64087031e",
   "file_name": "mixed_messy_data.csv",
   "ingestion": {
@@ -10,17 +10,18 @@
     "encoding": "utf-8"
   },
   "artifacts": {
-    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\cleaned_data.csv",
-    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\removed_rows.csv",
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\removed_rows.csv",
     "model_pkl": null,
     "pdf_report": null,
     "pptx_report": null,
     "chart_paths": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\04_distribution_metric_score.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\05_bar_user_category_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\05_bar_flag_active_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\05_bar_notes_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\06_boxplot_metric_score.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\04_distribution_metric_score.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\05_bar_user_category_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\05_bar_flag_active_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\05_bar_notes_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\06_boxplot_metric_score.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\07_target_record_id.png"
     ]
   },
   "columns": [
@@ -208,16 +209,7 @@
         "count": 6,
         "unique_count": 6,
         "null_count": 0,
-        "null_pct": 0.0,
-        "top_category": "REC-01",
-        "top_category_freq": 1,
-        "top_categories": {
-          "REC-01": 1,
-          "REC-02": 1,
-          "REC-03": 1,
-          "REC-04": 1,
-          "REC-05": 1
-        }
+        "null_pct": 0.0
       },
       " user_category ": {
         "column": " user_category ",
@@ -292,11 +284,12 @@
       ]
     },
     "charts": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\04_distribution_metric_score.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\05_bar_user_category_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\05_bar_flag_active_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\05_bar_notes_counts.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline3\\20260902_125548_mixed_messy_data.csv\\artifacts\\charts\\06_boxplot_metric_score.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\04_distribution_metric_score.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\05_bar_user_category_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\05_bar_flag_active_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\05_bar_notes_counts.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\06_boxplot_metric_score.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline3\\20260908_173805_mixed_messy_data.csv\\artifacts\\charts\\07_target_record_id.png"
     ],
     "target_candidates": [
       "record_id",
@@ -330,15 +323,14 @@
   "insights": [
     {
       "category": "quality",
-      "text": "Analyzed dataset of 7 rows and 5 columns with an overall data quality score of 86 out of 100.",
+      "text": "Analyzed dataset of 7 rows and 5 columns with an overall data quality score of 86/100.",
       "confidence": 1.0,
       "evidence": "dio.quality.score",
       "recommendation": "Maintain standardized data ingestion pipelines to preserve data quality and prevent schema drift.",
       "grounded_numbers": [
         7.0,
         5.0,
-        86.0,
-        100.0
+        86.0
       ],
       "id": "ins_001"
     }
@@ -359,31 +351,25 @@
       "agent": "ml",
       "code": "ML_003_INSUFFICIENT_DATA",
       "message": "Dataset has 6 rows, which is below the configured threshold of 30",
-      "timestamp": "2026-09-02T12:55:59.699959+00:00"
-    },
-    {
-      "agent": "insight",
-      "code": "INS_001",
-      "message": "LLM insight generation failed: Ollama request timed out after 60s.",
-      "timestamp": "2026-09-02T12:57:03.821873+00:00"
+      "timestamp": "2026-09-08T17:38:16.764729+00:00"
     }
   ],
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.085,
+      "runtime_seconds": 0.01,
       "warnings": 3,
       "errors": 0
     },
     {
       "agent": "cleaning",
-      "runtime_seconds": 0.154,
+      "runtime_seconds": 0.015,
       "warnings": 0,
       "errors": 0
     },
     {
       "agent": "eda",
-      "runtime_seconds": 11.276,
+      "runtime_seconds": 11.395,
       "warnings": 0,
       "errors": 0
     },
@@ -395,9 +381,9 @@
     },
     {
       "agent": "insight",
-      "runtime_seconds": 64.119,
+      "runtime_seconds": 2.0147,
       "warnings": 1,
-      "errors": 1,
+      "errors": 0,
       "insights_count": 1
     }
   ],
@@ -409,7 +395,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:55:48.223648+00:00"
+      "timestamp": "2026-09-08T17:38:05.345309+00:00"
     },
     {
       "agent": "intelligence",
@@ -418,7 +404,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:55:48.231575+00:00"
+      "timestamp": "2026-09-08T17:38:05.346090+00:00"
     },
     {
       "agent": "intelligence",
@@ -427,7 +413,7 @@
       "label": "score",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:55:48.237211+00:00"
+      "timestamp": "2026-09-08T17:38:05.346560+00:00"
     },
     {
       "agent": "intelligence",
@@ -436,7 +422,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:55:48.246395+00:00"
+      "timestamp": "2026-09-08T17:38:05.347374+00:00"
     },
     {
       "agent": "intelligence",
@@ -445,14 +431,14 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:55:48.253752+00:00"
+      "timestamp": "2026-09-08T17:38:05.348199+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "generic",
       "confidence": 0.5,
-      "timestamp": "2026-09-02T12:55:48.253933+00:00"
+      "timestamp": "2026-09-08T17:38:05.348242+00:00"
     },
     {
       "agent": "cleaning",
@@ -463,12 +449,12 @@
       "cols_after": 5,
       "duplicates_removed": 1,
       "cleaned_dataset_hash": "f698b09d621fa52194ea77e3280436fcbfa7d372c7b86dd534117ca26d9e8528",
-      "timestamp": "2026-09-02T12:55:48.407780+00:00"
+      "timestamp": "2026-09-08T17:38:05.362966+00:00"
     },
     {
       "agent": "eda",
       "action": "eda_completed",
-      "charts_generated": 5,
+      "charts_generated": 6,
       "max_charts_configured": 6,
       "numeric_columns_analyzed": 1,
       "target_candidates_identified": [
@@ -477,13 +463,13 @@
         "metric_score",
         "notes"
       ],
-      "timestamp": "2026-09-02T12:55:59.694065+00:00"
+      "timestamp": "2026-09-08T17:38:16.760651+00:00"
     },
     {
       "agent": "insight",
       "action": "backfill_floor_reached",
       "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
-      "timestamp": "2026-09-02T12:57:03.822062+00:00"
+      "timestamp": "2026-09-08T17:38:18.781336+00:00"
     },
     {
       "agent": "insight",
@@ -491,7 +477,7 @@
       "count": 1,
       "llm_used": false,
       "min_insights_satisfied": false,
-      "timestamp": "2026-09-02T12:57:03.822109+00:00"
+      "timestamp": "2026-09-08T17:38:18.781374+00:00"
     }
   ],
   "llm_usage": {

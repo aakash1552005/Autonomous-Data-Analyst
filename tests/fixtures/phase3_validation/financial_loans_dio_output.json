@@ -101,7 +101,7 @@
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.01,
+      "runtime_seconds": 0.009,
       "warnings": 1,
       "errors": 0
     }
@@ -114,7 +114,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T13:02:34.455461+00:00"
+      "timestamp": "2026-09-08T17:41:41.229532+00:00"
     },
     {
       "agent": "intelligence",
@@ -123,7 +123,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T13:02:34.455832+00:00"
+      "timestamp": "2026-09-08T17:41:41.229912+00:00"
     },
     {
       "agent": "intelligence",
@@ -132,7 +132,7 @@
       "label": "currency_amount",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T13:02:34.456193+00:00"
+      "timestamp": "2026-09-08T17:41:41.230283+00:00"
     },
     {
       "agent": "intelligence",
@@ -141,7 +141,7 @@
       "label": "percentage",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T13:02:34.456574+00:00"
+      "timestamp": "2026-09-08T17:41:41.230645+00:00"
     },
     {
       "agent": "intelligence",
@@ -150,7 +150,7 @@
       "label": "financial_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T13:02:34.456937+00:00"
+      "timestamp": "2026-09-08T17:41:41.230929+00:00"
     },
     {
       "agent": "intelligence",
@@ -159,14 +159,14 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T13:02:34.457769+00:00"
+      "timestamp": "2026-09-08T17:41:41.231693+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "finance",
       "confidence": 0.95,
-      "timestamp": "2026-09-02T13:02:34.457827+00:00"
+      "timestamp": "2026-09-08T17:41:41.231756+00:00"
     }
   ]
 }

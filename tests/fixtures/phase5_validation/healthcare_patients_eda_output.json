@@ -19,16 +19,7 @@
       "count": 6,
       "unique_count": 6,
       "null_count": 0,
-      "null_pct": 0.0,
-      "top_category": "PAT-001",
-      "top_category_freq": 1,
-      "top_categories": {
-        "PAT-001": 1,
-        "PAT-002": 1,
-        "PAT-003": 1,
-        "PAT-004": 1,
-        "PAT-005": 1
-      }
+      "null_pct": 0.0
     },
     "age": {
       "column": "age",
@@ -210,17 +201,17 @@
   },
   "charts_generated_count": 6,
   "chart_paths": [
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_2_healthca0\\20260902_130038_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_2_healthca0\\20260902_130038_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_2_healthca0\\20260902_130038_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_2_healthca0\\20260902_130038_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_2_healthca0\\20260902_130038_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_2_healthca0\\20260902_130038_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_2_healthca0\\20260908_173551_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_2_healthca0\\20260908_173551_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_2_healthca0\\20260908_173551_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_2_healthca0\\20260908_173551_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_2_healthca0\\20260908_173551_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_2_healthca0\\20260908_173551_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
   ],
   "eda_metrics": [
     {
       "agent": "eda",
-      "runtime_seconds": 17.118,
+      "runtime_seconds": 10.059,
       "warnings": 0,
       "errors": 0
     }

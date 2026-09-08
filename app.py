@@ -113,14 +113,22 @@ def run_pipeline(
     preferred_target: str | None,
     config: AppConfig,
 ) -> None:
-    """Handle uploaded file, execute orchestrator pipeline, and update session state."""
+    """Handle uploaded file or sample dataset path, execute orchestrator pipeline, and update session state."""
     # Staging upload directory
     staging_dir = Path("runs") / "staging"
     staging_dir.mkdir(parents=True, exist_ok=True)
-    temp_path = staging_dir / uploaded_file.name
 
-    with open(temp_path, "wb") as f:
-        f.write(uploaded_file.getbuffer())
+    if hasattr(uploaded_file, "getbuffer") and hasattr(uploaded_file, "name"):
+        file_name = uploaded_file.name
+        temp_path = staging_dir / file_name
+        with open(temp_path, "wb") as f:
+            f.write(uploaded_file.getbuffer())
+    else:
+        src_path = Path(uploaded_file)
+        file_name = src_path.name
+        temp_path = staging_dir / file_name
+        import shutil
+        shutil.copyfile(src_path, temp_path)
 
     # Progress UI containers
     progress_bar = st.progress(0.0)
@@ -141,7 +149,7 @@ def run_pipeline(
 
     # Persist in session state to prevent rerun loss
     st.session_state["pipeline_result"] = result
-    st.session_state["file_name"] = uploaded_file.name
+    st.session_state["file_name"] = file_name
     progress_bar.progress(1.0)
     if result.status == "completed":
         status_text.success("Analysis complete! Review the analytical sections below.")
@@ -208,14 +216,25 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
 
         st.markdown("#### Column Inventory & Inferred Types")
         cols_data = []
+        n_rows = ingestion.get("n_rows", 0)
         for col in dio.get("columns", []):
+            raw_dtype = col.get("dtype_raw") or col.get("dtype") or "string"
+            semantic_label = col.get("semantic_label") or col.get("semantic_type") or "none"
+            inferred_role = col.get("dtype_inferred") or col.get("inferred_type") or "feature"
+            null_pct_val = col.get("null_pct")
+            if null_pct_val is None:
+                null_pct_val = col.get("null_percentage", 0.0) / 100.0 if col.get("null_percentage") is not None else 0.0
+            null_count_val = col.get("null_count")
+            if null_count_val is None:
+                null_count_val = int(round(null_pct_val * n_rows)) if n_rows else 0
+
             cols_data.append({
                 "Column": col.get("name"),
-                "Raw Type": col.get("dtype"),
-                "Semantic Type": col.get("semantic_type"),
-                "Inferred Role": col.get("inferred_type"),
-                "Null Count": col.get("null_count", 0),
-                "Null %": f"{col.get('null_percentage', 0.0):.1f}%",
+                "Raw Type": raw_dtype,
+                "Semantic Type": semantic_label,
+                "Inferred Role": inferred_role,
+                "Null Count": null_count_val,
+                "Null %": f"{null_pct_val * 100.0:.1f}%",
                 "Unique Count": col.get("unique_count", 0),
                 "Is PII": "⚠️ Yes" if col.get("is_pii") else "No",
             })
@@ -621,6 +640,21 @@ def main() -> None:
             help="Select a CSV or Excel dataset to begin end-to-end analysis.",
         )
 
+        sample_datasets = {
+            "-- Or select built-in benchmark --": None,
+            "Retail Sales (Sales & Temporal Analytics)": Path("data/sample/retail_sales.csv"),
+            "Customer Churn (Classification Benchmark)": Path("data/sample/customer_churn_ml.csv"),
+            "Housing Regression (1K Benchmark)": Path("data/sample/housing_regression_1k.csv"),
+            "Financial Loans (Credit Risk & Imbalance)": Path("data/sample/financial_loans.csv"),
+        }
+
+        selected_sample_label = st.selectbox(
+            "Quick Benchmark Dataset",
+            list(sample_datasets.keys()),
+            help="Select one of the pre-packaged benchmark datasets to test the system immediately without uploading a file.",
+        )
+        selected_sample_path = sample_datasets[selected_sample_label]
+
         preferred_target = st.text_input(
             "Preferred ML Target Column (Optional)",
             help="Specify column name to target for machine learning. If left blank, optimal target is auto-detected.",
@@ -636,10 +670,11 @@ def main() -> None:
 
     # Main Execution / Dashboard Routing
     if run_button:
-        if uploaded_file is None:
-            st.error("Please upload a CSV or XLSX file to begin analysis.")
+        dataset_source = uploaded_file if uploaded_file is not None else selected_sample_path
+        if dataset_source is None:
+            st.error("Please upload a CSV/XLSX file or select a built-in benchmark dataset.")
         else:
-            run_pipeline(uploaded_file, preferred_target, config)
+            run_pipeline(dataset_source, preferred_target, config)
 
     if st.session_state.get("pipeline_result") is not None:
         render_dashboard(
@@ -647,7 +682,7 @@ def main() -> None:
             st.session_state.get("file_name", "dataset"),
         )
     elif not run_button:
-        st.info("👈 Upload a dataset in the sidebar and click **Analyze Dataset** to launch the pipeline.")
+        st.info("👈 Upload a dataset or choose a built-in benchmark in the sidebar and click **Analyze Dataset** to launch the pipeline.")
 
 
 if __name__ == "__main__":

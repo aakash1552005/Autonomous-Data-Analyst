@@ -70,6 +70,10 @@ def impute_numeric_column(
     if pd.api.types.is_integer_dtype(series) or (non_null_vals % 1 == 0).all():
         replacement_val = round(replacement_val)
 
+    # Domain boundary preservation: clamp replacement_val >= 0 if original column has zero negative values
+    if len(non_null_vals) > 0 and (non_null_vals >= 0).all() and replacement_val < 0:
+        replacement_val = 0.0 if not pd.api.types.is_integer_dtype(series) else 0
+
     imputed_series = series.fillna(replacement_val)
 
     log_entry = {

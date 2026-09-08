@@ -142,6 +142,48 @@ def select_charts_deterministically(
             "x_col": box_cat,
         })
 
+    # Rule 7: Target Distribution / Class Breakdown Plot
+    target_candidate = None
+    for c in (columns_info or []):
+        if c.get("is_target_candidate") or c.get("semantic_label") in ("target_label", "target_value"):
+            if c.get("name") in df.columns:
+                target_candidate = c
+                break
+
+    if target_candidate and len(chart_plans) < max_charts:
+        t_name = target_candidate["name"]
+        t_dtype = target_candidate.get("dtype_inferred", "string")
+        is_discrete = t_dtype in ("string", "category", "bool") or (t_dtype == "int" and df[t_name].nunique() <= 10)
+        chart_plans.append({
+            "chart_id": f"07_target_{sanitize_filename(t_name)}",
+            "chart_type": "target_distribution",
+            "title": f"Target Distribution: {t_name}",
+            "target_col": t_name,
+            "is_discrete": is_discrete,
+        })
+
+    # Rule 8: Data Completeness Matrix (Feature completeness %)
+    valid_cols = [c for c in df.columns if c not in pii_cols and c not in identifier_cols]
+    if len(valid_cols) >= 2 and len(chart_plans) < max_charts:
+        chart_plans.append({
+            "chart_id": "08_data_completeness",
+            "chart_type": "data_completeness",
+            "title": "Dataset Feature Completeness (%)",
+            "columns": valid_cols[:15],
+        })
+
+    # Rule 9: Violin Distribution with Box Plot Overlay (Primary Numeric)
+    if numeric_cols and len(chart_plans) < max_charts:
+        violin_col = numeric_cols[0]
+        violin_cat = categorical_cols[0] if categorical_cols else None
+        chart_plans.append({
+            "chart_id": f"09_violin_{sanitize_filename(violin_col)}",
+            "chart_type": "violin",
+            "title": f"Density & Spread: {violin_col}" + (f" by {violin_cat}" if violin_cat else ""),
+            "y_col": violin_col,
+            "x_col": violin_cat,
+        })
+
     return chart_plans[:max_charts]
 
 
@@ -178,6 +220,8 @@ def render_chart_to_png(
             plot_df = df[[x_col, y_col]].dropna().copy()
             # Sort by date for clean timeline
             plot_df = plot_df.sort_values(by=x_col)
+            if len(plot_df) > 5000:
+                plot_df = plot_df.iloc[::max(1, len(plot_df) // 5000)]
             fig = px.line(
                 plot_df,
                 x=x_col,
@@ -190,8 +234,11 @@ def render_chart_to_png(
         elif chart_type == "scatter":
             x_col = plan["x_col"]
             y_col = plan["y_col"]
+            plot_df = df[[x_col, y_col]].dropna()
+            if len(plot_df) > 10000:
+                plot_df = plot_df.sample(10000, random_state=42)
             fig = px.scatter(
-                df,
+                plot_df,
                 x=x_col,
                 y=y_col,
                 title=plan["title"],
@@ -200,8 +247,11 @@ def render_chart_to_png(
 
         elif chart_type == "histogram":
             col = plan["column"]
+            plot_df = df[[col]].dropna()
+            if len(plot_df) > 20000:
+                plot_df = plot_df.sample(20000, random_state=42)
             fig = px.histogram(
-                df,
+                plot_df,
                 x=col,
                 title=plan["title"],
                 template=PLOTLY_THEME,
@@ -224,10 +274,73 @@ def render_chart_to_png(
         elif chart_type == "boxplot":
             y_col = plan["y_col"]
             x_col = plan.get("x_col")
+            cols_needed = [y_col] + ([x_col] if x_col else [])
+            plot_df = df[cols_needed].dropna()
+            if len(plot_df) > 10000:
+                plot_df = plot_df.sample(10000, random_state=42)
             fig = px.box(
-                df,
+                plot_df,
                 x=x_col,
                 y=y_col,
+                title=plan["title"],
+                template=PLOTLY_THEME,
+            )
+
+        elif chart_type == "target_distribution":
+            target_col = plan["target_col"]
+            if plan.get("is_discrete", True):
+                counts = df[target_col].astype(str).value_counts().reset_index()
+                counts.columns = [target_col, "count"]
+                fig = px.bar(
+                    counts,
+                    x=target_col,
+                    y="count",
+                    title=plan["title"],
+                    template=PLOTLY_THEME,
+                    color=target_col,
+                )
+            else:
+                plot_df = df[[target_col]].dropna()
+                if len(plot_df) > 10000:
+                    plot_df = plot_df.sample(10000, random_state=42)
+                fig = px.histogram(
+                    plot_df,
+                    x=target_col,
+                    marginal="box",
+                    title=plan["title"],
+                    template=PLOTLY_THEME,
+                )
+
+        elif chart_type == "data_completeness":
+            cols = plan["columns"]
+            comp_df = pd.DataFrame({
+                "column": cols,
+                "completeness_pct": [round((1 - df[c].isna().mean()) * 100, 1) for c in cols]
+            })
+            fig = px.bar(
+                comp_df,
+                x="column",
+                y="completeness_pct",
+                title=plan["title"],
+                template=PLOTLY_THEME,
+                color="completeness_pct",
+                color_continuous_scale="Viridis",
+            )
+            fig.update_yaxes(range=[0, 105], title="Completeness (%)")
+
+        elif chart_type == "violin":
+            y_col = plan["y_col"]
+            x_col = plan.get("x_col")
+            cols_needed = [y_col] + ([x_col] if x_col else [])
+            plot_df = df[cols_needed].dropna()
+            if len(plot_df) > 10000:
+                plot_df = plot_df.sample(10000, random_state=42)
+            fig = px.violin(
+                plot_df,
+                x=x_col,
+                y=y_col,
+                box=True,
+                points=False,
                 title=plan["title"],
                 template=PLOTLY_THEME,
             )

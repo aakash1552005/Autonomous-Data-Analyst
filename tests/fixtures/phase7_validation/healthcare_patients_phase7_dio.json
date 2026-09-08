@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0.0",
-  "dataset_id": "3e5b1946-00a3-455b-90ac-15c62c4841e9",
+  "dataset_id": "bfcdf1c1-80cf-4b17-b538-b61ffa45e6f9",
   "dataset_hash": "b6c174993a9db870e1ebd3db9dfc41d1952bda1d85836be8a8e185d2e8107527",
   "file_name": "healthcare_patients.csv",
   "ingestion": {
@@ -10,18 +10,18 @@
     "encoding": "utf-8"
   },
   "artifacts": {
-    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\cleaned_data.csv",
-    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\removed_rows.csv",
+    "cleaned_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\cleaned_data.csv",
+    "removed_rows_csv": "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\removed_rows.csv",
     "model_pkl": null,
     "pdf_report": null,
     "pptx_report": null,
     "chart_paths": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
     ]
   },
   "columns": [
@@ -264,16 +264,7 @@
         "count": 6,
         "unique_count": 6,
         "null_count": 0,
-        "null_pct": 0.0,
-        "top_category": "PAT-001",
-        "top_category_freq": 1,
-        "top_categories": {
-          "PAT-001": 1,
-          "PAT-002": 1,
-          "PAT-003": 1,
-          "PAT-004": 1,
-          "PAT-005": 1
-        }
+        "null_pct": 0.0
       },
       "age": {
         "column": "age",
@@ -454,12 +445,12 @@
       ]
     },
     "charts": [
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
-      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-34\\test_phase7_real_data_pipeline1\\20260902_125315_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\01_correlation_heatmap.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\02_trend_age_over_time.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\03_scatter_age_vs_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\04_distribution_age.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\04_distribution_blood_pressure.png",
+      "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase7_real_data_pipeline1\\20260908_173739_healthcare_patients.csv\\artifacts\\charts\\04_distribution_glucose.png"
     ],
     "target_candidates": [
       "patient_id",
@@ -494,15 +485,14 @@
   "insights": [
     {
       "category": "quality",
-      "text": "Analyzed dataset of 6 rows and 8 columns with an overall data quality score of 94 out of 100.",
+      "text": "Analyzed dataset of 6 rows and 8 columns with an overall data quality score of 94/100.",
       "confidence": 1.0,
       "evidence": "dio.quality.score",
       "recommendation": "Maintain standardized data ingestion pipelines to preserve data quality and prevent schema drift.",
       "grounded_numbers": [
         6.0,
         8.0,
-        94.0,
-        100.0
+        94.0
       ],
       "id": "ins_001"
     }
@@ -523,45 +513,39 @@
       "agent": "ml",
       "code": "ML_003_INSUFFICIENT_DATA",
       "message": "Dataset has 6 rows, which is below the configured threshold of 30",
-      "timestamp": "2026-09-02T12:53:28.558778+00:00"
-    },
-    {
-      "agent": "insight",
-      "code": "INS_001",
-      "message": "LLM insight generation failed: Ollama request timed out after 60s.",
-      "timestamp": "2026-09-02T12:54:32.657207+00:00"
+      "timestamp": "2026-09-08T17:37:51.504898+00:00"
     }
   ],
   "agent_metrics": [
     {
       "agent": "intelligence",
-      "runtime_seconds": 0.153,
+      "runtime_seconds": 0.01,
       "warnings": 2,
       "errors": 0
     },
     {
       "agent": "cleaning",
-      "runtime_seconds": 0.132,
+      "runtime_seconds": 0.014,
       "warnings": 0,
       "errors": 0
     },
     {
       "agent": "eda",
-      "runtime_seconds": 12.441,
+      "runtime_seconds": 11.782,
       "warnings": 0,
       "errors": 0
     },
     {
       "agent": "ml",
-      "runtime_seconds": 0.002,
+      "runtime_seconds": 0.001,
       "warnings": 0,
       "errors": 0
     },
     {
       "agent": "insight",
-      "runtime_seconds": 64.0956,
+      "runtime_seconds": 2.0046,
       "warnings": 1,
-      "errors": 1,
+      "errors": 0,
       "insights_count": 1
     }
   ],
@@ -575,7 +559,7 @@
       "evidence": [
         "four-digit year in first position"
       ],
-      "timestamp": "2026-09-02T12:53:15.930578+00:00"
+      "timestamp": "2026-09-08T17:37:39.700006+00:00"
     },
     {
       "agent": "intelligence",
@@ -586,7 +570,7 @@
       "evidence": [
         "four-digit year in first position"
       ],
-      "timestamp": "2026-09-02T12:53:15.930595+00:00"
+      "timestamp": "2026-09-08T17:37:39.700015+00:00"
     },
     {
       "agent": "intelligence",
@@ -595,7 +579,7 @@
       "label": "identifier",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.934122+00:00"
+      "timestamp": "2026-09-08T17:37:39.700350+00:00"
     },
     {
       "agent": "intelligence",
@@ -604,7 +588,7 @@
       "label": "age",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.938244+00:00"
+      "timestamp": "2026-09-08T17:37:39.700606+00:00"
     },
     {
       "agent": "intelligence",
@@ -613,7 +597,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.941201+00:00"
+      "timestamp": "2026-09-08T17:37:39.700851+00:00"
     },
     {
       "agent": "intelligence",
@@ -622,7 +606,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.946090+00:00"
+      "timestamp": "2026-09-08T17:37:39.701272+00:00"
     },
     {
       "agent": "intelligence",
@@ -631,7 +615,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.947606+00:00"
+      "timestamp": "2026-09-08T17:37:39.701585+00:00"
     },
     {
       "agent": "intelligence",
@@ -640,7 +624,7 @@
       "label": "health_metric",
       "confidence": 0.9,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.953802+00:00"
+      "timestamp": "2026-09-08T17:37:39.702058+00:00"
     },
     {
       "agent": "intelligence",
@@ -649,7 +633,7 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.960252+00:00"
+      "timestamp": "2026-09-08T17:37:39.702533+00:00"
     },
     {
       "agent": "intelligence",
@@ -658,14 +642,14 @@
       "label": "unknown",
       "confidence": 0.4,
       "method": "rule",
-      "timestamp": "2026-09-02T12:53:15.969739+00:00"
+      "timestamp": "2026-09-08T17:37:39.703152+00:00"
     },
     {
       "agent": "intelligence",
       "action": "domain_classified",
       "domain": "healthcare",
       "confidence": 0.95,
-      "timestamp": "2026-09-02T12:53:15.970011+00:00"
+      "timestamp": "2026-09-08T17:37:39.703208+00:00"
     },
     {
       "agent": "cleaning",
@@ -676,7 +660,7 @@
       "cols_after": 8,
       "duplicates_removed": 0,
       "cleaned_dataset_hash": "8f1110894a2d4b5026cbed75dd39668acfd22e744b568ae448ae9719bde42698",
-      "timestamp": "2026-09-02T12:53:16.102317+00:00"
+      "timestamp": "2026-09-08T17:37:39.717434+00:00"
     },
     {
       "agent": "eda",
@@ -691,13 +675,13 @@
         "glucose",
         "diagnosis"
       ],
-      "timestamp": "2026-09-02T12:53:28.554645+00:00"
+      "timestamp": "2026-09-08T17:37:51.501422+00:00"
     },
     {
       "agent": "insight",
       "action": "backfill_floor_reached",
       "reason": "Only 1 of 3 minimum insights could be grounded; insufficient evidence in dataset for additional claims.",
-      "timestamp": "2026-09-02T12:54:32.657466+00:00"
+      "timestamp": "2026-09-08T17:37:53.511477+00:00"
     },
     {
       "agent": "insight",
@@ -705,7 +689,7 @@
       "count": 1,
       "llm_used": false,
       "min_insights_satisfied": false,
-      "timestamp": "2026-09-02T12:54:32.657489+00:00"
+      "timestamp": "2026-09-08T17:37:53.511494+00:00"
     }
   ],
   "llm_usage": {

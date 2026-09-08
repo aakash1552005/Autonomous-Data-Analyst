@@ -37,13 +37,20 @@ def coerce_column_type(
 
     try:
         if target_type == "int":
-            # Coerce non-numerics to NaN
-            numeric_vals = pd.to_numeric(coerced, errors="coerce")
+            if series.dtype == object:
+                clean_s = coerced.astype(str).str.replace(r"[$€£₹¥%]", "", regex=True).str.replace(",", "", regex=False).str.strip()
+                numeric_vals = pd.to_numeric(clean_s, errors="coerce")
+            else:
+                numeric_vals = pd.to_numeric(coerced, errors="coerce")
             coerced = numeric_vals
             coerced_flag = True
 
         elif target_type == "float":
-            numeric_vals = pd.to_numeric(coerced, errors="coerce").astype(float)
+            if series.dtype == object:
+                clean_s = coerced.astype(str).str.replace(r"[$€£₹¥%]", "", regex=True).str.replace(",", "", regex=False).str.strip()
+                numeric_vals = pd.to_numeric(clean_s, errors="coerce").astype(float)
+            else:
+                numeric_vals = pd.to_numeric(coerced, errors="coerce").astype(float)
             coerced = numeric_vals
             coerced_flag = True
 

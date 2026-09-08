@@ -18,15 +18,7 @@
       "count": 4,
       "unique_count": 4,
       "null_count": 0,
-      "null_pct": 0.0,
-      "top_category": "U-101",
-      "top_category_freq": 1,
-      "top_categories": {
-        "U-101": 1,
-        "U-102": 1,
-        "U-103": 1,
-        "U-104": 1
-      }
+      "null_pct": 0.0
     },
     "full_name": {
       "column": "full_name",
@@ -34,15 +26,7 @@
       "count": 4,
       "unique_count": 4,
       "null_count": 0,
-      "null_pct": 0.0,
-      "top_category": "Johnathan Doe",
-      "top_category_freq": 1,
-      "top_categories": {
-        "Johnathan Doe": 1,
-        "Jane Roe": 1,
-        "Alex Smith": 1,
-        "Maria Garcia": 1
-      }
+      "null_pct": 0.0
     },
     "email": {
       "column": "email",
@@ -50,15 +34,7 @@
       "count": 4,
       "unique_count": 4,
       "null_count": 0,
-      "null_pct": 0.0,
-      "top_category": "johndoe@email.com",
-      "top_category_freq": 1,
-      "top_categories": {
-        "johndoe@email.com": 1,
-        "jane.roe@corp.org": 1,
-        "alex.smith@web.net": 1,
-        "maria.g@domain.com": 1
-      }
+      "null_pct": 0.0
     },
     "phone_number": {
       "column": "phone_number",
@@ -66,15 +42,7 @@
       "count": 4,
       "unique_count": 4,
       "null_count": 0,
-      "null_pct": 0.0,
-      "top_category": "(555) 234-5678",
-      "top_category_freq": 1,
-      "top_categories": {
-        "(555) 234-5678": 1,
-        "555-876-5432": 1,
-        "+1-555-345-6789": 1,
-        "555-123-9999": 1
-      }
+      "null_pct": 0.0
     },
     "credit_card": {
       "column": "credit_card",
@@ -82,15 +50,7 @@
       "count": 4,
       "unique_count": 4,
       "null_count": 0,
-      "null_pct": 0.0,
-      "top_category": "4532-1122-3344-5566",
-      "top_category_freq": 1,
-      "top_categories": {
-        "4532-1122-3344-5566": 1,
-        "5412-9988-7766-5544": 1,
-        "3782-8224-6310-0051": 1,
-        "4024-0071-8899-2233": 1
-      }
+      "null_pct": 0.0
     },
     "subscription_date": {
       "column": "subscription_date",
@@ -134,16 +94,19 @@
       "amount"
     ]
   },
-  "charts_generated_count": 3,
+  "charts_generated_count": 6,
   "chart_paths": [
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_5_ambiguou0\\20260902_130131_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_5_ambiguou0\\20260902_130131_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
-    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-35\\test_phase5_dataset_5_ambiguou0\\20260902_130131_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png"
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_5_ambiguou0\\20260908_173623_ambiguous_dates_pii.csv\\artifacts\\charts\\04_distribution_amount.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_5_ambiguou0\\20260908_173623_ambiguous_dates_pii.csv\\artifacts\\charts\\05_bar_subscription_date_counts.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_5_ambiguou0\\20260908_173623_ambiguous_dates_pii.csv\\artifacts\\charts\\06_boxplot_amount.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_5_ambiguou0\\20260908_173623_ambiguous_dates_pii.csv\\artifacts\\charts\\07_target_user_id.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_5_ambiguou0\\20260908_173623_ambiguous_dates_pii.csv\\artifacts\\charts\\08_data_completeness.png",
+    "C:\\Users\\AAKASH.S.S\\AppData\\Local\\Temp\\pytest-of-AAKASH.S.S\\pytest-123\\test_phase5_dataset_5_ambiguou0\\20260908_173623_ambiguous_dates_pii.csv\\artifacts\\charts\\09_violin_amount.png"
   ],
   "eda_metrics": [
     {
       "agent": "eda",
-      "runtime_seconds": 7.854,
+      "runtime_seconds": 10.466,
       "warnings": 0,
       "errors": 0
     }

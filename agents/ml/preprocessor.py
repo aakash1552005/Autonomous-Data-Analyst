@@ -48,7 +48,7 @@ def build_preprocessing_pipeline(
     if categorical_features:
         cat_pipeline = Pipeline([
             ("imputer", SimpleImputer(strategy="constant", fill_value="Unknown")),
-            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False)),
+            ("encoder", OneHotEncoder(handle_unknown="ignore", sparse_output=False, max_categories=20)),
         ])
         transformers.append(("categorical", cat_pipeline, categorical_features))
 

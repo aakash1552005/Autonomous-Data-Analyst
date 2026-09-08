@@ -363,3 +363,42 @@ def test_dio_section_isolation(tmp_path: Path):
     assert updated_dio["ml"]["problem_type"] == "none"
     assert len(updated_dio["insights"]) == 0
     assert updated_dio["reports"]["pdf_path"] is None
+
+
+def test_extended_visual_charts_generation(tmp_path: Path):
+    """
+    Verify that when max_charts is set to 9, the new visual charts:
+    - Target Distribution (Rule 7)
+    - Data Completeness Matrix (Rule 8)
+    - Violin Spread Plot (Rule 9)
+    are selected and correctly rendered to PNG files.
+    """
+    from agents.eda.chart_generator import select_charts_deterministically, render_chart_to_png
+
+    df = pd.DataFrame({
+        "feature_a": [1.0, 2.0, 3.0, 4.0, 5.0, 6.0],
+        "feature_b": [10.0, 20.0, 30.0, 40.0, 50.0, 60.0],
+        "category": ["A", "B", "A", "B", "A", "B"],
+        "target": [0, 1, 0, 1, 0, 1],
+    })
+    columns_info = [
+        {"name": "feature_a", "dtype_inferred": "float"},
+        {"name": "feature_b", "dtype_inferred": "float"},
+        {"name": "category", "dtype_inferred": "category"},
+        {"name": "target", "dtype_inferred": "int", "semantic_label": "target_label", "is_target_candidate": True},
+    ]
+
+    plans = select_charts_deterministically(df, columns_info=columns_info, max_charts=10)
+    chart_ids = [p["chart_id"] for p in plans]
+
+    # Verify new chart rules are present in plans
+    assert any("target" in cid for cid in chart_ids)
+    assert any("completeness" in cid for cid in chart_ids)
+    assert any("violin" in cid for cid in chart_ids)
+
+    # Render each chart to ensure Kaleido exports valid PNGs
+    for plan in plans:
+        out_path = render_chart_to_png(df, plan, tmp_path)
+        assert out_path is not None
+        assert out_path.is_file()
+        assert out_path.stat().st_size > 500

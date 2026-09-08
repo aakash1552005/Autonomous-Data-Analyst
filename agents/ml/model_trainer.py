@@ -181,7 +181,7 @@ def train_and_evaluate_models(
         # 3. Candidate 2: Random Forest Classifier
         rf_pipe = Pipeline([
             ("preprocessor", preprocessor),
-            ("estimator", RandomForestClassifier(n_estimators=100, class_weight="balanced", random_state=random_seed)),
+            ("estimator", RandomForestClassifier(n_estimators=100, min_samples_split=4, class_weight="balanced", random_state=random_seed)),
         ])
         rf_pipe.fit(X_train, y_train)
         rf_metrics = evaluate_classification_model(rf_pipe, X_test, y_test, n_classes)
@@ -204,7 +204,7 @@ def train_and_evaluate_models(
                 from xgboost import XGBClassifier
                 xgb_pipe = Pipeline([
                     ("preprocessor", preprocessor),
-                    ("estimator", XGBClassifier(random_state=random_seed, eval_metric="logloss")),
+                    ("estimator", XGBClassifier(n_estimators=100, max_depth=5, learning_rate=0.1, subsample=0.9, random_state=random_seed, eval_metric="logloss")),
                 ])
                 xgb_pipe.fit(X_train, y_train)
                 xgb_metrics = evaluate_classification_model(xgb_pipe, X_test, y_test, n_classes)
@@ -260,7 +260,7 @@ def train_and_evaluate_models(
         # 3. Candidate 2: Random Forest Regressor
         rf_pipe = Pipeline([
             ("preprocessor", preprocessor),
-            ("estimator", RandomForestRegressor(n_estimators=100, random_state=random_seed)),
+            ("estimator", RandomForestRegressor(n_estimators=100, min_samples_split=4, random_state=random_seed)),
         ])
         rf_pipe.fit(X_train, y_train)
         rf_metrics = evaluate_regression_model(rf_pipe, X_test, y_test)
@@ -283,7 +283,7 @@ def train_and_evaluate_models(
                 from xgboost import XGBRegressor
                 xgb_pipe = Pipeline([
                     ("preprocessor", preprocessor),
-                    ("estimator", XGBRegressor(random_state=random_seed)),
+                    ("estimator", XGBRegressor(n_estimators=100, max_depth=5, learning_rate=0.1, subsample=0.9, random_state=random_seed)),
                 ])
                 xgb_pipe.fit(X_train, y_train)
                 xgb_metrics = evaluate_regression_model(xgb_pipe, X_test, y_test)
