@@ -28,8 +28,9 @@ streamlit
 pyyaml
 python-dotenv
 
-# HTTP (for Ollama client)
+# HTTP & API
 requests
+flask
 
 # Testing
 pytest

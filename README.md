@@ -37,7 +37,20 @@ The system operates as a pipeline of specialized agents, each with a single resp
 
 ---
 
-## V1 Analytical Scope
+## Releases & Roadmap
+
+| Version | Status | Scope & Highlights |
+|---------|--------|---------------------|
+| **v1.0.0** | Stable Release | Core 6-agent autonomous pipeline: profiling, safe cleaning, EDA, ML, grounded insights, PDF/PPTX reports, Streamlit UI, evaluation benchmark. |
+| **v1.1.0** | Current | Dual-tier Chat Agent (11 deterministic whitelisted operations, zero code exec, structural PII shield), Flask REST API (`api.py`), n8n automation workflows, hardened DIO contracts. |
+| **v2.0.0** | Planned Future | Multi-table relational joins, automated feature engineering, time-series forecasting. |
+| **v3.0.0** | Planned Future | Unstructured multimodal analysis, continuous data connectors (Snowflake/BigQuery/Postgres), self-hosted distributed execution. |
+
+For architectural deep dive and threat modeling, see [ARCHITECTURE.md](ARCHITECTURE.md) and [SECURITY.md](SECURITY.md).
+
+---
+
+## V1.1 Analytical Scope
 
 **Supported data:** Structured / tabular data (CSV, XLSX)
 
@@ -45,8 +58,8 @@ The system operates as a pipeline of specialized agents, each with a single resp
 - Data understanding and schema detection
 - Data-type inference and semantic column classification
 - Date/time detection with deterministic resolution
-- PII detection and protection
-- Domain classification
+- PII detection and protection (email, phone, SSN, credit cards, identifiers)
+- Domain classification (finance, healthcare, retail, SaaS, etc.)
 - Data-quality assessment
 - Safe, reversible cleaning
 - Exploratory Data Analysis with automatic visualization
@@ -55,9 +68,15 @@ The system operates as a pipeline of specialized agents, each with a single resp
 - Model evaluation and feature importance
 - Model verification
 - Business insights with numerical grounding
-- Interactive dashboard
+- Interactive dashboard (Streamlit)
 - PDF report and PowerPoint presentation
-- Natural-language querying over verified results
+- **Agent 7 (Chat):** Natural-language conversational Q&A over verified results
+  - **11 Whitelisted Deterministic Operations:** `mean`, `sum`, `median`, `std` (sample `ddof=1`), `variance` (sample `ddof=1`), `min`, `max`, `count`, `value_counts`, `groupby_mean`, `groupby_sum`.
+  - **Zero Arbitrary Code Execution:** Strictly zero `eval()`, zero `exec()`, zero shell commands.
+  - **Structural PII Shield:** Sensitive and identifier columns are blocked from extraction and calculation.
+- **Automation & Integration:**
+  - Lightweight Flask REST API (`api.py`)
+  - n8n workflow integration for batch pipelines and webhook-triggered analysis.
 
 ---
 

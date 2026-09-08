@@ -38,6 +38,7 @@ dependencies = [
     "pyyaml",
     "python-dotenv",
     "requests",
+    "flask",
 ]
 
 [project.optional-dependencies]
@@ -58,4 +59,4 @@ include = ["agents*", "core*", "llm*", "security*", "sources*", "utils*"]
 exclude = ["tests*", "runs*", "data*", "test_charts*", "test_debug_charts*"]
 
 [tool.setuptools]
-py-modules = ["app", "orchestrator"]
+py-modules = ["app", "orchestrator", "api"]
