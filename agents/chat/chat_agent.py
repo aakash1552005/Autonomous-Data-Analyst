@@ -41,10 +41,12 @@ INJECTION_PATTERNS = [
     r"\bignore\s+(?:all\s+)?(?:previous\s+)?instructions\b",
     r"\bignore\s+(?:the\s+)?safety\s+rules\b",
     r"\b(?:system\s+prompt|hidden\s+prompt)\b",
-    r"\b(?:print\s*\(\s*df|show\s+(?:all\s+)?(?:patient|customer|client)?\s*(?:names|emails|phone|ssn|credit\s*card))\b",
+    r"\b(?:print\s*\(\s*df|show\s+(?:all\s+)?(?:patient|customer|client|user)s?\s*(?:names?|emails?|phone|ssn|credit\s*card|data|info|record|details?)?)\b",
     r"(?:\bexec\s*\(|\beval\s*\(|\bimport\s+os|\bos\.system|\bsubprocess|__import__|pd\.eval|pandas\.eval|\.query\s*\(|\bselect\s+.+\s+from\b|\bdrop\s+table\b|\binsert\s+into\b|\bdelete\s+from\b)",
-    r"\b(?:give\s+me|reveal|dump)\s+(?:the\s+)?(?:prompt|instructions|secret)\b",
+    r"\b(?:give\s+me|reveal|dump)\s+(?:the\s+)?(?:prompt|instructions|secret|dataframe|data\s*frame|dataset|raw\s+data)\b",
+    r"\b(?:list\s+all|show\s+all|display\s+all|print\s+all|get\s+all|extract\s+all)\s+(?:emails?|names?|phones?|ssns?|addresses?|customers?|patients?|users?|records?)\b",
 ]
+
 
 
 class ChatAgent(BaseAgent):

@@ -480,10 +480,30 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
     if len(tabs) > 7:
         with tabs[7]:
             st.subheader("Interactive Q&A & Conversational Dataset Exploration")
-            st.markdown(
-                "Ask questions about the dataset, summary statistics, ML models, or executive findings. "
-                "All queries are processed through a deterministic security boundary with strict PII protection."
-            )
+
+            # Supported operations guidance panel
+            with st.expander("ℹ️ Supported Operations & Guidelines", expanded=False):
+                st.markdown("""
+**This chat supports 11 deterministic analytical operations:**
+
+| Operation | Example Query |
+|-----------|--------------|
+| **Mean** | "What is the average revenue?" |
+| **Sum** | "What is the total cost?" |
+| **Count** | "How many rows are there?" |
+| **Min** | "What is the minimum price?" |
+| **Max** | "What is the maximum salary?" |
+| **Median** | "What is the median revenue?" |
+| **Std Dev** | "Standard deviation of revenue" |
+| **Variance** | "Variance of cost" |
+| **Value Counts** | "Distribution of category" |
+| **Groupby Mean** | "Average revenue by region" |
+| **Groupby Sum** | "Total revenue by category" |
+
+**Also supported:** Questions about data quality, domain, ML models, insights, dataset shape, and target candidates.
+
+**Security:** Columns containing personal data (PII) or identifiers are automatically shielded. Requests to execute code, SQL, or extract sensitive data are refused.
+                """)
 
             if "chat_history" not in st.session_state:
                 st.session_state["chat_history"] = []
@@ -497,10 +517,11 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
                 if not col_info.get("is_pii") and col_info.get("semantic_label") != "identifier":
                     c_name = col_info.get("name")
                     c_dtype = col_info.get("dtype_inferred", "")
-                    if c_dtype in ("int", "float") or (result.df is not None and pd.api.types.is_numeric_dtype(result.df[c_name])):
-                        safe_numeric_cols.append(c_name)
-                    else:
-                        safe_cat_cols.append(c_name)
+                    if c_name and result.df is not None and c_name in result.df.columns:
+                        if c_dtype in ("int", "float") or (result.df is not None and pd.api.types.is_numeric_dtype(result.df[c_name])):
+                            safe_numeric_cols.append(c_name)
+                        else:
+                            safe_cat_cols.append(c_name)
 
             suggested_queries = [
                 "What is the overall data quality score and key issues?",
@@ -510,8 +531,12 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
             if safe_numeric_cols:
                 suggested_queries.append(f"What is the average {safe_numeric_cols[0]}?")
                 suggested_queries.append(f"What is the maximum {safe_numeric_cols[0]}?")
+                if len(safe_numeric_cols) > 1:
+                    suggested_queries.append(f"What is the median {safe_numeric_cols[1]}?")
             if safe_cat_cols:
                 suggested_queries.append(f"What is the distribution of {safe_cat_cols[0]}?")
+            if safe_numeric_cols and safe_cat_cols:
+                suggested_queries.append(f"Average {safe_numeric_cols[0]} by {safe_cat_cols[0]}")
 
             st.markdown("**Suggested Safe Questions:**")
             cols_sq = st.columns(min(len(suggested_queries), 4))
@@ -532,11 +557,14 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
                             st.warning(msg["content"])
                         elif msg.get("status") == "error":
                             st.error(msg["content"])
+                        elif msg.get("status") == "unavailable":
+                            st.info(msg["content"])
                         else:
                             st.write(msg["content"])
                         if msg.get("tier"):
                             tier_label = "⚡ Tier 1 (Deterministic Pandas)" if msg["tier"] == 1 else "🧠 Tier 2 (DIO Context Retrieval)"
-                            st.caption(f"Resolved via {tier_label}")
+                            op_label = f" — `{msg['operation']}`" if msg.get("operation") else ""
+                            st.caption(f"Resolved via {tier_label}{op_label}")
 
             # Chat Input Form (preventing full page refresh or pipeline rerun)
             user_input = st.chat_input("Ask a question about this dataset...")
@@ -561,11 +589,17 @@ def render_dashboard(result: OrchestratorResult, file_name: str) -> None:
                 })
                 st.rerun()
 
-            # Clear Chat History Button
-            if st.session_state["chat_history"]:
-                if st.button("🗑️ Clear Chat History", key="clear_chat_btn"):
-                    st.session_state["chat_history"] = []
-                    st.rerun()
+            # Session info and clear button
+            col_info_1, col_info_2 = st.columns([3, 1])
+            with col_info_1:
+                msg_count = len(st.session_state["chat_history"])
+                if msg_count > 0:
+                    st.caption(f"📝 {msg_count} messages in this session (no cross-session memory)")
+            with col_info_2:
+                if st.session_state["chat_history"]:
+                    if st.button("🗑️ Clear Chat History", key="clear_chat_btn"):
+                        st.session_state["chat_history"] = []
+                        st.rerun()
 
 
 def main() -> None:
