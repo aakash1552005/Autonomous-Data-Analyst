@@ -276,6 +276,7 @@ def create_app(config: AppConfig | None = None) -> Flask:
                 orchestrator = Orchestrator(config=cfg)
                 res: OrchestratorResult = orchestrator.run(
                     file_path=rec.file_path,
+                    run_dir=runs_dir / rec.run_id,
                     preferred_target=rec.preferred_target,
                 )
                 rec.status = res.status

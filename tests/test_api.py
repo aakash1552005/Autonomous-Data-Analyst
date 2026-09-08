@@ -137,6 +137,50 @@ class TestAPIPipelineExecution:
         assert chat_data["tier"] == 1
         assert "mean" in chat_data["response"].lower() and "revenue" in chat_data["response"].lower()
 
+    def test_concurrent_api_requests_same_dataset_isolated(self, client):
+        """Demonstrate that concurrent requests within the same second get isolated run directories without file lock collisions."""
+        import time
+        sample_path = Path("data/sample/retail_sales.csv").resolve()
+        if not sample_path.exists():
+            pytest.skip("retail_sales.csv sample not found")
+
+        # 1. Fire two async analyze requests simultaneously for the same dataset
+        resp1 = client.post("/analyze", json={"file_path": str(sample_path), "async": True})
+        resp2 = client.post("/analyze", json={"file_path": str(sample_path), "async": True})
+
+        assert resp1.status_code == 202
+        assert resp2.status_code == 202
+        run_id_1 = resp1.get_json()["run_id"]
+        run_id_2 = resp2.get_json()["run_id"]
+
+        assert run_id_1 != run_id_2, f"Run IDs must be distinct: {run_id_1} vs {run_id_2}"
+
+        # 2. Poll until both complete (max 90 seconds)
+        t_start = time.time()
+        status1, status2 = None, None
+        while time.time() - t_start < 90:
+            if status1 not in ("completed", "partial", "failed"):
+                r1 = client.get(f"/runs/{run_id_1}")
+                if r1.status_code == 200:
+                    status1 = r1.get_json().get("status")
+            if status2 not in ("completed", "partial", "failed"):
+                r2 = client.get(f"/runs/{run_id_2}")
+                if r2.status_code == 200:
+                    status2 = r2.get_json().get("status")
+            if status1 in ("completed", "partial", "failed") and status2 in ("completed", "partial", "failed"):
+                break
+            time.sleep(1)
+
+        # 3. Assert both succeeded independently without WinError 32
+        assert status1 in ("completed", "partial"), f"Run 1 failed with status {status1}"
+        assert status2 in ("completed", "partial"), f"Run 2 failed with status {status2}"
+
+        # 4. Verify distinct artifacts
+        art1 = client.get(f"/runs/{run_id_1}/artifacts").get_json()
+        art2 = client.get(f"/runs/{run_id_2}/artifacts").get_json()
+        assert art1["artifact_count"] >= 1
+        assert art2["artifact_count"] >= 1
+
     def test_get_runs_list(self, client):
 
         resp = client.get("/runs")
