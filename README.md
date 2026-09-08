@@ -333,8 +333,24 @@ docker-compose up -d
 
 ---
 
-### Option 3: Linux / Cloud VM (AWS EC2 / GCP Compute Engine / Azure)
+### Option 3: Turnkey 1-Command Linux Cloud VM (AWS EC2 / DigitalOcean / GCP / Hetzner)
 
+For any fresh Ubuntu 20.04 / 22.04 / 24.04 or Debian Cloud VM, launch the entire 3-service stack with the automated provisioning script:
+
+```bash
+git clone https://github.com/aakash1552005/Autonomous-Data-Analyst.git
+cd Autonomous-Data-Analyst
+chmod +x deploy.sh && ./deploy.sh
+```
+
+**What `deploy.sh` handles automatically:**
+1. Installs Docker Engine & Docker Compose plugin.
+2. Configures UFW firewall rules to allow ports `8501`, `5000`, `5678`, `80`, `443`, and `22`.
+3. Sets up `.env` and runtime directories (`runs`, `data`).
+4. Builds and launches all 3 services via `docker compose up -d --build`.
+5. Verifies service health and prints your public URLs.
+
+#### Manual Alternative (Without Docker):
 ```bash
 # Update and install system dependencies
 sudo apt-get update && sudo apt-get install -y python3-venv git
@@ -349,7 +365,7 @@ source .venv/bin/activate
 pip install --upgrade pip
 pip install -e .
 
-# Launch services:
+# Launch services in background:
 python api.py &
 streamlit run app.py --server.port 8501 --server.address 0.0.0.0 &
 ```
