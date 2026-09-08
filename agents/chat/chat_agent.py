@@ -40,11 +40,11 @@ logger = logging.getLogger(__name__)
 INJECTION_PATTERNS = [
     r"\bignore\s+(?:all\s+)?(?:previous\s+)?instructions\b",
     r"\bignore\s+(?:the\s+)?safety\s+rules\b",
-    r"\b(?:system\s+prompt|hidden\s+prompt)\b",
+    r"\b(?:system\s+prompt|hidden\s+prompt|hidden\s+instructions?|secret\s+instructions?)\b",
     r"\b(?:print\s*\(\s*df|show\s+(?:all\s+)?(?:patient|customer|client|user)s?\s*(?:names?|emails?|phone|ssn|credit\s*card|data|info|record|details?)?)\b",
     r"(?:\bexec\s*\(|\beval\s*\(|\bimport\s+os|\bos\.system|\bsubprocess|__import__|pd\.eval|pandas\.eval|\.query\s*\(|\bselect\s+.+\s+from\b|\bdrop\s+table\b|\binsert\s+into\b|\bdelete\s+from\b)",
     r"\b(?:give\s+me|reveal|dump)\s+(?:the\s+)?(?:prompt|instructions|secret|dataframe|data\s*frame|dataset|raw\s+data)\b",
-    r"\b(?:list\s+all|show\s+all|display\s+all|print\s+all|get\s+all|extract\s+all)\s+(?:emails?|names?|phones?|ssns?|addresses?|customers?|patients?|users?|records?)\b",
+    r"\b(?:what\s+are\s+(?:all\s+)?(?:the\s+)?|list\s+all|show\s+all|display\s+all|print\s+all|get\s+all|extract\s+all)\s+(?:emails?|names?|phones?|ssns?|addresses?|customers?|patients?|users?|records?)\b",
 ]
 
 
@@ -171,7 +171,9 @@ class ChatAgent(BaseAgent):
             # Sensitive Column Guard: Unclassified queries targeting protected columns are refused
             for col_name in columns:
                 if is_column_sensitive(col_name, columns_info):
-                    pattern = rf"(?:\b|['\"]){re.escape(col_name.lower())}(?:\b|['\"])"
+                    c_low = col_name.lower()
+                    c_stem = c_low[:-1] if c_low.endswith("s") else c_low
+                    pattern = rf"(?:\b|['\"])(?:{re.escape(c_low)}|{re.escape(c_stem)}s?)(?:\b|['\"])"
                     if re.search(pattern, q_lower):
                         return {
                             "response": f"Refusal: Access to column '{col_name}' is restricted because it contains sensitive personal data or identifier records.",
