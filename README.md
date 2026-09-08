@@ -4,19 +4,38 @@
 
 ### **Enterprise-Grade Autonomous Multi-Agent Tabular Intelligence, Production AutoML, Grounded Business Insights & Automated Workflows**
 
-[![Release](https://img.shields.io/badge/release-v1.1.0-blue.svg?style=for-the-badge&logo=github)](https://github.com/aakash1552005/Autonomous-Data-Analyst/releases/tag/v1.1.0)
-[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-3776AB.svg?style=for-the-badge&logo=python&logoColor=white)](pyproject.toml)
-[![Tests Passing](https://img.shields.io/badge/tests-590%20passed%20%7C%200%20failed-brightgreen.svg?style=for-the-badge&logo=pytest)](tests/)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](LICENSE)
-[![Architecture: Multi--Agent](https://img.shields.io/badge/Architecture-7--Agent%20Pipeline-orange.svg?style=for-the-badge)](ARCHITECTURE.md)
-[![Security: Zero Code Exec](https://img.shields.io/badge/Security-Zero%20Arbitrary%20Code%20Exec-red.svg?style=for-the-badge)](SECURITY.md)
-[![Privacy: PII Shield](https://img.shields.io/badge/Privacy-Pre--LLM%20PII%20Shield-green.svg?style=for-the-badge)](SECURITY.md)
-[![Automation: n8n + REST](https://img.shields.io/badge/Integration-Flask%20REST%20%2B%20n8n-blueviolet.svg?style=for-the-badge&logo=n8n)](n8n/)
+<p align="center">
+  <a href="https://share.streamlit.io/deploy?repository=aakash1552005/Autonomous-Data-Analyst&branch=master&mainModule=app.py">
+    <img src="https://static.streamlit.io/badges/streamlit_badge_black_white.svg" alt="Deploy on Streamlit Cloud" height="34">
+  </a>
+  &nbsp;
+  <a href="http://localhost:8501">
+    <img src="https://img.shields.io/badge/🚀%20Live%20Demo-Open%20Local%20App-00D4AA?style=for-the-badge&logo=streamlit&logoColor=white" alt="Open Local Live Demo" height="34">
+  </a>
+  &nbsp;
+  <a href="http://127.0.0.1:5000/health">
+    <img src="https://img.shields.io/badge/⚡%20REST%20API-Port%205000-0288D1?style=for-the-badge&logo=flask&logoColor=white" alt="Flask REST API" height="34">
+  </a>
+  &nbsp;
+  <a href="http://localhost:5678">
+    <img src="https://img.shields.io/badge/🔄%20n8n%20Workflows-Port%205678-FF6D5A?style=for-the-badge&logo=n8n&logoColor=white" alt="n8n Automation Engine" height="34">
+  </a>
+</p>
+
+[![Release](https://img.shields.io/badge/release-v1.1.0-blue.svg?style=flat-square&logo=github)](https://github.com/aakash1552005/Autonomous-Data-Analyst/releases/tag/v1.1.0)
+[![Python Version](https://img.shields.io/badge/python-3.10%20%7C%203.11%20%7C%203.12%20%7C%203.13%20%7C%203.14-3776AB.svg?style=flat-square&logo=python&logoColor=white)](pyproject.toml)
+[![Tests Passing](https://img.shields.io/badge/tests-590%20passed%20%7C%200%20failed-brightgreen.svg?style=flat-square&logo=pytest)](tests/)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg?style=flat-square)](LICENSE)
+[![Architecture: Multi--Agent](https://img.shields.io/badge/Architecture-7--Agent%20Pipeline-orange.svg?style=flat-square)](ARCHITECTURE.md)
+[![Security: Zero Code Exec](https://img.shields.io/badge/Security-Zero%20Arbitrary%20Code%20Exec-red.svg?style=flat-square)](SECURITY.md)
+[![Privacy: PII Shield](https://img.shields.io/badge/Privacy-Pre--LLM%20PII%20Shield-green.svg?style=flat-square)](SECURITY.md)
+[![Automation: n8n + REST](https://img.shields.io/badge/Integration-Flask%20REST%20%2B%20n8n-blueviolet.svg?style=flat-square&logo=n8n)](n8n/)
 
 <br/>
 
 **Transform messy CSV and Excel spreadsheets into verified executive intelligence in seconds — completely autonomous, fully deterministic, privacy-first, and zero manual coding required.**
 
+[Live Demo](#-live-interactive-demo) •
 [Key Capabilities](#-key-capabilities) •
 [Use Cases](#-primary-use-cases) •
 [System Architecture](#-system-architecture) •
@@ -28,6 +47,26 @@
 [Verification & Quality](#-verification-testing--benchmarking)
 
 </div>
+
+---
+
+## 🎮 Live Interactive Demo
+
+You can try Autonomous Data Analyst right now either on your local machine or in the cloud:
+
+| Interface | Access URL | Description |
+|---|---|---|
+| **Streamlit Interactive UI** | [http://localhost:8501](http://localhost:8501) | Full 8-tab analytical dashboard, charts, report downloads, and conversational Q&A. |
+| **Flask REST API Service** | [http://127.0.0.1:5000/health](http://127.0.0.1:5000/health) | Headless programmatic execution, async run management, artifact streaming. |
+| **n8n Automation Engine** | [http://localhost:5678](http://localhost:5678) | Visual workflow orchestrator for webhooks, cron benchmarks, and incident alerts. |
+| **Streamlit Cloud 1-Click** | [![Deploy on Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=aakash1552005/Autonomous-Data-Analyst&branch=master&mainModule=app.py) | Deploy ADA for free to the public web connected to your GitHub repository. |
+
+### Quick 1-Click Testing (No File Upload Required)
+Don't have a dataset ready? Select one of the pre-loaded benchmark datasets from the sidebar dropdown in Streamlit:
+- **Retail Sales**: Revenue analysis, temporal trends, and store comparisons.
+- **Customer Churn**: Binary classification benchmark with service usage and tenure.
+- **Housing Prices (1K)**: Multi-feature real estate valuation regression benchmark.
+- **Financial Loans**: Credit risk assessment with class imbalance.
 
 ---
 
@@ -181,13 +220,6 @@ streamlit run app.py
 | **Tab 7** | **Deliverables & Exports** | Direct download links for `report.pdf`, `presentation.pptx`, `cleaned_data.csv`, and `dio.json`. |
 | **Tab 8** | **Interactive Q&A** | Conversational chat interface backed by Agent 7's 11-operation deterministic math engine. |
 
-### Built-in Quick Benchmark Datasets
-No dataset on hand? Use the sidebar dropdown to test ADA instantly:
-- **Retail Sales**: Sales trends, temporal revenue distributions, and store performance.
-- **Customer Churn**: Binary classification benchmark with customer service tenure and churn risk.
-- **Housing Regression (1K)**: Multi-variable real estate valuation regression benchmark.
-- **Financial Loans**: Credit risk assessment with class imbalance and financial metrics.
-
 ---
 
 ## 🌐 REST API & Enterprise Workflow Automation
@@ -231,11 +263,25 @@ ADA includes 6 pre-built production workflows in the [`n8n/workflows/`](n8n/work
 
 ## 🚢 Production Deployment Guide
 
-ADA supports flexible deployment options from local workstations to multi-container cloud infrastructure.
+ADA supports flexible deployment options from local multi-service stacks to cloud containers.
 
-### Option 1: Docker Compose (All-in-One Multi-Container Stack)
+### Option 1: 1-Click Cloud Deployment (Streamlit Community Cloud)
 
-Deploy ADA with Streamlit, Flask REST API, and n8n running in isolated containers:
+Deploy ADA directly from your GitHub repository to Streamlit's free hosting in 3 steps:
+
+1. Click the button below:
+   [![Deploy on Streamlit Cloud](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://share.streamlit.io/deploy?repository=aakash1552005/Autonomous-Data-Analyst&branch=master&mainModule=app.py)
+2. In the deployment dialog, verify:
+   - **Repository**: `aakash1552005/Autonomous-Data-Analyst`
+   - **Branch**: `master`
+   - **Main file path**: `app.py`
+3. Click **Deploy!** — Streamlit Cloud will automatically build dependencies from `requirements.txt` and provide a public URL accessible to anyone worldwide.
+
+---
+
+### Option 2: Docker Compose (All-in-One Multi-Container Stack)
+
+Deploy ADA with Streamlit, Flask REST API, and n8n running in isolated containers simultaneously:
 
 ```yaml
 version: '3.8'
@@ -280,7 +326,14 @@ volumes:
   n8n_data:
 ```
 
-### Option 2: Linux / Cloud VM (AWS EC2 / GCP Compute Engine / Azure)
+Launch the entire stack with:
+```bash
+docker-compose up -d
+```
+
+---
+
+### Option 3: Linux / Cloud VM (AWS EC2 / GCP Compute Engine / Azure)
 
 ```bash
 # Update and install system dependencies
@@ -296,14 +349,14 @@ source .venv/bin/activate
 pip install --upgrade pip
 pip install -e .
 
-# Launch services using systemd or supervisord
-# API Service:
+# Launch services:
 python api.py &
-# Streamlit UI:
 streamlit run app.py --server.port 8501 --server.address 0.0.0.0 &
 ```
 
-### Option 3: Local Developer Quickstart (Windows / macOS / Linux)
+---
+
+### Option 4: Local Developer Quickstart (Windows / macOS / Linux)
 
 ```bash
 # Windows One-Click:
