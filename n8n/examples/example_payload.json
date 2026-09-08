@@ -1,0 +1,5 @@
+{
+  "file_path": "data/sample/retail_sales.csv",
+  "preferred_target": "revenue",
+  "async": true
+}

@@ -1,0 +1,78 @@
+{
+  "name": "Autonomous Data Analyst - Report Delivery",
+  "nodes": [
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "deliver-report",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "node-delivery-webhook",
+      "name": "Delivery Webhook Trigger",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [240, 300]
+    },
+    {
+      "parameters": {
+        "method": "GET",
+        "url": "=http://127.0.0.1:5000/runs/{{ $json.body.run_id }}/artifacts/report.pdf",
+        "options": {
+          "response": {
+            "response": {
+              "responseFormat": "file"
+            }
+          }
+        }
+      },
+      "id": "node-fetch-pdf",
+      "name": "Download report.pdf",
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [460, 300]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { status: 'delivered', run_id: $('Delivery Webhook Trigger').item.json.body.run_id, artifact: 'report.pdf' } }}",
+        "options": {}
+      },
+      "id": "node-delivery-response",
+      "name": "Respond Delivery Status",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [680, 300]
+    }
+  ],
+  "connections": {
+    "Delivery Webhook Trigger": {
+      "main": [
+        [
+          {
+            "node": "Download report.pdf",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Download report.pdf": {
+      "main": [
+        [
+          {
+            "node": "Respond Delivery Status",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "1.0.0",
+  "id": "workflow-delivery-05"
+}
